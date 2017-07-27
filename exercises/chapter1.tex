@@ -2,12 +2,42 @@
 
 \begin{questions}
 \question Given a group $G$ and a subset $X\subseteq G$, set $\langle X \rangle = \bigcap\{H\leq G \mid H\supseteq X\}$ and let $W$ be the set of elements of $G$ that can be written as words in $X^{\pm}$. Prove that $W=\langle X \rangle$.
+  \begin{solution}
+    Let $a,b\in W$, then $a=x_1\cdots x_m$ and $b=y_1\cdots y_n$, for some $x_i\in X^\pm$, $1\leq i\leq m$, and $y_j\in X^\pm$, $1\leq j\leq n$. Then both
+    \[ ab=x_1\cdots x_my_1\cdots y_n \quad \text{and} \quad a^{-1}=x_m^{-1}\cdots x_1^{-1} \]
+    are words in $X^\pm$, thus $ab\in W$ and $a^{-1}\in W$. Hence $W\leq G$. Moreover each $x\in X$ is a word in $X^\pm$, so $W\supseteq X$. It follows that $\langle X \rangle\subseteq W$.
+
+    Suppose that $H\leq G$ satisfies $H\supseteq X$. We claim that $W\subseteq H$. Let $a\in W$, then $a=x_1\cdots x_m$ for some $x_i\in X^\pm$, $1\leq i\leq m$. For each $1\leq i\leq m$, if $x_i\in X$ then $x_i\in H$. Otherwise $x_i^{-1}\in X$, hence $x_i^{-1}\in H$, and since $H$ is a subgroup $x_i\in H$.
+
+    As $H$ is a subgroup, it follows that the product $a=x_1\cdots x_m$ lies in $H$. Thus $W\subseteq H$, and hence $W\subseteq\langle X \rangle$. The other inclusion yields $W=\langle X \rangle$.
+  \end{solution}
 
 \question Let $G$ and $H$ be groups, and $\theta,\phi\colon G\to H$ homomorphisms, and let $X\subseteq G$ be such that $G=\langle X \rangle$. Prove that if $\theta,\phi$ agree on $X$ (i.e. $x\theta=x\phi$, $\forall x\in X$) then $\theta=\phi$ (i.e. $g\theta=g\phi$, $\forall g\in G$).
+  \begin{solution}
+    For each $x\in X$ we have $x^{-1}\theta = (x\theta)^{-1} = (x\phi)^{-1} = x^{-1}\phi$. Thus $\theta,\phi$ agree on $X^\pm$. Let $a=x_1\cdots x_m$, for $x_i\in X^\pm$, $1\leq i\leq m$, be a word in $X^\pm$. Then
+    \[ a\theta = (x_1\cdots x_m)\theta = (x_1\theta)\cdots(x_m\theta) = (x_1\phi)\cdots(x_m\phi) = (x_1\cdots x_m)\phi = a\phi. \]
+    Thus $\theta,\phi$ agree on all words in $X^\pm$. So $\theta,\phi$ agree on $\langle X \rangle=G$ by \textbf{1}. Hence $\theta=\phi$.
+  \end{solution}
 
 \question Prove directly from the definition that the infinite cyclic group $Z=\{x^n \mid n\in\Z\}$ is free of rank 1.
+  \begin{solution}
+    We claim $Z$ is free on the subset $\{x\}$ (and hence is free of rank 1). Let $G$ be a group, and let $\theta\colon \{x\}\to G$ be any map. Define $\theta'\colon Z\to G$ by $x^n\theta'=(x\theta)^n$ for $n\in\Z$. Clearly $x\theta'=x\theta$. Additionally $\theta'$ is a homomorphism, as
+    \[ (x^mx^n)\theta' = (x^{m+n})\theta' = (x\theta)^{m+n} = (x\theta)^m(x\theta)^n = (x^m\theta')(x^n\theta'). \]
+    Every element of $Z$ is a word in $\{x\}^\pm$, so by \textbf{1}, $G=\langle \{x\} \rangle$. Therefore, by \textbf{2} any homomorphism $\phi\colon Z\to G$ with $x\phi=x\theta$ is equal to $\theta'$. So $\theta'$ is the unique such homomorphism, and thus $Z$ is free on $\{x\}$.
+  \end{solution}
 
 \question (H. Smith) Let $F$ be free of rank $r$ and $G$ a group isomorphic to $F$. Show that $G$ is free of rank $r$.
+  \begin{solution}
+    Suppose $F$ is free on the subset $X\subseteq F$, where $\abs{X}=r$, and let $\phi\colon F\to G$ be an isomorphism. We claim that $G$ is free on the subset $Y\coloneqq X\phi\subseteq G$, and hence is free of rank $\abs{Y}=\abs{X}=r$.
+
+    Let $H$ be a group, and let $\theta\colon Y\to H$ be a map. The isomorphism $\phi$ induces a bijection $f\colon X\to Y$. Since $F$ is free on $X$, there is a unique homomorphism $\varphi\colon F\to H$ extending the map $f\theta\colon X\to Y\to H$.
+
+    Let $\theta'\coloneqq\phi^{-1}\varphi\colon G\to F\to H$. Then $\theta'$ is a homomorphism extending $\theta$, because whenever $y\in Y$, $y\phi^{-1}=yf^{-1}\in X$, and thus
+    \[ y\theta' = y\phi^{-1}\varphi = (yf^{-1})\varphi = (yf^{-1})f\theta = y\theta.  \]
+    Moreover, if $\psi\colon G\to H$ is a homomorphism extending $\theta$, then $\phi\psi\colon F\to G\to H$ extends $f\theta$, because whenever $x\in X$, $x\phi=xf\in Y$, and thus $x\phi\psi = xf\psi = xf\theta$. By the uniqueness of $\varphi$ we have
+    \[ \phi\psi = \varphi \implies \psi = \phi^{-1}\varphi = \theta'. \]
+    Therefore $\theta'$ is the unique homomorphism extending $\theta$. This shows $G$ is free on $Y$.
+  \end{solution}
 
 \question Given a group $G$ and a normal subgroup $N\lhd G$ with $G/N=F$ a free group, prove that $G$ has a subgroup $C$ such that
   \[ N \cap C = \{e\},\ NC = G,\ C\simeq F. \]

@@ -43,16 +43,36 @@
   \[ N \cap C = \{e\},\ NC = G,\ C\simeq F. \]
 
 \question How many reduced words are there of length $l$ in the free group of rank $r$? How many of these are cyclically reduced?
+  \begin{solution}
+    There are $2r$ possibilities for the first character, and $2r-1$ possibilities for each subsequent character. Hence there are $2r(2r-1)^{l-1}$ such words.
+  \end{solution}
 
 \question Show that the free abelian group of rank $r$ is isomorphic to the direct product of $r$ copies of $Z$.
 
 \question Let $F$ be free of rank $r$. Show that $F/F'$ is free abelian of rank $r$.
 
 \question Prove that the free group $F$ of finite rank $r$ has only a finite number of normal subgroups of index $n\in\N$. [\emph{Hint:} Consider homomorphisms from $F$ onto groups $G$ of order $n$.] Is the same true for arbitrary subgroups (not necessarily normal) of index $n$?
+  \begin{solution}
+    A given normal subgroup $N\lhd F$ of index $n$ induces a homomorphism $F\twoheadrightarrow F/N$ with kernel $N$. Since $F/N$ is a group of order $n$, the (faithful) regular action of $F/N$ on itself yields an embedding $F/N\hookrightarrow S_n$. Composing these maps produces a homomorphism $\phi\colon F\to S_n$ with $\ker\phi=N$.
+
+    Therefore it suffices to prove that $\Mor(F,S_n)$ is finite. Suppose $F$ is free on $X$, where $\abs{X}=r$. Then $\abs{\Mor(F,S_n)}=\abs{\Map(X,S_n)}=\abs{X}^{\abs{S_n}}=r^{n!}$ is finite.
+  \end{solution}
 
 \question Let $F$ be free on a subset $X\subseteq F$, and let $Y$ be a subset of $X$. Prove that the subgroup $H=\langle Y \rangle\leq F$ is free on the set $Y$.
 
 \question Let $F$ be free on $\{x,y\}$ and define $a_n=x^{-n}yx^n$, $n\in\N$. Prove that no reduced word in $a_1,\ldots,a_r$ ($r\in\N$) can be equal to $e$, and deduce that the group $F_r\coloneqq\langle a_1,\ldots,a_r \rangle$ is free on these generators. Show that the group $F_0=\bigcup_{r\in\N} F_r = \langle \{x_n \mid n\in\N\} \rangle$ is free of rank $\aleph_0$.
+  \begin{solution}
+    A reduced word of positive length in $\{a_1,\ldots,a_r\}^\pm$ can be written in the form $a_{i_1}^{e_1}\cdots a_{i_m}^{e_m}$ for $m>0$, $e_j\in\Z\setminus\{0\}$, $i_j\in\{1,\ldots,r\}$, with $i_j\neq i_{j+1}$, by grouping adjacent terms into powers appropriately.
+
+    It is easily verified that $a_n^e=x^{-n}y^ex^n$, hence
+    \begin{align*}
+      a_{i_1}^{e_1} \cdots a_{i_m}^{e_m} &= (x^{-i_1}y^{e_1}x^{i_1})\cdots(x^{-i_m}y^{e_m}x^{i_m}) \\
+                                         &= x^{-i_1}y^{e_1}x^{i_1-i_2}y^{e_2}\cdots x^{i_{m-1}-i_m}y^{e_m}x^{i_m}.
+    \end{align*}
+    This is an alternating product of nonzero powers of $x,y$ with $2m+1>0$ terms. Therefore as a reduced word in $\{x,y\}^\pm$ it is of positive length, and so nontrivial. Since $a_1,\ldots,a_r$ generate $F_r$, it is free on these generators.
+
+    In fact, any reduced word of positive length in $\{a_n \mid n\in\N\}^\pm$ is a reduced word in $\{a_1,\ldots,a_r\}^\pm$ for some $r\in\N$ (because it has only finitely many terms), and is thus non-trivial. Thus $F_0$ is free on the generators $\{a_n\mid n\in\N\}$, and is therefore free of rank $\abs{\{a_n\mid n\in\N\}}=\aleph_0$.
+  \end{solution}
 
 \question Prove that two elements $a,b$ in a free group $F$ are conjugate in $F$ if and only if $\check{a}$ and $\check{b}$ (as defined in (5)) are cyclic rearrangements of one another, that is, if $\check{a}=x_1\ldots x_l$, then $\check{b}=x_r\ldots x_lx_1\ldots x_{r-1}$ for some $r$, $1\leq r\leq l$.
 

@@ -42,6 +42,22 @@
 \question Given a group $G$ and a normal subgroup $N\lhd G$ with $G/N=F$ a free group, prove that $G$ has a subgroup $C$ such that
   \[ N \cap C = \{e\},\ NC = G,\ C\simeq F. \]
 
+  \begin{solution}
+    Suppose $F$ is free on the subset $X\subseteq F$, and let $\pi\colon G\twoheadrightarrow G/N=F$ be the canonical projection. Note that the elements of $F$ are cosets of $N$ in $G$. By the Axiom of Choice there is a function $\theta\colon X\to G$ with $x\theta\in x$ for each $x\in X$. This implies $x\theta\pi=x$ for each $x\in X$.
+
+    Since $F$ is free on $X$, $\theta$ extends to a homomorphism $\theta'\colon F\to G$. If $x\in X$, then
+    \[ x^{-1}\theta'\pi = (x\theta)^{-1}\pi = (x\theta\pi)^{-1} = x^{-1}. \]
+    Therefore $x^{-1}\theta'\in x^{-1}$ for each $x\in X$, so $x\theta'\in x$ and $x\theta'\pi=x$ for each $x\in X^\pm$. Now if $x_1,\ldots,x_m\in X^\pm$, then
+    \[ (x_1\cdots x_m)\theta'\pi = (x_1\theta')\cdots(x_m\theta')\pi = (x_1\theta'\pi)\cdots(x_m\theta'\pi) = x_1\cdots x_m. \]
+    Hence $x\theta'\pi=x$ for all words $x$ in $X^\pm$. Since $F$ is free on $X$, $F=\langle X \rangle$, and so by \textbf{1}, $x\theta'\pi=x$, for all $x\in F$. Let $Y\coloneqq X\theta'$, and $C\coloneqq F\theta'\leq G$. We prove that $\pi{\restriction_C}$ and $\theta'$ are two-sided inverses of each other.
+
+    We know $\theta'\pi$ is the identity on $F$. If $c\in C$ then $c=x\theta'$ for some $x\in F$. Therefore $c\pi\theta'=x\theta'\pi\theta'=x\theta'=c$, so $\pi{\restriction_C}\theta'$ is the identity on $C$. Hence $\pi{\restriction_C}$ is an isomorphism from $C$ to $F$, and so $C\simeq F$. Moreover,
+    \[ N\cap C = \ker\pi\cap C = \ker\pi{\restriction_C}=\{e\}. \]
+    Let $g\in G$, and set $c=g\pi\theta'$. Then $c\in C$, and
+    \[ gc^{-1}\pi=(g\pi)(c\pi)^{-1}=(g\pi)(g\pi\theta'\pi)^{-1}=(g\pi)(g\pi)^{-1}=e. \]
+    So $gc^{-1}\in\ker\pi=N$, hence $g\in NC$ and thus $NC=G$. This completes the proof.
+  \end{solution}
+
 \question How many reduced words are there of length $l$ in the free group of rank $r$? How many of these are cyclically reduced?
   \begin{solution}
     There are $2r$ possibilities for the first character, and $2r-1$ possibilities for each subsequent character. Hence there are $2r(2r-1)^{l-1}$ such words.

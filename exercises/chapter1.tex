@@ -40,7 +40,7 @@
   \end{solution}
 
 \question Given a group $G$ and a normal subgroup $N\lhd G$ with $G/N=F$ a free group, prove that $G$ has a subgroup $C$ such that
-  \[ N \cap C = \{e\},\ NC = G,\ C\simeq F. \]
+  \[ N \cap C = \{e\},\ NC = G,\ C\cong F. \]
 
   \begin{solution}
     Suppose $F$ is free on the subset $X\subseteq F$, and let $\pi\colon G\twoheadrightarrow G/N=F$ be the canonical projection. Note that the elements of $F$ are cosets of $N$ in $G$. By the Axiom of Choice there is a function $\theta\colon X\to G$ with $x\theta\in x$ for each $x\in X$. This implies $x\theta\pi=x$ for each $x\in X$.
@@ -51,7 +51,7 @@
     \[ (x_1\cdots x_m)\theta'\pi = (x_1\theta')\cdots(x_m\theta')\pi = (x_1\theta'\pi)\cdots(x_m\theta'\pi) = x_1\cdots x_m. \]
     Hence $x\theta'\pi=x$ for all words $x$ in $X^\pm$. Since $F$ is free on $X$, $F=\langle X \rangle$, and so by \textbf{1}, $x\theta'\pi=x$, for all $x\in F$. Let $Y\coloneqq X\theta'$, and $C\coloneqq F\theta'\leq G$. We prove that $\pi{\restriction_C}$ and $\theta'$ are two-sided inverses of each other.
 
-    We know $\theta'\pi$ is the identity on $F$. If $c\in C$ then $c=x\theta'$ for some $x\in F$. Therefore $c\pi\theta'=x\theta'\pi\theta'=x\theta'=c$, so $\pi{\restriction_C}\theta'$ is the identity on $C$. Hence $\pi{\restriction_C}$ is an isomorphism from $C$ to $F$, and so $C\simeq F$. Moreover,
+    We know $\theta'\pi$ is the identity on $F$. If $c\in C$ then $c=x\theta'$ for some $x\in F$. Therefore $c\pi\theta'=x\theta'\pi\theta'=x\theta'=c$, so $\pi{\restriction_C}\theta'$ is the identity on $C$. Hence $\pi{\restriction_C}$ is an isomorphism from $C$ to $F$, and so $C\cong F$. Moreover,
     \[ N\cap C = \ker\pi\cap C = \ker\pi{\restriction_C}=\{e\}. \]
     Let $g\in G$, and set $c=g\pi\theta'$. Then $c\in C$, and
     \[ gc^{-1}\pi=(g\pi)(c\pi)^{-1}=(g\pi)(g\pi\theta'\pi)^{-1}=(g\pi)(g\pi)^{-1}=e. \]

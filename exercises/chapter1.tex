@@ -64,8 +64,24 @@
   \end{solution}
 
 \question Show that the free abelian group of rank $r$ is isomorphic to the direct product of $r$ copies of $Z$.
+  \begin{solution}
+    Let $F$ be free abelian on the subset $X=\{x_1,\ldots,x_r\}$. Define a copy $Z_i=\{y_i^n \mid n\in\Z\}$ of $Z$ for each $1\leq i\leq r$. The map $x_j\mapsto(1,\ldots,y_j,\ldots,1)$ for $1\leq j\leq r$ extends uniquely to a homomorphism $\phi\colon F\to Z_1\times\cdots\times Z_r$.
+
+    Since $x_1^{e_1}\cdots x_r^{e_r}\phi=(y_1^{e_1},\cdots,y_r^{e_r})$, it follows that $\phi$ is onto. Since $F$ is free abelian on $X$, $F=\langle X \rangle$. By \textbf{1} every element of $F$ is a word in $X^\pm$, and since $F$ is abelian every such word can be written in the form $x_1^{e_1}\cdots x_r^{e_r}$, for $e_1,\ldots,e_r\in\Z$.
+z
+    If $x_1^{e_1}\cdots x_r^{e_r}\phi=(1,\ldots,1)$, then $(y_1^{e_1},\ldots,y_1^{e_r})=(1,\ldots,1)$, from which it follows that $e_1=\cdots=e_r=0\implies x_1^{e_1}\cdots x_r^{e_r}=e$. Thus $\phi$ has trivial kernel, and hence is an isomorphism. Thus $F\cong Z_1\times\cdots Z_r$.
+  \end{solution}
 
 \question Let $F$ be free of rank $r$. Show that $F/F'$ is free abelian of rank $r$.
+  \begin{solution}
+    Suppose $F$ is free on the subset $X\subseteq F$, where $\abs{X}=r$. Let $\pi\colon F\twoheadrightarrow F/F'$ be the canonical projection, and set $Y\coloneqq X\pi$. Let $H$ be an abelian group, and let $\theta\colon Y\to H$ be any map. Then $\pi{\restriction_X}\theta\colon X\to H$ extends uniquely to $\phi\colon F\to H$.
+
+    For any $a,b\in F$, $[a,b]\phi=[a\phi,b\phi]=e$, because $H$ is abelian. So $[a,b]\in\ker\phi$, and hence $F'\leq\ker\phi$. Thus the map $\theta'\colon F/F'\to H$ given by $x\pi\mapsto x\phi$ is a well defined homomorphism. It extends $\theta$, because for each $y\in Y$, $y=x\pi$ for some $x\in X$, and $y\theta'=x\pi\theta'=x\phi=x\pi\theta=y\theta$.
+
+    Let $\varphi\colon F/F'\to H$ extend $\theta$, then $\pi{\restriction_X}\varphi=\pi{\restriction_X}\theta$, which implies that $\pi\varphi$ extends $\pi{\restriction_X}\theta$. By uniqueness of $\phi$, we have $\pi\varphi=\phi=\pi\theta'$. Since $\pi$ is surjective, $\varphi=\theta'$. Hence $\theta'$ is the unique homomorphism extending $\theta$, so $F/F'$ is free abelian on $Y$.
+
+    Let $Z_i$ be as in \textbf{7}, define $H\coloneqq Z_1\times\cdots\times Z_r$, and suppose $X=\{x_1,\ldots,x_r\}$. The map $x_j\mapsto(1,\ldots,y_j,\ldots,1)$ induces a homomorphism $\phi\colon F\to H$. Because $H$ is abelian, the map $\theta'\colon F/F'\to H$ given by $x\pi\mapsto x\phi$ is a well defined homomorphism. Since $\phi=\pi\theta'$, and $\phi{\restriction_X}=\pi{\restriction_X}\theta'$ is injective, it follows that $\pi{\restriction_X}$ is injective. Thus $\abs{Y}=\abs{X}=r$, so $F/F'$ is free abelian of rank $r$.
+  \end{solution}
 
 \question Prove that the free group $F$ of finite rank $r$ has only a finite number of normal subgroups of index $n\in\N$. [\emph{Hint:} Consider homomorphisms from $F$ onto groups $G$ of order $n$.] Is the same true for arbitrary subgroups (not necessarily normal) of index $n$?
   \begin{solution}
@@ -75,6 +91,9 @@
   \end{solution}
 
 \question Let $F$ be free on a subset $X\subseteq F$, and let $Y$ be a subset of $X$. Prove that the subgroup $H=\langle Y \rangle\leq F$ is free on the set $Y$.
+  \begin{solution}
+    Since $Y$ generates $H$, it suffices to prove that no reduced word in $Y^\pm$ of positive length is the identity. Since $Y\subseteq X$, it follows that any reduced word in $Y^\pm$ of positive length is a reduced word in $X^\pm$ of positive length, and is thus non-trivial because $F$ is free on $X$.
+  \end{solution}
 
 \question Let $F$ be free on $\{x,y\}$ and define $a_n=x^{-n}yx^n$, $n\in\N$. Prove that no reduced word in $a_1,\ldots,a_r$ ($r\in\N$) can be equal to $e$, and deduce that the group $F_r\coloneqq\langle a_1,\ldots,a_r \rangle$ is free on these generators. Show that the group $F_0=\bigcup_{r\in\N} F_r = \langle \{x_n \mid n\in\N\} \rangle$ is free of rank $\aleph_0$.
   \begin{solution}
@@ -91,6 +110,21 @@
   \end{solution}
 
 \question Prove that two elements $a,b$ in a free group $F$ are conjugate in $F$ if and only if $\check{a}$ and $\check{b}$ (as defined in (5)) are cyclic rearrangements of one another, that is, if $\check{a}=x_1\ldots x_l$, then $\check{b}=x_r\ldots x_lx_1\ldots x_{r-1}$ for some $r$, $1\leq r\leq l$.
+  \begin{solution}
+    Suppose $F$ is free on $X$. Recall if $a\in F$, then $\check{a}$ is a cyclically reduced word in $X^\pm$, with $a=u^{-1}\check{a}u$ for some $u\in F$. Therefore $a,b\in F$ are conjugate iff $\check{a}$ and $\check{b}$ are conjugate. Write $\check{a}=x_1\cdots x_l$ as a cyclically reduced word in $X^\pm$.
+
+    Suppose that $\check{a}$ and $\check{b}$ are conjugate, say $\check{b}=w^{-1}\check{a}w$ for some $w\in F$. Write $w=w_1\cdots w_n$ as a reduced word in $X^\pm$. If $w_1\notin \{x_1,x_l^{-1}\}$, then the expression $\check{b}=w_n^{-1}\cdots w_1^{-1}x_1\cdots x_lw_1\cdots w_n$ is a reduced word. Since $\check{b}$ is cyclically reduced we must have $n=0$, in which case $\check{a}=\check{b}$ are cyclic rearrangements of one another.
+
+    Otherwise, because $x_1\neq x_l^{-1}$, $w_1$ must be equal to exactly one of $x_1$ and $x_l^{-1}$. If $w_1=x_1$, let $1\leq r \leq \min\{l,n\}$ be maximal so that $w_i=x_i$ for all $1\leq i\leq r$. Then
+    \[ \check{b} = w^{-1}\check{a}w =  (w_n^{-1}\cdots w_{r+1}^{-1})(x_{r+1}\cdots x_l)(x_1\cdots x_r)(w_{r+1}\cdots w_n) \]
+    is a reduced word. Since $\check{b}$ is cyclically reduced, we must have $n=r$, and so $\check{b}=x_{r+1}\cdots x_lx_1\cdots x_r$ is a cyclic rearrangement of $\check{a}$. Similarly, if $w_1=x_l^{-1}$, let $1\leq r\leq \min\{l,n\}$ is as maximal so that $w_i=x_{l-i+1}^{-1}$ for all $1\leq i\leq r$. Then
+    \[ \check{b} = w^{-1}\check{a}w = (w_n^{-1}\cdots w_{r+1}^{-1})(x_{l-r+1}\cdots x_l)(x_1\cdots x_{l-r})(w_{r+1}\cdots w_n) \]
+    is a reduced word. Since $\check{b}$ is cyclically reduced, we must have $n=r$, and so $\check{b}=x_{l-r+1}\cdots x_lx_1\cdots x_{l-r}$ is a cyclic rearrangement of $\check{a}$. Thus in all cases, if $\check{a}$ and $\check{b}$ are conjugate, then $\check{a}$ and $\check{b}$ are cyclic rearrangements of one another.
+
+    Conversely, suppose that $\check{a}$ and $\check{b}$ are cyclic rearrangements of one another, say $\check{b}=x_r\cdots x_lx_1\cdots x_{r-1}$ where $1\leq r\leq l$. Then
+    \[ (x_1\cdots x_{r-1})^{-1}\check{a}(x_1\cdots x_{r-1}) = x_r\cdots x_lx_1\cdots x_{r-1} = \check{b}, \]
+    thus $\check{a}$ and $\check{b}$ are conjugate. It follows that $a$ and $b$ are conjugate iff $\check{a}$ and $\check{b}$ are cyclic rearrangements of one another.
+  \end{solution}
 
 \question Prove that, in a free group $F$, no non-trivial element can be conjugate to its inverse. Deduce that if $H=\langle a \rangle$ is an infinite cyclic subgroup of $F$, then $N(H)=C(a)$, where $N(H)=\{w\in F \mid w^{-1}Hw=H \}$ is the normalizer of $H$ in $F$.
 

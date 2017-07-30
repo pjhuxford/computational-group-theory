@@ -213,6 +213,24 @@ z
   be an enumeration of those reduced words that begin and end with a power of $a$. Prove that if
   \[ B = \{b^{-k}a_kb^k \mid k\in\N \}, \]
   then the subgroup $H=\langle B \rangle$ is free on $B$. Deduce that $H<F$, but $\bigcup_{w\in F} H^w=F$.
+  \begin{solution}
+    Let $b_k=b^{-k}a_kb^k$. A reduced word of positive length in $B^\pm$ can be written in the form $b_{i_1}^{e_1}\cdots b_{i_m}^{e_m}$ for $m>0$, $e_j\in\Z\setminus\{0\}$, $i_j\in\{1,\ldots,r\}$, with $i_j\neq i_{j+1}$, by grouping adjacent terms into powers appropriately.
+
+    It is easy to verified that $b_n^e=b^{-n}a_n^eb^n$, hence
+    \begin{align*}
+      b_{i_1}^{e_1}\cdots b_{i_m}^{e_m} &= (b^{-i_1}a_{i_1}^{e_1}b^{i_1})\cdots(b^{-i_m}a_{i_m}^{e_m}b^{i_m}) \\
+                                        &= b^{-i_1}a_{i_1}^{e_1}b^{i_1-i_2}a_{i_2}^{e_2}\cdots b^{i_{m-1}-i_m}a_{i_m}^{e_m}b^{i_m}.
+    \end{align*}
+    For each $k\in\N$, $a_k$ is a reduced word beginning and ending with a power of $a$, and thus is non-trivial. If we write $a_k=u^{-1}\check{a_k}u$ for $u=u_1\cdots u_n$, $\check{a_k}=x_1\cdots x_l$, where $a_k=(u_n^{-1}\cdots u_1^{-1})(x_1\cdots x_l)(u_1\cdots u_n)$ is reduced, then $u_n\in\{a,a^{-1}\}$, or $n=0$ in which case $x_1,x_l\in\{a,a^{-1}\}$. Note that
+    \[ a_k^e=u^{-1}\check{a_k}^eu=(u_n^{-1}\cdots u_1^{-1})(x_1\cdots x_l)^e(u_1\cdots u_n) \]
+    is reduced once $(x_1\cdots x_l)^e$ is expanded if $e\in\Z\setminus\{0\}$, and thus $a_k^e$ also begins and ends with a power of $a$ for each non-zero integer $e$. Hence in the above expression for $b_{i_1}^{e_1}\cdots b_{i_m}^{e_m}$, none of the powers of $b$ are cancelled when expressing it as a word in $\{a,b\}^\pm$, so as a reduced word in $\{a,b\}^\pm$ it has positive length, so is non-trivial.
+
+    Therefore $H$ is free on $B$. Since $F$ has rank 2, and $H$ has rank $\abs{B}=\aleph_0$, we cannot have $H=F$, thus $H<F$. We prove that every non-trivial element of $F$ is conjugate to some $a_k$, and hence to some element of $B$, proving $\bigcup_{w\in F}H^w=F$.
+
+    Let $w=x_1\cdots x_n$ be a non-trivial reduced word in $\{a,b\}^\pm$, and suppose that $x$ does not already begin and end with a power of $a$. If $x_1\in\{a\}^\pm$ and $x_n\notin\{a\}^\pm$, then $x_1wx_1^{-1}$ begins and ends with a power of $a$. Similarly if $x_1\notin\{a\}^\pm$ and $x_n\in\{a\}^\pm$, then $x_n^{-1}wx_n$ begins and ends with a power of $a$.
+
+    Otherwise, $x_1,x_n\notin\{a\}^\pm$, and then $a^{-1}wa$ begins and ends with a power of $a$, so that in all cases $w$ is conjugate to $a_k$ for some $k\in\N$. Hence $w$ is conjugate to $b^{-k}a_kb^k\in B$ for some $k$, and so $w$ is in some conjugate of $H$. Thus $\bigcup_{w\in F}H^w=F$.
+  \end{solution}
 \end{questions}
 
 %%% Local Variables:

@@ -171,8 +171,20 @@ z
 \question The \emph{centre} of any group $G$ is defined by
   \[ Z(G) \coloneqq \{ z\in G \mid zg=gz,\ \forall g\in G\}. \]
   Prove that the center of every non-cyclic free group is trivial.
+  \begin{solution}
+    By \textbf{3}, a free group of rank 1 is cyclic. Thus if $F$ is a non-cyclic free group, it must be free on a set $X$ with at least two elements $x,y$.
+
+    If $w\neq e$ is a reduced word beginning with $x$ or $x^{-1}$, then $yw$ begins with the letter $y$, and $wy$ does not (since $y$ cannot cancel the first character of $w$). Similarly, if begins with neither $x$ nor $x^{-1}$, then $xw$ begins with the letter $x$, and $wx$ does not.
+
+    In either case, $w\notin Z(F)$. Therefore $Z(F)=\{e\}$ is trivial.
+  \end{solution}
 
 \question Prove that no finite group can be the union of the conjugates of a proper subgroup.
+  \begin{solution}
+    Suppose $G$ is finite, $H<G$. Let $G$ act on $\Omega\coloneqq\{Hx \mid x\in G\}$ by right multiplication. This action is transitive because $Hx\cdot x^{-1}y=Hy$. Thus $\frac{1}{\abs{G}}\sum_{g\in G}\chi(g)=1$ by Burnside's lemma, where $\chi(g)=\abs{\{\alpha\in\Omega \mid \alpha\cdot g=\alpha\}}$.
+
+    Note that $\chi(e)=\abs{\Omega}=\abs{G:H}>1$, since $H<G$. Hence $\chi(g)=0$ for some $g\in G$. If $g\in x^{-1}Hx$ for some $x$, then $Hx\cdot g=Hx$, which is a contradiction. Therefore the union of all conjugates of $H$ does not contain $g$, and so is not equal to $G$.
+  \end{solution}
 
 \question (J. Wiegold) In the free group $F=F(\{a,b\})$ of rank 2, let
   \[ A = \{ a_k \mid k\in\N \} \]

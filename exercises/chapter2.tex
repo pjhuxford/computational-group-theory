@@ -38,6 +38,49 @@
   \end{solution}
 
 \question With the same $F$ and $<$ again, let $H=\overline{S}$ with $S=\{x^4, y^2, (xy)^2\}$. Show that $\abs{F:H}=8$ (using $D_4$) and write down a Schreier transversal for $H$ in $F$. Compile a table like Table 1, and thus obtain a basis $B$ of $H$.
+  \begin{solution}
+    We think of $D_4=\langle r\coloneqq(1234), s\coloneqq(12)(34) \rangle$ as a subgroup of $S_4$. The map $\theta\colon\{x,y\}\to D_4$ given by $\theta x=r$ and $\theta y=s$ extends to a homomorphism $\theta'\colon F\to D_4$. Since $r,s\in\im\theta'$, and $D_4=\langle r,s \rangle$, it follows that $\im\theta'=D_4$.
+
+    It is simply verified that $S\subseteq\ker\theta'$, and since $\ker\theta'\lhd F$ it follows that $H=\overline{S}\leq\ker\theta'$. Therefore, applying the First Isomorphism Theorem
+    \[ \abs{F:H} = \abs{F:\ker\theta'}\cdot\abs{\ker\theta':H} \geq \abs{F:\ker\theta'} = \abs{\im\theta'}= \abs{D_4} = 8. \]
+
+    On the other hand, the elements $x'=Hx$, $y'=Hy$ generate $F/H$, have orders 4 and 2 respectively, and satisfy the relation $(x'y')^2=e\implies y'x'=x'^3y'$. Using this second relation we can write any element of $F/H$ as a word $x'^iy'^j$, and by using the orders of $x'$ and $y'$ we can ensure that $i\in\{0,1,2,3\}$ and $j\in\{0,1\}$.
+
+    Thus, any element of $F/H$ is one of the eight cosets given by $Hx^iy^j$, where $i\in\{0,1,2,3\}$ and $y\in\{0,1\}$. Since $\abs{F:H}\geq8$, these eight cosets must be distinct, and thus $T=\{e,x,x^2,x^3,y,xy,x^2y,x^3y\}$ is a transversal for $H$ in $F$.
+
+    Although $T$ has the Schreier property, taking the least element of each coset should lead to simpler computations for a basis $B$ of $H$. Using the relations between $x'$ and $y'$, we see that $Hx^3=Hx^{-1}$ and $Hx^3y=Hyx$. Therefore $U=\{e,x,y,x^{-1},x^2,xy,yx,x^2y\}$ is a transversal for $H$ in $F$. In fact it has the Schreier property, and thus is a Schreier transversal for $H$ in $F$.
+
+    The table below has rows indexed by $u\in U$ and columns indexed by $z\in\{x,y\}^\pm$, and contains the generator $uz\overline{uz}^{-1}$ in the $(u,z)$ place. The identification of the element $\overline{uz}$ can be done by using the relations between $x',y'$ described earlier, and the other computations are mechanical, as they are just manipulations of words in the free group.
+
+    \begin{center}
+      \begin{tabular}{|l||p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|}
+        \hline
+        & $x$ & $y$ & $x^{-1}$ & $y^{-1}$ \\
+        \hline
+        \hline
+        $e$ & $e$ & $e$ & $e$ & $y^{-2}$ \\
+        \hline
+        $x$ & $e$ & $e$ & $e$ & $xy^{-2}x^{-1}$ \\
+        \hline
+        $y$ & $e$ & $y^2$ & $yx^{-1}y^{-1}x^{-1}$ & $e$ \\
+        \hline
+        $x^{-1}$ & $e$ & $x^{-1}yx^{-1}y^{-1}$ & $x^{-4}$ & $x^{-1}y^{-1}x^{-1}y^{-1}$ \\
+        \hline
+        $x^2$ & $x^4$ & $e$ & $e$ & $x^2y^{-2}x^{-2}$ \\
+        \hline
+        $xy$ & $xyxy^{-1}$ & $xy^2x^{-1}$ & $xyx^{-1}y^{-1}x^{-2}$ & $e$ \\
+        \hline
+        $yx$ & $yx^2y^{-1}x^{-2}$ & $yxyx$ & $e$ & $yxy^{-1}x$ \\
+        \hline
+        $x^2y$ & $x^2yxy^{-1}x^{-1}$ & $x^2y^2x^{-2}$ & $x^2yx^{-2}y^{-1}$ & $e$ \\
+        \hline
+      \end{tabular}
+    \end{center}
+
+    The table entries generate $H$, and the non-identity elements in the first two columns
+    \[ B = \{x^4, y^2, yxyx, xyxy^{-1}, xy^2x^{-1}, x^2y^2x^{-2}, x^{-1}yx^{-1}y^{-1}, yx^2y^{-1}x^{-2}, x^2yxy^{-1}x^{-1} \} \]
+    form a free basis of $H$.
+  \end{solution}
 
 \question Prove that the permutations $x_1=(12)$, $x_2=(23)$, $x_3=(34)$ generate the symmetric group $S_4$. Use the transversal $U=\{e,x_1\}$ of the alternating group $A_4$ to find Schreier generators for $A_4$.
 

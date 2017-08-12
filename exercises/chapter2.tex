@@ -83,8 +83,30 @@
   \end{solution}
 
 \question Prove that the permutations $x_1=(12)$, $x_2=(23)$, $x_3=(34)$ generate the symmetric group $S_4$. Use the transversal $U=\{e,x_1\}$ of the alternating group $A_4$ to find Schreier generators for $A_4$.
+  \begin{solution}
+    Note that $x_1x_2x_1=(13)$, $(13)x_3(13)=(14)$, and $x_2x_3x_2=(24)$, hence $\langle x_1,x_2,x_3 \rangle$ contains all transpositions. Since the transpositions generate the symmetric group, it follows that $x_1,x_2,x_3$  generate $S_4$.
+
+    If we set $X=\{x_1,x_2,x_3\}$, then the Schreier generators for $A_4$ are given by
+    \begin{align*}
+      B &= \{ ux\overline{ux}^{-1} \mid u\in U, x\in X, ux\notin U \} \\
+        &= \{ x_2x_1^{-1}, x_3x_1^{-1}, x_1x_2, x_1x_3 \} \\
+        &= \{ (123), (12)(34), (132) \}.
+    \end{align*}
+  \end{solution}
 
 \question Convince yourself that $U=\{x^ky^l \mid k,l\in\Z\}$ is a Schreier transversal for $F'$ in $F=F(\{x,y\})$. Write down the corresponding Schreier generators for $F'$ and express the commutator $x^{-2}y^{-3}x^2y^3$ in terms of them.
+  \begin{solution}
+    It is clear $U$ has the Schreier property. According to Exercise \textbf{1.8} $F/F'$ is free abelian on $x'=F'x$ and $y'=F'y$, and is isomorphic to $Z\times Z$ via $x'\mapsto (x,1)$ and $y'\mapsto(1,x)$, where $Z=\{x^n \mid n\in\Z\}$ is the infinite cyclic group.
+
+    Thus, every element of $F/F'$ can be written uniquely in the form $(x')^k(y')^l=F'x^ky^l$, for some $k,l\in\Z$. It follows that $U$ is a Schreier transversal for $F'$ in $F$. Let $u\in U$, then $u=x^ky^l$ for some $k,l\in\Z$. Note $uy=x^ky^{k+1}\in U$, however $ux=x^ky^lx\notin U$.
+
+    Since $F/F'$ is abelian, $F'ux=F'xu$. Since $xu=x^{k+1}y^l\in U$, we have $\overline{ux}=xu$. So the set $B$ of Schreier generators for $F'$ is given by
+    \[ B = \{ ux\overline{ux}^{-1} \mid u\in U \} = \{ uxu^{-1}x^{-1} \mid u\in U \} = \{ x^ky^lxy^{-l}x^{-k-1} \mid k,l\in\Z \}. \]
+    Let $u_1=e$, and inductively define $u_{i+1}=\overline{u_ix_i}$, where $x_i$ is the $i$th letter in $w=x^{-2}y^{-3}x^2y^3$. Then $u_1,\ldots,u_6$ are the truncations $e,x^{-1},\ldots,x^{-2}y^{-3}$ of $w$. We have $u_7=\overline{u_6x}=x^{-1}y^{-3}$, $u_8=\overline{u_7x}=y^{-3}$, and then finally $u_9,u_{10},u_{11}$ are $y^{-2},y^{-1},e$, respectively.
+
+    Following the proof that $B$ generates $F'$, we find the below expression of $[x^2,y^3]$
+    \[ x^{-2}y^{-3}x^2y^3 = (x^{-2}y^{-3}xy^3x)(x^{-1}y^{-3}xy^3). \]
+  \end{solution}
 
 \question Prove that every subgroup of finite index in a finitely-generated group is finitely generated.
 

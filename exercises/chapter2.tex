@@ -132,12 +132,43 @@
 \question Prove that the free group of rank 2 contains a free subgroup of any given finite rank as a normal subgroup.
 
 \question Prove Euler's formula for planar graphs: let $\Gamma$ have $v$ vertices, $e$ edges (all straight line segments) and $f$ faces (polygonal regions bounded by edges of $\Gamma$ and containing no vertices of $\Gamma$ in their interiors). Then $v-e+f$ is equal to the number of connected components of $\Gamma$.
+  \begin{solution}
+    We prove the result by induction on the number of edges of $\Gamma$. If $e=0$, then $v$ is the number of connected components of $\Gamma$, and $f=0$, thus the formula holds. Suppose $e\geq1$, and that the result holds for all graphs with fewer edges.
+
+    Suppose $\Gamma$ has $k$ connected components. Let $\Gamma'$ be the graph $\Gamma$ but with one edge removed, and suppose $\Gamma'$ has $v'$ vertices, $e'$ edges and $f'$ faces, and $k'$ connected components. Then $e'=e-1$ and $v'=v$. By hypothesis $v'-e'+f'=k'$.
+
+    If removing the edge disconnects a connected component of $\Gamma$, then $k'=k+1$, and $f'=f$. Thus $v-(e-1)+f=k+1$, and hence $v-e+f=k$.
+
+    Otherwise, removing the edge doesn't disconnect a component of $\Gamma$, so that $k'=k$. If the removed edge borders a face and the exterior of $\Gamma$, then that face becomes part of the exterior in $\Gamma'$. Otherwise it separates two faces, which combine into a single face in $\Gamma'$. In each case, $f'=f-1$. Hence $v-e+f=v-(e-1)+(f-1)=k$.
+
+    It follows by induction that Euler's formula holds in all planar graphs.
+  \end{solution}
 
 \question Use the Nielsen-Schreier theorem and the result of Exercise 1.18 to give a quick proof of Theorem 1.2.
+  \begin{solution}
+    Let $F$ be a free group and let $w\in F\setminus\{e\}$. By the Nielsen-Schreier theorem, $C(w)\leq F$ is a free group. Clearly $w\in Z(C(w))$, thus by Exercise 1.18, $C(w)$ is a cyclic group. It must be infinite, because $e\neq w\in C(w)$, and no non-trivial power of $w$ is $e$, by the freeness of $F$.
+  \end{solution}
 
 \question Let $F=F(X)$ be an arbitrary free group, and $H\leq F$ the subgroup consisting of words of even length. Use Schreier's method to obtain a basis for $H$ (cf. Exx. 1.15, 1.16).
+  \begin{solution}
+    Let $x'\in X$, then $U=\{e,x'\}$ is a Schreier transversal for $H$ in $F$. For each $x\in X$, we have $\overline{ex}=x'$ and $\overline{x'x}=e$. Therefore $ex\in U$ iff $x=x'$, and $x'x\in U$ iff $x=x'^{-1}$. It follows that
+    \begin{align*}
+      B &= \{ ux\overline{ux}^{-1} \mid u\in U, x\in X, ux\notin U \} \\
+        &= \{ xx'^{-1} \mid x\in X\setminus\{x'\} \} \cup \{ x'x \mid x\in X\setminus\{x'^{-1}\} \},
+    \end{align*}
+    is a basis for $H$ in $F$. By taking the inverse of some of these elements we obtain a simpler basis $\{x'x \mid x\in X^\pm\setminus\{x'^{-1}\}\}$.
+  \end{solution}
 
 \question (M. Hall, Jr.) Let $F=F(X)$ be a free group of finite rank $\abs{X}=r$, and let $n\in\N$ be a fixed natural number. Prove that $F$ contains only finitely many $n$-element Schreier sets, and that if $U$ is one of these, the number of functions $U\times X\to U$ is finite. Deduce that $F$ has only finitely many subgroups of index $n$.
+  \begin{solution}
+    If $U$ is a Schreier set with $n$ elements, then $U$ contains no words of length $n$ or greater. For, if $x_1\cdots x_n\in U$, then $x_1\cdots x_j\in U$ for each $0\leq j\leq n$. By Exercise 1.6, the set $S$ of words in $X^\pm$ of length $<n$ is finite. The number of $n$-element subsets of $S$ is at most $2^{\abs{S}}$, and so is also finite.
+
+    Hence $F$ contains only finitely many $n$-element Schreier sets $U$. If $U$ is one of these, then since $U$ and $X$ are finite, there are finitely many functions $U\times X\to U$. Thus there are finitely many pairs $(U,f)$ such that $\abs{U}=n$, $f\colon U\times X\to U$, and $U$ is a Schreier transversal of $H\coloneqq\langle \{ux (f(u,x))^{-1} \mid u\in U, x\in X\} \rangle$, and $f(u,x)=\overline{ux}$.
+
+    Let $A$ be the set of all such pairs, and let $B$ be the set of all index $n$ subgroups of $G$. Then the map $A\to B$ given by $(U,f)\mapsto \langle \{ux(f(u,x))^{-1} \mid u\in U, x\in X\} \rangle$ is surjective. For, if $H\leq F$ has index $n$ then $H$ has a Schreier transversal $U$ of size $n$, and the map $(u,x)\mapsto\overline{ux}$ satisfies $H=\langle \{ux\overline{ux}^{-1} \mid u\in U, x\in X\} \rangle$.
+
+    Since $A$ is finite, and we have a surjective map $A\to B$, it follows that $\abs{B}$ is finite. Hence $F$ has finitely many subgroups of index $n$.
+  \end{solution}
 
 \question Use the previous exercise to show that a finitely-generated group has only finitely many subgroups of a given finite index.
 

@@ -1,10 +1,29 @@
 \section{Nielsen's Method}
 \begin{questions}
 \question By expressing the transposition: $(u_1,\ldots,u_i,\ldots,u_j,\ldots,u_n)\mapsto(u_1,\ldots,u_j,\ldots,u_i,\ldots,u_n)$ as a product of six elementary Nielsen transformations, prove that any permutation of $U$ can be effected by a regular Nielsen transformation.
+  \begin{solution}
+    We have
+    \begin{align*}
+      & \phantom{{}={}} (u_1,\ldots,u_i,\ldots,u_j,\ldots,u_n)(ij)(i')(ji)(j')(ij)(i') \\
+      &= (u_1,\ldots,u_iu_j,\ldots,u_j,\ldots,u_n)(i')(ji)(j')(ij)(i') \\
+      &= (u_1,\ldots,u_j^{-1}u_i^{-1},\ldots,u_j,\ldots,u_n)(ji)(j')(ij)(i') \\
+      &= (u_1,\ldots,u_j^{-1}u_i^{-1},\ldots,u_i^{-1},\ldots,u_n)(j')(ij)(i') \\
+      &= (u_1,\ldots,u_j^{-1}u_i^{-1},\ldots,u_i,\ldots,u_n)(ij)(i') \\
+      &= (u_1,\ldots,u_j^{-1},\ldots,u_i,\ldots,u_n)(i') \\
+      &= (u_1,\ldots,u_j,\ldots,u_i,\ldots,u_n).
+    \end{align*}
+    Thus the transposition $(u_1,\ldots,u_i,\ldots,u_j,\ldots,u_n)\mapsto(u_1,\ldots,u_j,\ldots,u_i,\ldots,u_n)$ can be written as the product $(ij)(i')(ji)(j')(ij)(i')$ of six elementary Nielsen transformations. Since every permutation can be written as a product of transpositions, it follows that any permutation of $U$ can be effected by a regular Nielsen transformation.
+  \end{solution}
 
 \question Let $\tau$ be the transformation of $U$ sending $u_i$ to $(u_i^\gamma u_j^\delta)^\varepsilon$, where $i\neq j$ and $\gamma,\delta,\varepsilon\in\{\pm1\}$, and fixing all other $u_k$. Show that $\tau$ is a regular Nielsen transformation.
+  \begin{solution}
+    Let $\tau_1,\pi_1$ be the identity Nielsen transformations, and $\sigma_1=(ij)$. Define $\tau_{-1}=(i')$, $\sigma_{-1}=(j')(ij)(j')$, and $\pi_{-1}=(i')$. Then $\tau_\gamma,\sigma_\delta,\pi_\varepsilon$ fix all $u_k$ with $k\neq i$. Moreover $\tau_\gamma$ sends $u_i$ to $u_i^{\gamma}$, $\sigma_\delta$ sends $u_i$ to $u_iu_j^{\delta}$, and $\pi_\varepsilon$ sends $u_i$ to $u_i^{\varepsilon}$. Therefore $\tau=\tau_\gamma\sigma_\delta\pi_\varepsilon$ is a regular Nielsen transformation.
+  \end{solution}
 
 \question Prove that, except in the trivial case $U=\{e\}$, (N3)$\implies$(N1).
+  \begin{solution}
+    If (N1) is false, then $e\in U$. Suppose then that there is an $a\in U$, $a\neq e$. Then $l(aea^{-1})=l(e)=0$, but $l(a)-l(e)+l(a^{-1})=2l(a)>0$, and $a,e,a^{-1}\in U^\pm$ with $a\neq e\neq a^{-1}$. Thus (N3) is false. Taking the contrapositive gives the result.
+  \end{solution}
 
 \question Let $U=(u_1,\ldots,u_n)$ be a basis for a subgroup $H$ of $F$, and $\tau$ a regular Nielsen transformation of $U$. Prove that $U\tau$ is a basis for $H$. (Hint: for $w\in H$, let $l(w)$, $l_\tau(w)$ denote the length of $w$ as a reduced word in $U$, $U\tau$ respectively. Then prove that $l_\tau(w)\geq l(w)/k$, when $\tau$ is an elementary Nielsen transformation of type (Tk), $k=1,2$.)
 

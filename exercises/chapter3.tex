@@ -28,8 +28,50 @@
 \question Let $U=(u_1,\ldots,u_n)$ be a basis for a subgroup $H$ of $F$, and $\tau$ a regular Nielsen transformation of $U$. Prove that $U\tau$ is a basis for $H$. (Hint: for $w\in H$, let $l(w)$, $l_\tau(w)$ denote the length of $w$ as a reduced word in $U$, $U\tau$ respectively. Then prove that $l_\tau(w)\geq l(w)/k$, when $\tau$ is an elementary Nielsen transformation of type (Tk), $k=1,2$.)
 
 \question Prove that the ordering $\ll$ in the proof of Theorem 1 is a well-ordering on the pairs $w^\pm$ in $F\setminus E$.
+  \begin{solution}
+    The ordering is defined as $w_1^\pm \ll w_2^\pm$ if and only if
+    \begin{enumerate}[label=(\alph*)]
+    \item $l(w_1)<l(w_2)$, or these are equal and either
+    \item $\min\{L(w_1),L(w_1^{-1})\}<\min\{L(w_2),L(w_2^{-1})\}$, or
+    \item these mins are equal, and $\max\{L(w_1), L(w_1^{-1})\}<\max\{L(w_2), L(w_2^{-1})\}$,
+    \end{enumerate}
+    where $L(w)$ is the first $\lfloor (l(w)+1)/2 \rfloor$ letters of $w$. Since $l(w)=l(w^{-1})$, (a) is well-defined on the pairs $w^\pm$ in $F\setminus E$. The max and min functions are symmetric in their arguments, so conditions (b) and (c) are also well-defined on these pairs.
+
+    Clearly, at most one of $w_1^\pm\ll w_2^\pm$ and $w_2^\pm \ll w_1^\pm$ can hold. Suppose neither hold. WLOG $\min\{L(w_1),L(w_1^{-1})\}=L(w_1)$, and $\min\{L(w_2),L(w_2^{-1})\}=L(w_2)$. It follows that $L(w_1)=L(w_2)$, and $L(w_1^{-1})=L(w_2^{-1})$. Thus the first and second halves of $w_1$ are equal to the first and second halves of $w_2$, hence $w_1=w_2$.
+
+    Suppose that $w_1^\pm\ll w_2^\pm$ and $w_2^\pm\ll w_3^\pm$ hold. Then $l(w_1)\leq l(w_2)\leq l(w_3)$. If any one of these inequalities is strict, then $l(w_1)<l(w_3)$ and so $w_1\ll w_3$. Suppose then that $l(w_1)=l(w_2)=l(w_3)$. WLOG $\min\{L(w_i),L(w_i^{-1})\}=L(w_i)$.
+
+    Then $L(w_1)\leq L(w_2)\leq L(w_3)$. If any one of these inequalities is strict, then $L(w_1)<L(w_3)$ and so $w_1\ll w_3$. Suppose then that $L(w_1)=L(w_2)=L(w_3)$. Then $L(w_1^{-1})<L(w_2^{-1})<L(w_3^{-1})$, so $L(w_1^{-1})<L(w_3^{-1})$, hence $w_1\ll w_3$.
+
+    It follows that $\ll$ is a total order. Let $S$ be a non-empty subset of the pairs $w^\pm$ in $F\setminus E$. Let $S_a$ denote the subset of $S$ consisting of the pairs $w^\pm$ in $S$ with minimum length. Let $S_b$ denote the subset of $S_a$ consisting of the pairs $w^\pm$ in $S_a$, with $\min\{L(w),L(w^{-1})\}$ minimal. Finally let $S_c$ denote the subset of $S_b$ consisting of the pairs $w^\pm$ in $S_b$ with $\max\{L(w),L(w^{-1})\}$ minimal. Then $S_a,S_b,S_c\neq\emptyset$.
+
+    It is clear that for all $w_1^\pm\in S_c$ and $w_2^\pm\in S\setminus S_c$ we have $w_1^\pm\ll w_2^\pm$. Also for all $w_1^\pm,w_2^\pm\in S_c$, neither $w_1^\pm\ll w_2^\pm$ nor $w_2^\pm\ll w_1^\pm$ holds, which implies $w_1^\pm=w_2^\pm$. Thus $S_c$ consists of a single element, which is the minimal element of $S$. Hence $\ll$ is a well-ordering.
+  \end{solution}
 
 \question Let $H$ be the subgroup $\overline{\{x^3, y^2, x^{-1}y^{-1}xy\}}$ of $F(\{x,y\})$ studied in Chapter 2. Find Schreier generators $B$ of $H$ using the Schreier transversal $\{e,x,x^2,y,xy,x^2y\}$. Describe a Nielsen transformation $\tau$ such that $B\tau$ is $N$-reduced.
+  \begin{solution}
+    We have that
+    \begin{align*}
+      B &= \{ uz\overline{uz}^{-1} \mid u\in U, z\in \{x,y\}, uz\notin U \} \\
+        &= \{ x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x^{-2}, xy^2x^{-1}, x^2yxy^{-1}, x^2y^2x^{-2} \}.
+    \end{align*}
+    We think of $B$ having the ordering above. Note that (N2) fails for $B$, in particular $l((xyxy^{-1}x^{-2})x^3)=l(xyxy^{-1}x)<l(xyxy^{-1}x^{-2})$. Thus replacing $B$ by $B(41)$ fixes this issue. Still $l((x^2yxy^{-1})^{-1}x^3)=l(yx^{-1}y^{-1}x)<l(x^2yxy^{-1})$, so replacing $B(41)$ by $B(41)(6')(61)$ fixes this issue. Finally $l((x^2y^2x^{-2})x^3)=l(x^2y^2x)<l(x^2y^2x^{-2})$, so we should replace $B(41)(6')(61)$ with $B(41)(6')(61)(71)$. But still, $l((x^2y^2x)^{-1}x^3)=l(x^{-1}y^{-2}x)<l(x^2y^2x)$, so replacing what we have with $B(41)(6')(61)(71)(7')(71)$ will fix this.
+
+    This leaves us with
+    \begin{align*}
+      B' &\coloneqq B(41)(6')(61)(71)(7')(71) \\
+          &= (x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x^{-2}, xy^2x^{-1}, x^2yxy^{-1}, x^2y^2x^{-2})(41)(6')(61)(71)(7')(71) \\
+          &= (x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x, xy^2x^{-1}, x^2yxy^{-1}, x^2y^2x^{-2})(6')(61)(71)(7')(71) \\
+          &= (x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x, xy^2x^{-1}, yx^{-1}y^{-1}x^{-2}, x^2y^2x^{-2})(61)(71)(7')(71) \\
+          &= (x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x, xy^2x^{-1}, yx^{-1}y^{-1}x, x^2y^2x^{-2})(71)(7')(71) \\
+          &= (x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x, xy^2x^{-1}, yx^{-1}y^{-1}x, x^2y^2x)(7')(71) \\
+          &= (x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x, xy^2x^{-1}, yx^{-1}y^{-1}x, x^{-1}y^{-2}x^{-2})(71) \\
+          &= (x^3, yxy^{-1}x^{-1}, y^2, xyxy^{-1}x, xy^2x^{-1}, yx^{-1}y^{-1}x, x^{-1}y^{-2}x)
+    \end{align*}
+    We can see that $B'$ satisfies (N2), and also (N1). The only places in which (N3) can fail in $B_1$ are if we find $a,b,c\in B_1^\pm$ with $a\neq b^{-1}\neq c$, and $l(abc)\leq l(a)-l(b)+l(c)$, which can only occur if exactly half of $b$ and is cancelled in forming both $ab$ and $bc$.
+
+    No such cancellation can occur. Thus (N3) also holds in $B'$, and thus $\tau=(41)(6')(61)(71)(7')(71)$ is the required Nielsen transformation.
+  \end{solution}
 
 \question Let $U$ be a Schreier transversal for a subgroup $H$ of $F(X)$ such that $u$ is of minimal length in $Hu$, for all $u\in U$. Prove that the Schreier basis $B$ is $N$-reduced.
 

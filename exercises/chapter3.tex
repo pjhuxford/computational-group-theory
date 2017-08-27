@@ -76,8 +76,18 @@
 \question Let $U$ be a Schreier transversal for a subgroup $H$ of $F(X)$ such that $u$ is of minimal length in $Hu$, for all $u\in U$. Prove that the Schreier basis $B$ is $N$-reduced.
 
 \question Let $\phi\colon F(X)\twoheadrightarrow F(Y)$ be an epimorphism of free groups with $\abs{X}$ finite. Prove that $\abs{Y}$ is finite.
+  \begin{solution}
+    Since $F(X)=\langle X \rangle$, and $\phi$ is onto, it follows that $F(Y)=\langle X\phi \rangle$. Let $\tau$ be a Nielsen transformation such that $U=(X\phi)\tau$ is N-reduced. Then $U$ is a basis for $F(Y)$, and $\abs{U}\leq\abs{X\phi}\leq\abs{X}$ is finite. Since $Y$ is also basis for $F(Y)$, it follows that $\abs{Y}=\abs{U}$ is finite.
+  \end{solution}
 
 \question With $\phi$ as in the previous exercise, prove that $F(X)$ has a basis $V=V_1\cup V_2$ such that $\phi$ maps $V_1$ one-to-one onto a basis for $F(Y)$ and $V_2$ into $E$. (\emph{Hint:} Let $\tau$ be a Nielsen transformation carrying $X\phi$ into $Y$, and examine the effect of $\tau$ on $X$.)
+  \begin{solution}
+    Let $\tau$ be as in the previous exercise. We can think of $\tau$ as acting on $X$ in the following way. Suppose that $X=(x_1,\ldots,x_n)$ and $X\phi=(y_1,\ldots,y_m)$. When we encounter a (T1) transformation $(i')$ in $\tau$, we apply $(k')$ to the current $X$, for all $k$ such that $x_k\phi=y_i$. Note all such $(k')$ commute.
+
+    Similarly when we encounter a (T2) transformation $(ij)$, we apply $(k\ell)$ to the current $X$, for all $k$ and for some $\ell$ such that $x_k\phi=y_i$ and $x_\ell\phi=y_j$. Note all such $(k\ell)$ commute. For a (T0) transformation we do nothing, but collect all affected entries into a set $V_2$ at the end, and all remaining members into a set $V_1$.
+
+    If we set $V=X\tau$, where $\tau$ acting on $X$ is described above, then $V=V_1\cup V_2$. It is clear from the definitions of elementary Nielsen transformations, that $(V_1\tau)\phi=(X\phi)\tau$. Also $v\phi=e$ for all $v\in V_2$. Since $\tau$ acting on $X$ consists of only applying (T1) and (T2) Nielsen transformations, it follows that $V$ is a basis for $F(X)$.
+  \end{solution}
 
 \question Prove that if a free group $F$ contains an ascending chain of subgroups
   \[ H_1\subseteq H_2\subseteq\cdots\subseteq H_n\subseteq H_{n+1}\subseteq\cdots \]

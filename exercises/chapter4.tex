@@ -1,0 +1,93 @@
+\section{Free Presentations of Groups}
+\begin{questions}
+\question Give an alternative proof of Proposition 1 by showing that if $G$ is any group, then $G$ has the presentation $\langle X \mid M \rangle$, where $X=G$ and
+  \[ M = \{xy = (x,y)m \mid x,y\in G\} \]
+  is the multiplication table of $G$ (where $(x,y)m$ stands in the $(x,y)$-place).
+
+\question Let $G=\langle X \mid R \rangle$ and $G'$ be the commutator subgroup of $G$. Prove that $G_{ab}=G/G'$ has the presentation
+  \[ \langle X \mid R, [X,X] \rangle, \]
+  where $[X,X]=\langle [x,y] \mid x,y\in X,\ x\neq y \rangle$. Use Proposition 3 to confirm the result of Exercise 1.7.
+
+\question For $l,m,n\in\Z$, prove that
+  \[ D(l,m,n) \cong D(m,l,n) \cong D(-l,m,n), \]
+  and deduce that $D(l,m,n)$ is independent of the orders and signs of $l,m,n$.
+
+\question Identify $D(l,m,n)$ in the following cases:
+  \begin{parts}
+  \part one of $l,m.n$ is 1,
+  \part two of $l,m,n$ are 2.
+  \end{parts}
+
+\question Let $D_\infty=\langle a,b \mid a^2, b^2 \rangle$. Identify $D_\infty/D_\infty'$. Prove that $D_\infty'$ is a) cyclic, and b) infinite. (Hint: For a), consider conjugates of $[a,b]$ and for b), consider homomorphisms from $D_\infty$ onto the groups $D(2,2,n)$.)
+
+\question Show that the groups
+  \[ \langle a,b \mid a^bb^a = (b^{-1}a^2)^2 = e \rangle, \quad \langle x,y \mid x^2 = y^3 = e \rangle \]
+  are isomorphic.
+
+\question Do you recognize the group
+  \[ \langle a,b,c \mid a^3=b^2=c^2=(ab)^2=(bc)^2=[a,c]=e \rangle\ ? \]
+  What is the order of the element $abc$?
+
+\question Prove the converse of the result in (10) of Example 7:
+  \[ (m,n)\neq1 \implies Z_{mn} \not\cong Z_m\times Z_n. \]
+
+\question Prove that the groups
+  \[ \langle x,y \mid xyx = y, yxy = x \rangle, \quad \langle a,b \mid a^2=b^2, a^{-1}ba=b^{-1} \rangle \]
+  are isomorphic.
+
+\question Show that the groups
+  \[ \langle a,b,c,d \mid ab=c, bc=d, cd=a, da=b \rangle \]
+  \[ \langle a,b,c,d,f,g \mid ab=d, bc=f, cd=g, df=a, fg=b, ga=c \rangle \]
+  are cyclic and find their orders.
+
+\question Consider the group $F(2,6)$ given by
+  \[ \langle a,b,c,d,f,g \mid ab=c, bc=d, cd=f, df=g, fg=a, ga=b \rangle. \]
+  Prove that there is a homomorphism $\chi\colon F(2,6)\to\Sym(\Z)$ such that
+  \[ n(a\chi)=n+1,\ n(b\chi) = -n,\ n\in\Z, \]
+  and deduce that $F(2,6)$ is an infinite group.
+
+\question Prove that the group $F(2,5)$ given by
+  \[ \langle a,b,c,d,f \mid ab=c, bc=d, cd=f, df=a, fa=b \rangle \]
+  is a finite cyclic group.
+
+\question Check the \emph{Witt Identity}
+  \[ [[x,y],z^x][[z,x],y^z][[y,z],x^y] = e, \]
+  and use it to prove that the group
+  \[ \langle x,y,z \mid [x,y]=z, [y,z]=x, [z,x]=y \rangle \]
+  is trivial.
+
+\question Let $x$ and $y$ be members of a group such that $x^{-1}y^nx=y^m$, for some $m,n\in\Z$. Prove that, for any $k\in\N$, $x^{-1}y^{n^k}x=y^{m^k}$. Deduce that the group
+  \[ \langle x,y \mid y^{-1}x^ny = x^{n+1}, x^{-1}y^nx = y^{n+1} \rangle \]
+  is trivial for any $n\in\Z$.
+
+\question Given $G=\langle X\mid R \rangle$, prove that
+  \begin{parts}
+  \part if $G$ is finitely generated, then there is a finite subset $X'\subseteq X$ such that $G=\langle X' \rangle$,
+  \part if $G$ is in addition finitely presented, then there is in addition, a finite subset $R'$ of $F(X')$ such that $G=\langle X' \mid R' \rangle$.
+  \end{parts}
+
+\question Solve the word problem for finite groups according to the following scheme:
+  \begin{parts}
+  \part let $G=\langle X\mid R \rangle$ be a finite presentation of a finite group $G$, and let $w\in F(X)$;
+  \part enumerate the elements of $\overline{R}\lhd F(X)$ as products of conjugates of $R^\pm$;
+  \part enumerate the homomorphisms: $G\to S_n$, $n\in\N$ as mappings $X\to S_n$ that vanish on $R$, and
+  \part by examining alternate entries in the lists (b) and (c), decide in a finite number of steps whether $w=e$ in $G$ or not.
+  \end{parts}
+
+\question Let $G$ be the group
+  \[ \langle x,y \mid x^2y=y^2x, x^8=e \rangle. \]
+  Prove that $y^8=e$ in $G$ and draw the associated van Kampen diagram.
+
+\question Draw a van Kampen diagram for the group
+  \[ \langle x,y \mid x^3=y^2, x^3=e, y^{-1}xy=x^2 \rangle, \]
+  which shows that the second relation is superfluous.
+
+\question Draw a van Kampen digram which shows that the group
+  \[ \langle a,b \mid abab^2 = e = baba^2 \rangle \]
+  is abelian.
+\end{questions}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "johnson"
+%%% End:

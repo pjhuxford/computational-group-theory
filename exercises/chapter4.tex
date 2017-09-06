@@ -3,19 +3,61 @@
 \question Give an alternative proof of Proposition 1 by showing that if $G$ is any group, then $G$ has the presentation $\langle X \mid M \rangle$, where $X=G$ and
   \[ M = \{xy = (x,y)m \mid x,y\in G\} \]
   is the multiplication table of $G$ (where $(x,y)m$ stands in the $(x,y)$-place).
+  \begin{solution}
+    Let $x\in G$, and suppose that $y$ is the inverse of $x$ in $G$. Then in $\langle X\mid M \rangle$, $xy=(x,y)m=e$, so $y$ is also the inverse of $x$ in $\langle X\mid M \rangle$. From this, and by repeatedly using the relation $xy=(x,y)m$, every element of $\langle X \mid M \rangle$ is equal to a single element $x\in X$. Thus $\abs{\langle X \mid M \rangle}\leq\abs{G}$.
+
+    Let $\theta\colon X\to G$ be the identity map. Then $(x\theta)(y\theta)=xy=(x,y)m=(x,y)m\theta$. The substitution test shows that $\theta$ extends to a homomorphism $\theta''\colon\langle X\mid M \rangle\to G$, and this is an epimorphism because $\langle X\theta \rangle=\langle G \rangle=G$. Since $\abs{\langle X\mid M \rangle}\leq\abs{G}$ are finite, $\theta''$ is an isomorphism. Hence $G$ has the finite presentation $\langle X\mid M \rangle$.
+  \end{solution}
 
 \question Let $G=\langle X \mid R \rangle$ and $G'$ be the commutator subgroup of $G$. Prove that $G_{ab}=G/G'$ has the presentation
   \[ \langle X \mid R, [X,X] \rangle, \]
   where $[X,X]=\langle [x,y] \mid x,y\in X,\ x\neq y \rangle$. Use Proposition 3 to confirm the result of Exercise 1.7.
+  \begin{solution}
+    Let $\pi\colon G\to G_{ab}$ be the natural map. Let $\theta=\pi{\restriction_X}$. Then for all $r\in R$, if we replace each $x\in X$ in $r$ with $x\theta=x\pi$, then we obtain $r\pi=e\pi=e$. Also, if $x,y\in X$, $x\neq y$, then $[x\theta,y\theta]=e$, since $G_{ab}$ is abelian.
+
+    By the substitution test, $\theta$ extends to a homomorphism $\theta''\colon\langle X\mid R, [X,X] \rangle\to G_{ab}$. This is an epimorphism, since $\pi$ is surjective and $\langle X\theta \rangle=\langle X\pi \rangle=\langle X \rangle\pi=G_{ab}$.
+
+    In $\langle X\mid R, [X,X] \rangle$, the generators all commute, thus it is an abelian group. By von Dyck's theorem, there is a homomorphism $\phi\colon G\to \langle X \mid R, [X,X] \rangle$ fixing all $x\in X$. Then $\ker\pi=G'\leq\ker\phi$, since $[x,y]\phi=[x\phi,y\phi]=e$ for all $x,y\in G$.
+
+    Thus there is a well-defined homomorphism $\varphi\colon G_{ab}\to\langle X \mid R, [X,X] \rangle$, with $\pi\varphi=\phi$. Thus $\varphi$ maps $x\pi\mapsto x$ for $x\in X$. Additionally $\theta''$ maps $x\in X$ to $x\pi$. Since $X\pi$ generates $G_{ab}$, and $X$ generates $\langle X \mid R, [X,X] \rangle$, it follows that $\varphi$ is a two-sided inverse of $\theta''$. Hence $G_{ab}\cong\langle X \mid R,[X,X] \rangle$, as desired.
+  \end{solution}
 
 \question For $l,m,n\in\Z$, prove that
   \[ D(l,m,n) \cong D(m,l,n) \cong D(-l,m,n), \]
   and deduce that $D(l,m,n)$ is independent of the orders and signs of $l,m,n$.
+  \begin{solution}
+    Note that $(xy)^n=x(yx)^nx^{-1}$, thus $(xy)^n=e$ iff $(yx)^n=e$. Hence $(yx)^n\in\overline{\{x^l,y^m,(xy)^n\}}$, and $(xy)^n\in\overline{\{x^l,y^m,(yx)^n\}}$. Applying Tietze transformations $R+$ and $R-$ yields
+    \[ \langle x,y \mid x^l, y^m, (xy)^n \rangle \cong \langle y,x \mid y^m, x^l, (xy)^n, (yx)^n \rangle \cong \langle y,x \mid y^m, x^l, (yx)^n \rangle, \]
+    thus $D(l,m,n)\cong D(m,l,n)$. We already know that $D(l,m,n)\cong D(n,m,l)$, hence $D(l,m,n)$ is independent of the order of $l,m,n$. Similarly, $x^l=e$ iff $x^{-l}=e$, thus $x^{-l}\in\overline{\{x^l,y^m,(xy)^n\}}$ and $x^l\in\overline{\{x^{-l},y^m,(xy)^n\}}$. Applying Tietze transformations $R+$ and $R-$ yields
+    \[ \langle x,y \mid x^l, y^m, (xy)^n \rangle \cong \langle x,y \mid x^l, x^{-l}, y^m, (xy)^n \rangle \cong \langle x,y \mid x^{-1}, y^m, (xy)^n \rangle, \]
+    thus $D(l,m,n)\cong D(-l,m,n)$. Since $D(l,m,n)$ is independent of the order of $l,m,n$, it follows that it is also independent of the signs of $l,m,n$.
+  \end{solution}
 
 \question Identify $D(l,m,n)$ in the following cases:
   \begin{parts}
   \part one of $l,m,n$ is 1,
+    \begin{solution}
+      By \textbf{3}, it suffices to identify $D(m,1,n)$. Easy Tietze transformations yield
+      \begin{align*}
+        D(m,1,n) &= \langle x,y \mid x^m, y, (xy)^n \rangle \\
+                 &\cong \langle x,y \mid x^m, y, (xy)^n, x^n \rangle \\
+                 &\cong \langle x,y \mid x^m, y, x^n \rangle \\
+                 &\cong \langle x \mid x^m, x^n \rangle.
+      \end{align*}
+      Let $d=\gcd(m,n)$. There exist integers $a,b$ such that $am+bn=d$. Hence if $x^m=e$ and $x^n=e$, then $x^d=x^{am+bn}=(x^m)^a(x^n)^b=e$. Conversely, if $x^d=e$, then since $d\mid m$, and $d\mid n$, $x^m=x^n=e$. Appropriate Tietze transformations show that
+      \[ \langle x \mid x^m, x^n \rangle \cong \langle x \mid x^m, x^n, x^d \rangle \cong \langle x \mid x^n, x^d \rangle \cong \langle x \mid x^d \rangle. \]
+      Thus $D(m,1,n)\cong\langle x\mid x^{\gcd(m,n)} \rangle = Z_{\gcd(m,n)}$.
+    \end{solution}
   \part two of $l,m,n$ are 2.
+    \begin{solution}
+      By \textbf{3}, it suffices to identify $D(n,2,2)=\langle x,y \mid x^n, y^2, (xy)^2 \rangle$. In this group, since $y^2=e$, $y=y^{-1}$. From $(xy)^2=e$ we have $xyxy=e$, hence $x^y=x^{-1}$. Since conjugation by $y$ is an automorphism, it follows that $(x^i)^y=(x^y)^i=x^{-i}$, and thus $yx^i=x^{-i}y$ for all $i\in\Z$.
+
+      This rule can be used to write any word in $\{x,y\}^\pm$ in the form $x^iy^j$, by moving all powers of $x$ to the left of any instances of $y$. Since $x^n=y^2=e$, we can also ensure that $0\leq i<n$ and $0\leq j<2$. Hence $\abs{D(n,2,2)}\leq 2n$.
+
+      Let $D_n$ denote the dihedral group of order $2n$. If $r,s\in D_n$ denote the smallest positive rotation, and a reflection respectively, then $D_n=\langle r,s \rangle$. Moreover $r^n=s^2=e$. It can be seen geometrically that $rs$ is also a reflection, hence $(rs)^2=e$. Thus the map $\theta\colon\{x,y\}\to D_n$ given by $x\theta=r$ and $y\theta=s$ by the substitution test extends to a homomorphism $\theta''\colon D(n,2,2)\to D_n$.
+
+      In fact, $\theta''$ is an epimorphism, since $\langle \theta\{x,y\} \rangle=\langle r,s \rangle=D_n$. Since $\abs{D(n,2,2)}\leq\abs{D_n}$, $\theta''$ must be an isomorphism. Hence $D(n,2,2)$ is isomorphic to the dihedral group of order $2n$.
+    \end{solution}
   \end{parts}
 
 \question Let $D_\infty=\langle a,b \mid a^2, b^2 \rangle$. Identify $D_\infty/D_\infty'$. Prove that $D_\infty'$ is a) cyclic, and b) infinite. (Hint: For a), consider conjugates of $[a,b]$ and for b), consider homomorphisms from $D_\infty$ onto the groups $D(2,2,n)$.)

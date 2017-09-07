@@ -61,10 +61,52 @@
   \end{parts}
 
 \question Let $D_\infty=\langle a,b \mid a^2, b^2 \rangle$. Identify $D_\infty/D_\infty'$. Prove that $D_\infty'$ is a) cyclic, and b) infinite. (Hint: For a), consider conjugates of $[a,b]$ and for b), consider homomorphisms from $D_\infty$ onto the groups $D(2,2,n)$.)
+  \begin{solution}
+    Note the identities $[y,x]^{-1}=[x,y]$.
+    \[ [x,zy]=x^{-1}y^{-1}z^{-1}xzy=(x^{-1}y^{-1}xy)(y^{-1}(x^{-1}z^{-1}xz)y)=[x,y][x,z]^y. \]
+    Since conjugation is an automorphism, it follows that every commutator in $D_\infty$ are a product of conjugates of commutators $[x,y]$, with $x,y\in\{a,b\}^\pm=\{a,b\}$.
+
+    Note that $[b,a]=[a,b]^a=[a,b]^b=baba=[a,b]^{-1}$, and $[a,a]=[b,b]=e$. It follows that every commutator in $D_\infty$ is a power of $[a,b]$, and thus $D_\infty'=\langle [a,b] \rangle$ is cyclic.
+
+    By von Dyck's theorem there is an epimorphism $\phi\colon D_\infty\to D(2,2,n)$ with $a\phi=x$ and $b\phi=y$. Then $[a,b]\phi=[x,y]=(xy)^2$. By \textbf{4b}, $D(2,2,n)$ is isomorphic to the dihedral group $D_n$, via an isomorphism which maps $xy$ to a rotation of order $n$.
+
+    Thus $(xy)^2$ has order at least $n/2$ in $D(2,2,n)$, and therefore $[a,b]$ has order at least $n/2$ in $D_\infty$ for every $n\in\N$. Hence $\abs{[a,b]}$, and thus $D_\infty'=\langle [a,b] \rangle$ is infinite.
+  \end{solution}
 
 \question Show that the groups
   \[ \langle a,b \mid a^bb^a = (b^{-1}a^2)^2 = e \rangle, \quad \langle x,y \mid x^2 = y^3 = e \rangle \]
   are isomorphic.
+  \begin{solution}
+    Note that
+    \begin{align*}
+      a^bb^a &= (b^{-1}a^2)^2 \\
+      \iff b^{-1}aba^{-1}ba &= b^{-1}a^2b^{-1}a^2 \\
+      \iff ba^{-1}b &= ab^{-1}a \\
+      \iff ba^{-1}ba^{-1}b &= a \\
+      \iff (a^{-1}b)^3 &= e
+    \end{align*}
+    Therefore
+    \begin{align*}
+      \langle a,b \mid a^bb^a = (b^{-1}a^2)^2, (b^{-1}a^2)^2 \rangle &\cong \langle a,b \mid a^bb^a = (b^{-1}a^2)^2, (b^{-1}a^2)^2, (a^{-1}b)^3 \rangle \\
+                                                                     &\cong \langle a,b \mid (b^{-1}a^2)^2, (a^{-1}b)^3 \rangle.
+    \end{align*}
+    Next we rewrite in terms of new generators:
+    \begin{align*}
+      \langle a,b \mid (b^{-1}a^2)^2, (a^{-1}b)^3 \rangle &\cong \langle a,b,x \mid (b^{-1}a^2)^2, (a^{-1}b)^3, x = b^{-1}a^2 \rangle \\
+                                                          &\cong \langle a,b,x \mid (b^{-1}a^2)^2, (a^{-1}b)^3, x = b^{-1}a^2, x^2 \rangle \\
+                                                          &\cong \langle a,b,x \mid (a^{-1}b)^3, x=b^{-1}a^2, x^2 \rangle \\
+                                                          &\cong \langle a,b,x,y \mid (a^{-1}b)^3, x=b^{-1}a^2, x^2, y=ax^{-1} \rangle \\
+                                                          &\cong \langle a,b,x,y \mid (a^{-1}b)^3, x=b^{-1}a^2, x^2, y=ax^{-1}, y^3 \rangle \\
+                                                          &\cong \langle a,b,x,y \mid x=b^{-1}a^2, x^2, y=ax^{-1}, y^3 \rangle \\
+                                                          &\cong \langle a,b,x,y \mid x=b^{-1}a^2, x^2, y=ax^{-1}, y^3, b=a^2x^{-1} \rangle \\
+                                                          &\cong \langle a,b,x,y \mid x^2, y=ax^{-1}, y^3, b=a^2x^{-1} \rangle \\
+                                                          &\cong \langle a,x,y \mid x^2, y=ax^{-1}, y^3 \rangle \\
+                                                          &\cong \langle a,x,y \mid x^2, y=ax^{-1}, y^3, a=yx \rangle \\
+                                                          &\cong \langle a,x,y \mid x^2, y^3, a=yx \rangle \\
+                                                          &\cong \langle x,y \mid x^2, y^3 \rangle.
+    \end{align*}
+    Therefore $\langle a,b \mid a^bb^a = (b^{-1}a^2)^2 = e \rangle\cong\langle x,y \mid x^2, y^3 \rangle$.
+  \end{solution}
 
 \question Do you recognize the group
   \[ \langle a,b,c \mid a^3=b^2=c^2=(ab)^2=(bc)^2=[a,c]=e \rangle\ ? \]

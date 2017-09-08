@@ -145,12 +145,52 @@
   \[ \langle a,b,c,d \mid ab=c, bc=d, cd=a, da=b \rangle \]
   \[ \langle a,b,c,d,f,g \mid ab=d, bc=f, cd=g, df=a, fg=b, ga=c \rangle \]
   are cyclic and find their orders.
+  \begin{solution}
+    In the first group, rewriting the relations gives $ab=c$, $bab=d$, $ab^2ab=a$, $baba=b$. Rearranging the last two gives $b^2ab=e$ and $aba=e$. Hence $b^2=b^2(aba)=(b^2ab)a=a$, and hence $b^5=aba=e$.
+
+    Conversely, if $a=b^2$, $b^5=e$, $c=ab$, $d=bc$ hold, then $cd=cbc=ab^2ab=ab^5=a$, and $da=bca=baba=b^6=b$. Thus it follows that
+    \begin{align*}
+      \langle a,b,c,d \mid ab=c, bc=d, cd=a, da=b \rangle &\cong \langle a,b,c,d \mid a=b^2, b^5, c=ab, d=bc \rangle \\
+                                                          &\cong \langle a,b,c \mid a=b^2, b^5, c=ab \rangle \\
+                                                          &\cong \langle a,b \mid a=b^2, b^5 \rangle \\
+                                                          &\cong \langle b \mid b^5 \rangle \\
+                                                          &\cong Z_5.
+    \end{align*}
+    So the first group is cyclic of order 5. In the second group, rewriting the relations gives $ab=d$, $bc=f$, $cab=g$, $ab^2c=a$, $bc^2ab=b$, $caba=c$. Rewriting the final three gives $b^2c=c^2ab=aba=e$. Hence $c=b^{-2}$, and so $b^{-4}ab=e$, which implies that $a=b^3$. Hence $b^3bb^3=e$, i.e. $b^7=e$.
+
+    Conversely, if $b^7=e$, $a=b^3$, $c=b^{-2}$, $d=ab$, $f=bc$, $g=cd$, then $df=ab^2c=ab^2b^{-2}=a$, $fg=bc^2d=bb^{-4}ab=a^{-3}a^3b=b$, and $ga=cda=caba=cb^7=c$. So
+    \begin{align*}
+      &\phantom{{}\cong{}} \langle a,b,c,d,f,g \mid ab=d, bc=f, cd=g, df=a, fg=b, ga=c \rangle \\
+      &\cong \langle a,b,c,d,f,g \mid b^7, a=b^3, c=b^{-2}, d=ab, f=bc, g=cd \rangle \\
+      &\cong \langle a,b,c,d,f \mid  b^7, a=b^3, c=b^{-2}, d=ab, f=bc \rangle \\
+      &\cong \langle a,b,c,d \mid  b^7, a=b^3, c=b^{-2}, d=ab \rangle \\
+      &\cong \langle a,b,c \mid b^7, a=b^3, c=b^{-2} \rangle \\
+      &\cong \langle a,b \mid b^7, a=b^3 \rangle \\
+      &\cong \langle b \mid b^7 \rangle \\
+      &\cong Z_7.
+    \end{align*}
+    Hence the second group is cyclic of order 7.
+  \end{solution}
 
 \question Consider the group $F(2,6)$ given by
   \[ \langle a,b,c,d,f,g \mid ab=c, bc=d, cd=f, df=g, fg=a, ga=b \rangle. \]
   Prove that there is a homomorphism $\chi\colon F(2,6)\to\Sym(\Z)$ such that
   \[ n(a\chi)=n+1,\ n(b\chi) = -n,\ n\in\Z, \]
   and deduce that $F(2,6)$ is an infinite group.
+  \begin{solution}
+    Let $\theta\colon\{a,b,c,d,f,g\}\to\Sym(\Z)$ be defined by
+    \[ n(a\theta) = n+1,\ n(b\theta) = -n,\ n\in\Z, \]
+    and $c\theta=(a\theta)(b\theta)$, $d\theta=(b\theta)(c\theta)$, $f\theta=(c\theta)(d\theta)$ and $g\theta=(d\theta)(f\theta)$. If $n\in\Z$, then
+    \begin{align*}
+      n(c\theta) &= n(a\theta)(b\theta) = (n+1)(b\theta) = -n-1, \\
+      n(d\theta) &= n(b\theta)(c\theta) = (-n)(c\theta) = n-1, \\
+      n(f\theta) &= n(c\theta)(d\theta) = (-n-1)(d\theta) = -n-2, \\
+      n(g\theta) &= n(d\theta)(f\theta) = (n-1)(f\theta) = -n-1.
+    \end{align*}
+    Hence for $n\in\Z$,
+    \[ n(f\theta)(g\theta) = (-n-2)(g\theta) = n+1 \quad \text{and} \quad n(g\theta)(a\theta) = (-n-1) = -n, \]
+    and so $(f\theta)(g\theta)=(a\theta)$ and $(g\theta)(a\theta)=(b\theta)$. By the substitution test it follows that $\theta$ extends to a homomorphism $\chi\colon F(2,6)\to\Sym(\Z)$. Clearly $a\chi=a\theta$ has infinite order, hence $a$ has infinite order in $F(2,6)$. Thus $F(2,6)$ is infinite.
+  \end{solution}
 
 \question Prove that the group $F(2,5)$ given by
   \[ \langle a,b,c,d,f \mid ab=c, bc=d, cd=f, df=a, fa=b \rangle \]

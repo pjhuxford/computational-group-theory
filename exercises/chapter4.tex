@@ -111,13 +111,35 @@
 \question Do you recognize the group
   \[ \langle a,b,c \mid a^3=b^2=c^2=(ab)^2=(bc)^2=[a,c]=e \rangle\ ? \]
   What is the order of the element $abc$?
+  \begin{solution}
+    Given $b^2=c^2=e$, we have
+    \[ (bc)^2 = e \iff bcbc = e \iff b^{-1}c^{-1}bc = e \iff [b,c]=e. \]
+    Therefore, using the result from \textbf{4b} we have
+    \begin{align*}
+      \langle a,b,c \mid a^3, b^2, c^2, (ab)^2, (bc)^2, [a,c] \rangle &\cong \langle a,b,c \mid a^3, b^2, c^2, (ab)^2, (bc)^2, [a,c], [b,c] \rangle \\
+                                                                      &\cong \langle a,b,c \mid a^3, b^2, c^2, (ab)^2, [a,c], [b,c] \rangle \\
+                                                                      &\cong \langle a,b \mid a^3, b^2, (ab)^2 \rangle \times \langle c \mid c^2 \rangle \\
+                                                                      &\cong D(3,2,2) \times Z_2 \\
+                                                                      &\cong D_3 \times Z_2.
+    \end{align*}
+  \end{solution}
 
 \question Prove the converse of the result in (10) of Example 7:
   \[ (m,n)\neq1 \implies Z_{mn} \not\cong Z_m\times Z_n. \]
+  \begin{solution}
+    Every element of $Z_m\times Z_n$ has order dividing $[m,n]$, where $[m,n]$ denotes the least common multiple of $m,n$. Since $(m,n)[m,n]=mn$, it follows that $[m,n]<mn$, and hence $Z_m\times Z_n$ has no element of order $mn$. Thus $Z_{mn}\not\cong Z_m\times Z_n$.
+  \end{solution}
 
 \question Prove that the groups
   \[ \langle x,y \mid xyx = y, yxy = x \rangle, \quad \langle a,b \mid a^2=b^2, a^{-1}ba=b^{-1} \rangle \]
   are isomorphic.
+  \begin{solution}
+    Suppose that $xyx=y$ and $yxy=x$. Then $x^2=x(yxy)=(xyx)y=y^2$, and $x^{-1}yx=x^{-1}(yxy)y^{-1}=x^{-1}xy^{-1}=y^{-1}$. Conversely, if $x^2=y^2$ and $x^{-1}yx=y^{-1}$, then $yxy=x(x^{-1}yx)y=xy^{-1}y=x$, and $xyx=x(yxy)y^{-1}=x^2y^{-1}=y^2y^{-1}=y$. Hence $\overline{\{(xyx)y^{-1}, (yxy)x^{-1}\}}=\overline{\{x^2y^{-2}, x^{-1}yxy\}}$, and thus
+    \begin{align*}
+      \langle x,y \mid xyx=y, yxy=x \rangle &= \langle x,y \mid x^2=y^2, x^{-1}yx=y^{-1} \rangle \\
+                                            &\cong \langle a,b \mid a^2=b^2, a^{-1}ba=b^{-1} \rangle.
+    \end{align*}
+  \end{solution}
 
 \question Show that the groups
   \[ \langle a,b,c,d \mid ab=c, bc=d, cd=a, da=b \rangle \]

@@ -195,12 +195,56 @@
 \question Prove that the group $F(2,5)$ given by
   \[ \langle a,b,c,d,f \mid ab=c, bc=d, cd=f, df=a, fa=b \rangle \]
   is a finite cyclic group.
+  \begin{solution}
+    If $ab=c$, $bc=d$, $cd=f$ hold, then $d=bab$ and $f=ab^2ab$, and thus
+    \[ df=a, fa=b \iff babab^2ab = a, ab^2aba = b. \]
+    Thus we can eliminate the generators $c,d,f$ using Tietze transformations, yielding
+    \[ F(2,5) \cong \langle a,b \mid babab^2ab=a, ab^2aba=b \rangle. \]
+    Now in this group, we have
+    \[ b = ab^2aba = ab^2ab(babab^2ab) = ab^2(ab^2aba)b^2ab = ab^5ab, \]
+    hence $ab^5a=e$. Also we have $a^2 = (babab^2ab)a = bab(ab^2aba) = bab^2$,
+    and hence $a = ba(bab^2)ab = ba^4b$. Thus $ba^4ba=a^2=bab^2$, and so $a^3ba=b^2$.
+
+    Similarly $(ba^4b)^2=a^2=bab^2$, so $ba^4b^2a^4b=bab^2\implies a^3b^2a^4=b$. It follows that $(a^3b^2a^4)^2=b^2=a^3ba$, hence $a^3b^2a^7b^2a^4=a^3ba \implies ba^7b^2a^3 = e$. Thus
+    \begin{align*}
+      a^3ba &= b^2 \\
+      \implies (ba^7b^2)a^3ba &= ba^7b^4 \\
+      \implies e &= a^6b^4.
+    \end{align*}
+    Now from $ab^5a=e$, we see that $ba=(a^6b^4)ba=a^5(ab^5a)=a^5$, thus $b=a^4$. The relation $ba^4b=a$ now becomes $a^{12}=a$, so that $a^{11}=e$. Conversely, if we assume the relations $b=a^4$ and $a^{11}=e$ we see that
+    \[ babab^2ab = a^{23} = a, \quad ab^2aba = a^{15} = a^4 = b. \]
+    Thus
+    \[ F(2,5) \cong \langle a,b \mid babab^2ab = a, ab^2aba = b \rangle \cong \langle a,b \mid a^{11}, b=a^4 \rangle \cong \langle a \mid a^{11} \rangle = Z_{11}. \]
+  \end{solution}
 
 \question Check the \emph{Witt Identity}
   \[ [[x,y],z^x][[z,x],y^z][[y,z],x^y] = e, \]
   and use it to prove that the group
   \[ \langle x,y,z \mid [x,y]=z, [y,z]=x, [z,x]=y \rangle \]
   is trivial.
+  \begin{solution}
+    Note that $[x,y]=x^{-1}x^y=x^{-1}y^{-1}xy$, and also
+    \[ [[x,y],z^x] = ((x^y)^{-1}x)(x^{-1}z^{-1}x)(x^{-1}y^{-1}xy)z^x = (x^y)^{-1}z^{-1}y^{-1}xyz^x. \]
+    From these, and the corresponding identities resulting from cyclically permuting $x,y,z$, we see that
+    \begin{align*}
+      &\phantom{{}={}}[[x,y],z^x][[z,x],y^z][[y,z],x^y] \\
+      &= ((x^y)^{-1}z^{-1}y^{-1}xyz^x)((z^x)^{-1}y^{-1}x^{-1}zxy^z)((y^z)^{-1}x^{-1}z^{-1}yzx^y) \\
+      &= (yzx^y)^{-1}(xyz^x)(xyz^x)^{-1}(zxy^z)(zxy^z)^{-1}(yzx^y) \\
+      &= e.
+    \end{align*}
+    Now, in $\langle x,y,z \mid [x,y]=z, [y,z]=x, [z,x]=y \rangle$, we have $z^x=z[z,x]=zy$, and similarly $y^z=y[y,z]=yx$, $x^y=x[x,y]=xz$. Thus the Witt Identity reduces to
+    \[ [z,zy][y,yx][x,xz] = e. \]
+    From the identity $[a,bc]=[a,c][a,b]^c$, we see that this becomes
+    \begin{align*}
+      [z,y][z,z]^y[y,x][y,y]^x[x,z][x,x]^z &= e \\
+      \implies [z,y][y,x][x,z] &= e \\
+      \implies x^{-1}z^{-1}y^{-1} &= e \\
+      \implies xyz &= e.
+    \end{align*}
+    Since $[x,y]=z$, then $x^{-1}y^{-1}=x^{-1}y^{-1}(xyz)=[x,y]z=z^2$, hence $z^2yx=e$. Also $z^{-1}x^{-1}=z^{-1}x^{-1}z(xyz)z^{-1}=z^{-1}x^{-1}zxy=[z,x]y=y^2$, hence $zy^2x=e$. Thus
+    \[ z^2yx = zy^2x \implies z = y. \]
+    Hence $x=[y,z]=[y,y]=e$, $y=[z,x]=[z,e]=e$ and $z=[x,y]=[e,e]=e$. Therefore the group is trivial.
+  \end{solution}
 
 \question Let $x$ and $y$ be members of a group such that $x^{-1}y^nx=y^m$, for some $m,n\in\Z$. Prove that, for any $k\in\N$, $x^{-1}y^{n^k}x=y^{m^k}$. Deduce that the group
   \[ \langle x,y \mid y^{-1}x^ny = x^{n+1}, x^{-1}y^nx = y^{n+1} \rangle \]

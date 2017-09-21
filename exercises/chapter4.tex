@@ -267,14 +267,122 @@
 \question Let $G$ be the group
   \[ \langle x,y \mid x^2y=y^2x, x^8=e \rangle. \]
   Prove that $y^8=e$ in $G$ and draw the associated van Kampen diagram.
+  \begin{solution} In $G$, $y^2=x^2yx^{-1}=(yx)^{x^{-2}}$, and $yx=y^{-1}y^2x=y^{-1}x^2y=(x^2)^y$, thus
+    \[ y^8 = ((yx)^{x^{-2}})^4 = ((x^2)^{yx^{-2}})^4 = (x^8)^{yx^{-2}} = e. \]
+    Below is the associated van Kampen diagram.
+
+    \centering
+    \begin{tikzpicture}
+      [vertex/.style={circle,draw=black!60,fill=gray,inner sep=0pt,minimum size=1mm},
+      letter/.style={auto,scale=0.7},
+      arrow/.style={thick,decoration={markings, mark=at position 0.5 with {\arrow{>}}},postaction={decorate}},
+      xarrow/.style={blue,arrow},
+      yarrow/.style={red,arrow}]
+      \foreach \x in {0,45,...,360}
+      {
+        \node[vertex] (inner\x) at (\x:1) {};
+        \node[vertex] (middle\x) at (\x:2) {};
+        \node[vertex] (outer\x) at (\x:3) {};
+      }
+      \foreach \x in {0,45,...,325}
+      {
+        \pgfmathtruncatemacro{\y}{\x + 45}
+        \draw[xarrow,bend right=18] (inner\x) to node[letter] {$x$} (inner\y);
+        \draw[yarrow,bend right=18] (outer\x) to node[letter] {$y$} (outer\y);
+      }
+      \foreach \x in {0,90,180,270}
+      {
+        \pgfmathtruncatemacro{\y}{\x + 45}
+        \draw[yarrow] (inner\x) to node[letter,swap] {$y$} (middle\x);
+        \draw[yarrow,bend right=18] (middle\x) to node[letter] {$y$} (middle\y);
+      }
+      \foreach \x in {45,135,...,315}
+      {
+        \pgfmathtruncatemacro{\y}{\x+45}
+        \draw[xarrow,bend right=18] (middle\x) to node[letter,swap] {$x$} (middle\y);
+        \draw[xarrow] (outer\x) to node[letter] {$x$} (middle\x);
+      }
+      \end{tikzpicture}
+  \end{solution}
 
 \question Draw a van Kampen diagram for the group
   \[ \langle x,y \mid x^3=y^2, x^3=e, y^{-1}xy=x^2 \rangle, \]
   which shows that the second relation is superfluous.
+  \begin{solution}
+
+    \centering
+    \begin{tikzpicture}
+      [vertex/.style={circle,draw=black!60,fill=gray,inner sep=0pt,minimum size=1mm},
+      letter/.style={auto,scale=0.7},
+      arrow/.style={thick,decoration={markings, mark=at position 0.5 with {\arrow{>}}},postaction={decorate}},
+      xarrow/.style={blue,arrow},
+      yarrow/.style={red,arrow}]
+
+      \clip (-3.1cm,3.1cm) rectangle (3.1cm,-3.1cm);
+
+      \foreach \x in {0,216,288}
+      \node[vertex] (outer\x) at (\x:3) {};
+
+      \draw[xarrow,bend right=102,distance=5.25cm] (outer0) to node[letter] {$x$} (outer216);
+      \draw[xarrow,bend right=33] (outer216) to node[letter] {$x$} (outer288);
+      \draw[xarrow,bend right=33] (outer288) to node[letter,swap] {$x$} (outer0);
+
+      \foreach \x in {0,72,144,216,288}
+      \node[vertex] (inner\x) at ($(0.75,0) + (\x:2.25)$) {};
+
+      \draw[xarrow] (inner0) to node[letter] {$x$} (inner72);
+      \draw[yarrow] (inner144) to node[letter] {$y$} (inner72);
+      \draw[xarrow] (inner216) to node[letter] {$x$} (inner144);
+      \draw[xarrow] (inner288) to node[letter] {$x$} (inner216);
+      \draw[yarrow] (inner288) to node[letter] {$y$} (inner0);
+      \draw[yarrow] (inner216) to node[letter] {$y$} (outer216);
+
+      \node[vertex] (a) at ($(inner144)!0.33!(inner288)$) {};
+      \node[vertex] (b) at ($(a)!0.5!(inner0)$) {};
+      \node[vertex] (c) at ($(a)!0.5!(inner288)$) {};
+
+      \draw[yarrow] (a) to node[letter] {$y$} (inner144);
+      \draw[xarrow] (a) to node[letter] {$x$} (b);
+      \draw[xarrow] (b) to node[letter,swap] {$x$} (inner0);
+      \draw[xarrow] (c) to node[letter] {$x$} (a);
+      \draw[yarrow] (c) to node[letter,swap] {$y$} (inner288);
+    \end{tikzpicture}
 
 \question Draw a van Kampen digram which shows that the group
   \[ \langle a,b \mid abab^2 = e = baba^2 \rangle \]
   is abelian.
+  \begin{solution}
+    The diagram below demonstrates that $ab=ba$. Since the generators commute, the group is abelian.
+
+    \centering
+    \begin{tikzpicture}
+      [vertex/.style={circle,draw=black!60,fill=gray,inner sep=0pt,minimum size=1mm},
+      letter/.style={auto,scale=0.7},
+      arrow/.style={thick,decoration={markings, mark=at position 0.5 with {\arrow{>}}},postaction={decorate}},
+      aarrow/.style={blue,arrow},
+      barrow/.style={red,arrow}]
+
+      \foreach \x in {0,...,8}
+      \node[vertex] (\x) at (\x,0) {};
+
+      \foreach \x in {1,3,...,7}
+      {
+        \pgfmathtruncatemacro{\y}{\x-1}
+        \draw[aarrow] (\x) to node[letter,swap] {$a$} (\y);
+      }
+      \foreach \x in {2,4,...,8}
+      {
+        \pgfmathtruncatemacro{\y}{\x-1}
+        \draw[barrow] (\x) to node[letter,swap] {$b$} (\y);
+      }
+
+      \draw[aarrow,bend left=60] (0) to node[letter] {$a$} (4);
+      \draw[barrow,bend left=60] (4) to node[letter] {$b$} (8);
+
+      \draw[barrow,bend right=60] (0) to node[letter] {$b$} (4);
+      \draw[aarrow,bend right=60] (4) to node[letter] {$a$} (8);
+    \end{tikzpicture}
+  \end{solution}
 \end{questions}
 
 %%% Local Variables:

@@ -320,33 +320,34 @@
 
       \clip (-3.1cm,3.1cm) rectangle (3.1cm,-3.1cm);
 
-      \foreach \x in {0,216,288}
+      \foreach \x in {0,180,270}
       \node[vertex] (outer\x) at (\x:3) {};
 
-      \draw[xarrow,bend right=102,distance=5.25cm] (outer0) to node[letter] {$x$} (outer216);
-      \draw[xarrow,bend right=33] (outer216) to node[letter] {$x$} (outer288);
-      \draw[xarrow,bend right=33] (outer288) to node[letter,swap] {$x$} (outer0);
+      \draw[xarrow,bend right=86,distance=3.94cm] (outer0) to node[letter] {$x$} (outer180);
+      \draw[xarrow,bend right=44] (outer180) to node[letter] {$x$} (outer270);
+      \draw[xarrow,bend right=44] (outer270) to node[letter,swap] {$x$} (outer0);
 
-      \foreach \x in {0,72,144,216,288}
+      \foreach \x in {0,60,120,180,240}
       \node[vertex] (inner\x) at ($(0.75,0) + (\x:2.25)$) {};
 
-      \draw[xarrow] (inner0) to node[letter] {$x$} (inner72);
-      \draw[yarrow] (inner144) to node[letter] {$y$} (inner72);
-      \draw[xarrow] (inner216) to node[letter] {$x$} (inner144);
-      \draw[xarrow] (inner288) to node[letter] {$x$} (inner216);
-      \draw[yarrow] (inner288) to node[letter] {$y$} (inner0);
-      \draw[yarrow] (inner216) to node[letter] {$y$} (outer216);
+      \draw[xarrow,bend right=26] (inner0) to node[letter] {$x$} (inner60);
+      \draw[yarrow,bend left=26] (inner120) to node[letter] {$y$} (inner60);
+      \draw[xarrow,bend left=26] (inner180) to node[letter] {$x$} (inner120);
+      \draw[xarrow,bend left=26] (inner240) to node[letter] {$x$} (inner180);
+      \draw[yarrow,bend right=60,distance=1.65cm] (inner240) to node[letter] {$y$} (inner0);
+      \draw[yarrow] (inner180) to node[letter] {$y$} (outer180);
 
-      \node[vertex] (a) at ($(inner144)!0.33!(inner288)$) {};
+      \node[vertex] (a) at ($(inner120)!0.5!(inner240)$) {};
       \node[vertex] (b) at ($(a)!0.5!(inner0)$) {};
-      \node[vertex] (c) at ($(a)!0.5!(inner288)$) {};
+      \node[vertex] (c) at ($(a)!0.5!(inner240)$) {};
 
-      \draw[yarrow] (a) to node[letter] {$y$} (inner144);
+      \draw[yarrow] (a) to node[letter] {$y$} (inner120);
       \draw[xarrow] (a) to node[letter] {$x$} (b);
-      \draw[xarrow] (b) to node[letter,swap] {$x$} (inner0);
+      \draw[xarrow] (b) to node[letter] {$x$} (inner0);
       \draw[xarrow] (c) to node[letter] {$x$} (a);
-      \draw[yarrow] (c) to node[letter,swap] {$y$} (inner288);
+      \draw[yarrow] (c) to node[letter,swap] {$y$} (inner240);
     \end{tikzpicture}
+  \end{solution}
 
 \question Draw a van Kampen digram which shows that the group
   \[ \langle a,b \mid abab^2 = e = baba^2 \rangle \]

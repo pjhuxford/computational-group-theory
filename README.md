@@ -7,7 +7,8 @@ Project in Computational Group Theory for COMPSCI 380 at The University of Auckl
 ## Project Goals and Outline
 The rough project outline is (currently) as follows:
 
-  1. Complete a significant number of exercises of the book Presentations of Groups by D. L. Johnson
+  1. Complete a significant number of exercises of the book Presentations of Groups by D. L. Johnson.
+  COMPLETED. The majority of the exercises from the first four chapters have been completed. I have read further than this of course. In the future I may come back and complete more of the exercises.
 
   2. Write an implementation of an algorithm of the computation of the Smith Normal Form of an matrix with integer entries. Such a procedure was discussed in Maths 720, as it can be used to compute the factors described in the fundamental theorem of finitely generated abelian groups.
 

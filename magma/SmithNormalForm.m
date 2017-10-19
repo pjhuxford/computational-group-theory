@@ -1,4 +1,4 @@
-Diagonalise := procedure(~A)
+procedure Diagonalise(~A)
     m := NumberOfRows(A); n := NumberOfColumns(A);
     if not IsZero(A) and m ne 0 and n ne 0 then
 	i := 1; j := 1;
@@ -44,6 +44,10 @@ Diagonalise := procedure(~A)
 	    q := A[1,j] div A[1,1];
 	    AddColumn(~A,-q,1,j);
 	end for;
+
+	if A[1,1] lt 0 then
+	    A[1,1] := -A[1,1];
+	end if;
 
 	C := Submatrix(A, 2, 2, m-1, n-1);
 	Diagonalise(~C);

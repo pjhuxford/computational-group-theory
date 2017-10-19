@@ -1,6 +1,6 @@
 Diagonalise := procedure(~A)
-    if not IsZero(A) then
-	m := NumberOfRows(A); n := NumberOfColumns(A);
+    m := NumberOfRows(A); n := NumberOfColumns(A);
+    if not IsZero(A) and m ne 0 and n ne 0 then
 	i := 1; j := 1;
 	while A[i,j] eq 0 do
 	    if j lt n then
@@ -32,5 +32,21 @@ Diagonalise := procedure(~A)
 		s +:= 1;
 	    end if;
 	end while;
+
+	SwapRows(~A,i,1);
+	SwapColumns(~A,j,1);
+
+	for i in [2..m] do
+	    q := A[i,1] div A[1,1];
+	    AddRow(~A,-q,1,i);
+	end for;
+	for j in [2..n] do
+	    q := A[1,j] div A[1,1];
+	    AddColumn(~A,-q,1,j);
+	end for;
+
+	C := Submatrix(A, 2, 2, m-1, n-1);
+	Diagonalise(~C);
+	InsertBlock(~A,C,2,2);
     end if;
 end procedure;

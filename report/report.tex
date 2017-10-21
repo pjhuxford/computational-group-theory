@@ -42,6 +42,15 @@
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 
+%% References
+\usepackage[
+backend=bibtex,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+
+\addbibresource{report.bib}
+
 % Useful commands and definitions
 
 %% Fix spacing between theorems due to parskip
@@ -60,7 +69,7 @@
 
 \lstset{ %
   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
-  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  basicstyle=\footnotesize\ttfamily,            % the size of the fonts that are used for the code
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
   breaklines=true,                 % sets automatic line breaking
   captionpos=b,                    % sets the caption-position to bottom
@@ -125,9 +134,9 @@
 \maketitle
 
 \begin{abstract}
-  The aim of this report is to better understand the theory of finitely generated abelian groups, and computational methods pertaining to them. In particular, we shall see that an important idea is the \emph{Smith Normal Form} of an integer matrix.
+  The aim of this report is to better understand the theory of finitely generated abelian groups, and computational methods pertaining to them. We shall see that an important idea is the \emph{Smith Normal Form} of an integer matrix.
 
-Naive methods inspired by Gaussian elimination to compute the Smith Normal Form of a matrix can require arbitrary precision arithmetic for relatively innocuous inputs. We will explore some useful modular techniques, which allow us to perform calculations modulo $d$, for an appropriately chosen $d$.
+Naive methods inspired by Gaussian elimination to compute the Smith Normal Form of a matrix can require arbitrary precision arithmetic for small inputs. We will explore some useful modular techniques, which allow us to perform calculations with respect to an appropriate modulus.
 \end{abstract}
 
 \section{Preliminaries}
@@ -138,7 +147,7 @@ In these notes, we will always write the group operation of an abelian group add
   A group $G$ is \emph{free abelian} on a subset $X\subseteq G$, if every map from $X$ to an abelian group $H$ extends to a unique homomorphism $G\to H$. We call $X$ a \emph{basis} for $G$ if $G$ is free abelian on $X$.
 \end{definition}
 
-There is a similarity with vector spaces: $B$ is a basis of a vector space $V$ iff every map from $B$ to a vector space $W$ extends uniquely to a linear map $V\to W$. The existence of such a linear map is equivalent $B$ being a linearly independent set, while the uniqueness is equivalent to $B$ spanning $V$.
+There is a similarity with vector spaces: $B$ is a basis of a vector space $V$ if and only if every map from $B$ to a vector space $W$ extends uniquely to a linear map $V\to W$. The existence of such a linear map is equivalent to $B$ being a linearly independent set, while the uniqueness is equivalent to $B$ spanning $V$.
 
 
 \begin{theorem}
@@ -146,44 +155,38 @@ There is a similarity with vector spaces: $B$ is a basis of a vector space $V$ i
 \end{theorem}
 
 \begin{proof}
-  Let $e_i\in\Z^n$ denote the $i$th standard basis vector. Every element of $\Z^n$ has a unique representation $m_1e_1+\cdots m_ne_n$ for integers $m_i\in\Z$. Thus given a map $\{e_1,\ldots,e_n\}$ to a group $H$, we can extend it to a group homomorphism $\Z^n\to H$ as follows. Say $e_i\mapsto h_i$, then define a mapping $\Z^n\to H$ by
+  Let $e_i\in\Z^n$ be the $i$th standard basis vector. Each element of $\Z^n$ takes the form $m_1e_1+\cdots m_ne_n$, for unique integers $m_i\in\Z$. Given a map from $\{e_1,\ldots,e_n\}$ to a group $H$, we can extend it to a group homomorphism $\Z^n\to H$ as follows. If $e_i\mapsto h_i$, then define
   \[ m_1e_1 + \cdots + m_ne_n \mapsto m_1h_1 + \cdots + m_nh_n. \]
-  It is readily seen that this is a group homomorphism. Moreover, any group homomorphism out of $\Z^n$ must agree with this. Hence $\Z^n$ is free abelian on $\{e_1,\ldots,e_n\}$.
+  It is readily seen that this defines a group homomorphism from $\Z^n$ to $H$, sending $e_i\mapsto h_i$. Moreover, any group homomorphism $\Z^n\to H$ which maps $e_i\mapsto h_i$ must agree with this. Hence $\Z^n$ is free abelian on $\{e_1,\ldots,e_n\}$.
 
-  Conversely, suppose that $G$ is free abelian on a finite subset $X=\{x_1,\ldots,x_n\}$. By the universal property, we get a homomorphism $\phi\colon G\to\Z^n$ which maps $x_i\mapsto e_i$. Similarly we have a homomorphism $\psi\colon\Z^n\to G$ which maps $e_i\mapsto x_i$. Then $\psi\circ\phi$ is a homomorphism $G\to G$ fixing $X$. By the uniqueness in the universal property, $\psi\circ\phi$ must be the identity on $G$. Similarly $\phi\circ\psi$ is the identity on $\Z^n$. Hence $G\cong\Z^n$.
+  Conversely, suppose that $G$ is free abelian on a finite subset $X=\{x_1,\ldots,x_n\}$. By the universal property, we obtain a homomorphism $\phi\colon G\to\Z^n$ which maps $x_i\mapsto e_i$. Similarly we have a homomorphism $\psi\colon\Z^n\to G$ which maps $e_i\mapsto x_i$. Then $\psi\circ\phi$ is an endomorphism of $G$ fixing $X$. By the uniqueness in the universal property, $\psi\circ\phi$ must be the identity on $G$. Similarly $\phi\circ\psi$ is the identity on $\Z^n$. Hence $G\cong\Z^n$.
 \end{proof}
 
-Let $G$ be an abelian group generated by $n$ elements. Since $\Z^n$ is free abelian there is a surjective homomorphism $\Z^n\twoheadrightarrow G$ with kernel $H$. By the first isomorphism theorem, $\Z^n/H$ is isomorphic to $G$. Thus understanding what subgroups of $\Z^n$ look like will help us understand the structure of finite abelian groups.
+Let $G$ be an abelian group generated by $n$ elements. Since $\Z^n$ is free abelian there is an epimorphism $\Z^n\twoheadrightarrow G$ with some kernel $H$. By the first isomorphism theorem, $\Z^n/H$ is isomorphic to $G$. Thus understanding the structure of subgroups of $\Z^n$ will give us insight into the structure of finitely generated abelian groups.
 
 \begin{theorem}[Dedekind]
-  A subgroup $H$ of $\Z^n$ can be generated by $\leq n$ elements.
+  A subgroup of $\Z^n$ can be generated by at most $n$ elements.
 \end{theorem}
 
 \begin{proof}
-  We proceed by induction on $n$. Defining $\Z^0\coloneqq\{0\}$, the case $n=0$ becomes trivial. Let $n>0$, and let $\varphi\colon\Z^n\twoheadrightarrow\Z^n/\langle e_n \rangle$ be the natural map, noting that $\Z^n/\langle e_n \rangle\cong\Z^{n-1}$. Suppose $H\leq\Z^n$, then $\varphi(H)$ is isomorphic to a subgroup of $\Z^{n-1}$. Inductively, we may assume $\varphi(H)=\langle h_1 + \langle e_n \rangle, \ldots, h_{n-1} + \langle e_n \rangle \rangle$, for $h_i\in H$. Note that $H\cap\langle e_n \rangle$ is cyclic, so let $H\cap\langle e_n \rangle=\langle h_n \rangle$ for some $h_n\in H$. We claim $H=\langle h_1,\ldots,h_n \rangle$.
+  We proceed by induction on $n$. Defining $\Z^0\coloneqq\{0\}$, the case $n=0$ becomes trivial. Let $n>0$, and let $\varphi\colon\Z^n\twoheadrightarrow\Z^n/\langle e_n \rangle$ be the natural map. Note that $\Z^n/\langle e_n \rangle\cong\Z^{n-1}$. Suppose $H\leq\Z^n$, then $\varphi(H)$ is isomorphic to a subgroup of $\Z^{n-1}$. Inductively, we may assume $\varphi(H)=\langle h_1 + \langle e_n \rangle, \ldots, h_{n-1} + \langle e_n \rangle \rangle$, for $h_i\in H$. Note that $H\cap\langle e_n \rangle$ is cyclic, so let $H\cap\langle e_n \rangle=\langle h_n \rangle$ for some $h_n\in H$. We claim $H=\langle h_1,\ldots,h_n \rangle$.
 
-  If $h\in H$, then $\varphi(h)=m_1h_1+\cdots+ m_{n-1}h_{n-1}+\langle e_n \rangle$ for some $m_i\in\Z$. Therefore $h-(m_1h_1+\cdots+m_{n-1}h_{n-1})\in H\cap\langle e_n \rangle=\langle h_n \rangle$. Thus $h\in\langle h_1,\ldots,h_n \rangle$. By induction the theorem follows.
+  If $h\in H$, then $\varphi(h)=h'+\langle e_n \rangle$ for some $h'\in\langle h_1,\ldots,h_{n-1} \rangle$. Now $h-h'\in H\cap\langle e_n \rangle=\langle h_n \rangle$. Thus $h\in\langle h_1,\ldots,h_n \rangle$, and hence $H=\langle h_1,\ldots,h_n \rangle$. By induction the theorem follows.
 \end{proof}
 
-We now know that every finitely generated abelian group $G$ is isomorphic to $\Z^n/H$ for some $H\leq\Z^n$, and also that $H$ can be generated by at most $n$ elements. Say $H=\langle h_1,\ldots,h_m \rangle$, then $H$ consists of all integral linear combinations of the $h_i$. Organising the $h_i$ into rows of a matrix motivates the following definition.
+If $H=\langle h_1,\ldots,h_m \rangle\leq\Z^n$, then $H$ consists of all integral linear combinations of the $h_i$. Organising the $h_i$ into rows of a matrix motivates the following definition.
 
 \begin{definition}
-  Given an $m\times n$ integer matrix $A$, we define the integer row space $S(A)\leq\Z^n$ to be the collection of all integral linear combinations of rows of $A$.
+  Given an $m\times n$ integer matrix $A$, we define the \emph{integer row space} $S(A)\coloneqq\{xA : x\in\Z^m\}$ of $A$ to be the set of all integral linear combinations of rows of $A$.
 \end{definition}
 
-What we have seen so far tells us that all finitely generated abelian groups take the form $\Z^n/S(A)$ for some $m\times n$ integer matrix $A$, so understanding the nature of $S(A)$ and the quotient $\Z^n/S(A)$ will help us to understand finitely generated abelian groups.
+Now each finitely generated abelian group is isomorphic to $\Z^n/S(A)$ for some $m\times n$ integer matrix $A$. For most descriptions of finitely generated abelian groups, we can explicitly find such an $A$. For example, consider the abelianisation $G_{ab}\coloneqq G/[G,G]$ of a finitely presented group $G$.
 
-Note that Dedekind's theorem only provides us with an existence statement. We know that every finitely generated abelian group is isomorphic to $\Z^n/S(A)$ for appropriately chosen $n$ and $A$, but as of yet it is unclear whether the relevant matrix is easy to find. In fact often it is.
+If $G=\langle X \mid R \rangle$ is a finite presentation, then the abelianisation $G_{ab}$ is a finitely generated abelian group, with presentation $\langle X \mid R, [X,X] \rangle$. If $X=\{x_1,\ldots,x_n\}$, then we can rewrite each of the relations in $R$ in the form $x_1^{\alpha_1}\cdots x_n^{\alpha_n}$, $\alpha_i\in\Z$. The epimorphism $\Z^n\twoheadrightarrow G_{ab}$ sending $e_i\mapsto x_i$ has kernel generated by the $(\alpha_1,\ldots,\alpha_n)$ appearing in the relations. Using these rows we can form a ``relation matrix'' $A$, and then $G_{ab}\cong\Z^n/S(A)$.
 
-For instance, given a finite presentation $G=\langle X \mid R \rangle$, the abelianisation $G_{ab}\coloneqq G/[G,G]$ has presentation $\langle X \mid R, [X,X] \rangle$. If $X=\{x_1,\ldots,x_n\}$, we can rewrite each of the relations in $R$ in the form $x_1^{\alpha_1}\cdots x_n^{\alpha_n}$, $\alpha_i\in\Z$. The homomorphism $\Z^n\twoheadrightarrow G_{ab}$ mapping $e_i\mapsto x_i$ has kernel generated by the $(\alpha_1,\ldots,\alpha_n)$ appearing in the relations. Using these rows we can form a ``relation matrix'' $A$, and then $G_{ab}\cong\Z^n/S(A)$.
+\section{Integer Row Reduction}
 
-Many questions one can ask about finitely presented groups, for instance the problem of deciding if a finitely presented group is infinite, are in general undecidable. However if the abelianisation of a group is infinite, then the original group must be infinite also. Later in this report we will see precisely how questions like this can be answered.
-
-\section{Row Reduction}
-
-In linear algebra, to better understand the structure of the row space of a matrix, we develop the theory of Gaussian elimination. There is a notion of a reduced row echelon form, from which we can more easily determine membership of vectors in the row space.
-
-In order to develop a similar theory for integer row spaces, we must take care in defining the integer row operations. Because we wish for the row space to remain unchanged after an integer row operation, not only must each operation involve only integer combinations of other rows, but we must be able to reverse the effect with an integer row operation.
+A notion of row space can be defined for matrices over any ring. When working over a field, we can apply row operations to produce a matrix in reduced row echelon form (e.g. using Gaussian elimination). We develop a similar theory for integer matrices below.
 
 \begin{definition}
   An \emph{integer row operation} applied to a matrix is one of the following:
@@ -192,16 +195,22 @@ In order to develop a similar theory for integer row spaces, we must take care i
   \item Multiply a row by $-1$.
   \item Add an integer multiple of one row to another row.
   \end{enumerate}
-  We say that $m\times n$ integer matrices $A$ and $B$ are \emph{row equivalent} if there is a sequence of integer row operations transforming one into the other, and we write $A\sim B$.
+  Two $m\times n$ integer matrices $A$ and $B$ are \emph{row equivalent} if there is a sequence of integer row operations transforming one into the other, and we write $A\sim B$.
 \end{definition}
 
-We only allow multiplication of rows by $-1$, because in order to be able to reverse such an operation, we would need to be multiplying by a unit of $\Z$. The units of $\Z$ are $\{\pm1\}$, and multiplying a row by 1 would leave the matrix unchanged. The proof of the below theorem is omitted, however it is extremely similar to the corresponding fact in linear algebra.
+In the above definition rows may only be multiplied by $-1$, in contrast to row operations over a field, where rows may be multiplied by any non-zero scalar. This is because the units of a field are its non-zero elements, while the units of $\Z$ are just $1$ and $-1$.
+
+We can reverse each integer row operation with another. The first two types are involutions. To reverse adding $q$ times row $i$ to row $j$, for $i\neq j$, we add $-q$ times row $i$ to row $j$. This makes $\sim$ an equivalence relation on integer $m\times n$ matrices. Moreover, integer row operations preserve row spaces.
 
 \begin{theorem}
-  $A\sim B \iff S(A)=S(B)$.
+  Let $A,B$ be integer matrices. Then $A\sim B \implies S(A)=S(B)$.
 \end{theorem}
 
-The corresponding notion of reduced row echelon form for integer row spaces is called row Hermite Normal Form (HNF). Because we restrict ourselves to integer row operations, we cannot do as well as well as reduced row echelon form, however we can get fairly close.
+\begin{proof}
+  If $B$ is reached from $A$ by a single integer row operation, then the rows of $B$ are contained in $S(A)$, so $S(B)\subseteq S(A)$. When this is the case, we can also reach $A$ from $B$ by a single integer row operation, thus $S(A)\subseteq S(B)$. Therefore $A\sim B\implies S(A)=S(B)$.
+\end{proof}
+
+The corresponding notion of reduced row echelon form for integer matrices is row Hermite Normal Form (HNF).
 
 \begin{definition}
   An integer $m\times n$ matrix $A$ is in \emph{row Hermite Normal Form (HNF)} if
@@ -213,9 +222,7 @@ The corresponding notion of reduced row echelon form for integer row spaces is c
   \end{enumerate}
 \end{definition}
 
-In the above definition, the $A_{i,j_i}$ act like the pivots in reduced row echelon form. Because we only have access to integer row operations, we are not able to ensure that the pivot entries are all 1, and that the entries above pivots are all zero. However we can at least make the pivot entries positive, and everything above them smaller and non-negative.
-
-For example, below is an integer $3\times4$ matrix in row Hermite Normal Form.
+In the above definition, the entries $A_{i,j_i}$ behave similarly to the pivot entries in reduced row echelon form. Below is an example integer $3\times4$ matrix in row Hermite Normal Form.
 \[ A \coloneqq
   \begin{bmatrix}
     2 & 1 & 2 & 3 \\
@@ -224,50 +231,93 @@ For example, below is an integer $3\times4$ matrix in row Hermite Normal Form.
   \end{bmatrix}.
 \]
 
-Suppose we wish to determine whether a given vector $u\in\Z^4$ lies in the row space of $A$. For instance $u=(4,2,-3,10)$. We seek integers $x,y,z$ with $u=xa_1+ya_2+za_3$, where $a_1,a_2,a_3$ are the rows of $A$. Isolating the first column, we see $4=2x$, so $x=2$. Next set $v=u-2a_1=(0,0,-7,4)$. We require $v=ya_2+za_3$. The second column holds no information. The third column tells us that $-7=7y$, so $y=-1$. Set $w=v+a_2=(0,0,0,9)$. We require $w=za_3$. Observing the last column shows $9=9z$, so $z=1$.
+Suppose we want to determine whether a given vector $u\in\Z^4$ is in $S(A)$. For instance, let $u=(4,2,-3,10)$. We seek integers $x,y,z$ with $u=xa_1+ya_2+za_3$, where $a_1,a_2,a_3$ are the rows of $A$. Isolating the first column, we see $4=2x$, so $x=2$. Next set $v=u-2a_1=(0,0,-7,4)$. We require $v=ya_2+za_3$. The second column holds no information. The third column tells us that $-7=7y$, so $y=-1$. Set $w=v+a_2=(0,0,0,9)$. We require $w=za_3$. Observing the last column shows $9=9z$, so $z=1$.
 
-Hence $u=2a_1-a_2+a_3$, and so $u\in S(A)$. If at any stage we found an equation that is not solvable for integer $x,y,z$, then we would know that $u\notin S(A)$. We can see that if $A$ is in HNF, it becomes much simpler to answer questions about $S(A)$.
+Hence $u=2a_1-a_2+a_3$, and so $u\in S(A)$. If at any stage we had found an equation that was not solvable for integer $x,y,z$, then we would have instead concluded that $u\notin S(A)$. Clearly, testing membership in $S(A)$ becomes simple when $A$ is in HNF. One can also show that the nonzero rows of $A$ form a basis of $S(A)$ when $A$ is in HNF.
 
 \begin{theorem}
-  If $B$ is an $m\times n$ integer matrix, there is a unique $m\times n$ integer matrix $A$ with $S(A)=S(B)$ and $B$ in row Hermite Normal Form.
+  If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\sim B$ and $B$ in row Hermite Normal Form.
 \end{theorem}
 
 \begin{proof}
-  See the below algorithm (taken from Sims)
+  We prove this by induction. The result holds trivially when $m=0$ or $n=0$. Suppose that $m,n\geq1$, and that the result holds for all smaller matrices. If there are two nonzero entries in the first column, say $0<\abs{A_{k,1}}\leq\abs{A_{\ell.1}}$ with $k\neq\ell$, then we can decrease the quantity $\abs{A_{1,1}}+\cdots+\abs{A_{m,1}}$ as follows.
 
-  \begin{algorithm}[H]
-    \SetKwInOut{Procedure}{Procedure}
-    \Procedure{ROW\_REDUCE($B$; $A$);}
-    \KwIn{An $m\times n$ integer matrix $B$}
-    \KwOut{The matrix $A$ in row Hermite normal form with $A\sim B$}
+  First multiply rows $k,\ell$ by $-1$ if necessary so that $A_{k,1},A_{\ell,1}>0$. Next, subtract one of row $k$ away from row $\ell$. Since $0\leq A_{\ell,1}-A_{k,1}<A_{\ell,1}$, this will strictly decrease the quantity $\abs{A_{1,1}}+\cdots+\abs{A_{m,1}}$. Hence we may assume that $A$ has at most one nonzero entry in the first column. If all entries in the first column are zero, then $A$ has the block form
 
-    $A\coloneqq B$; $i\coloneqq1$; $j\coloneqq1$;
+  \[ A = \left[
+      \begin{array}{c|ccccc}
+        0 &&&&& \\
+        \vdots &&& A' && \\
+        0 &&&&& \\
+      \end{array}\right]
+  \]
 
-    \While{$i\leq m$ and $j\leq n$}{
-      \eIf{$A_{k,j}=0$ for $i\leq k\leq m$}{$j\coloneqq j+1$}{
-        \While{there exist distinct $k,\ell$ with $i\leq k,\ell\leq m$ and $0<\abs{A_{k,j}}\leq\abs{A_{k,\ell}}$}{
-          $q\coloneqq A_{\ell,j} \bdiv A_{k,j}$\;
-          Subtract $q$ times row $k$ of $A$ from row $\ell$
-        }
-        Let $A_{kj}\neq0$ with $i\leq k\leq m$; (this $k$ is unique)\\
-        \If{$k\neq i$}{swap rows $i$ and $k$ of $A$}
-        \If{$A_{i,j}<0$}{multiply row $i$ of $A$ by $-1$}
-        \For{$\ell\coloneqq 1$ to $i-1$}{
-          $q\coloneqq A_{\ell,j} \bdiv A_{i,j}$\;
-          Subtract $q$ times row $i$ of $A$ from row $\ell$
-        }
-        $i\coloneqq i+1$; $j\coloneqq j+1$\;
-      }
-    }
-  \end{algorithm}
+  By induction we can reduce $A'$ to HNF by row operations. If $A'$ is in HNF then so is $A$, so it follows that we can reduce $A$ to HNF by row operations. Suppose then that $A$ has only one nonzero entry in the first column. By swapping rows and multiplying by $-1$ if necessary, we may assume that this is $A_{1,1}$ and $A_{1,1}>0$. Now $A$ has the block form
+  \[ A = \left[
+      \begin{array}{c|ccccc}
+        A_{1,1} & A_{1,2} && \cdots && A_{1,n} \\
+        \hline
+        0 &&&&& \\
+        \vdots &&& A' && \\
+        0 &&&&& \\
+      \end{array}\right]
+  \]
+  By induction we can reduce $A'$ to HNF by row operations, so we may assume that $A'$ is in HNF. Suppose that the nonzero rows of $A$ are now the first $r$ rows, and that the first nonzero entry in each row is given by $A_{i,j_i}$, for $1\leq i\leq r$. Let $2\leq k\leq r$, and suppose we have already arranged for $0\leq A_{1,j_i}<A_{i,j_i}$ to hold, for each $i=2,\ldots,k-1$.
 
-  It is not hard to see that this algorithm will terminate, and produce a matrix in HNF which is row equivalent to the input matrix.
+  Using the division algorithm we may write $A_{1,j_k}=qA_{k,j_k}+r$, where $0\leq r<A_{k,j_k}$. We then subtract $q$ times row $k$ away from row 1. Because $A_{k,j_k}$ is the first nonzero entry in row $k$, and $1=j_1<j_2<\cdots<j_k$, we still have $0\leq A_{1,j_i}<A_{i,j_i}$ for each $i=2,\ldots,k-1$.
+
+  Hence by induction we can reduce $A$ to some matrix $B$ in HNF, by integer row operations. Let $B'$ be another matrix for which $A\sim B'$ and $B'$ is in HNF. Let $b_1,\ldots,b_m$ and $b_1',\ldots,b_m'$ be the rows of $B$ and $B'$ respectively. If $B\neq B'$, then there are entries with $B_{i,j}\neq B'_{i,j}$. Choose such $i,j$ with $j$ minimal, then without loss of generality $B_{i,j}>B_{i,j}'$. We have $b_i,b_i'\in S(B)=S(A)=S(B')$, hence $b_i-b_i'\in S(B)$.
+
+  Suppose that only the first $r$ rows of $B$ are nonzero, and let $B_{i,j_i}$ be the first nonzero entry in $b_i$ for $1\leq i\leq r$. The first $j-1$ entries of $b_i-b_i'$ are zero, so $b_i-b_i'$ is an integral linear combination of the rows $b_k$ with $j_k\geq j$. However $b_{ij}-b_{ij}'\neq0$, and so we must have $j_k=j$ for some $k$ and $B_{k,j}\mid B_{i,j}-B_{i,j}'$. Since $0\leq B_{i,j}'< B_{i,j}<B_{k,j}$, we must have $\abs{B_{i,j}-B_{i,j}'}<B_{k,j}$, so $B_{i,j}-B_{i,j}'=0$, which is a contradiction. Therefore $B=B'$, and so each integer matrix $A$ is row equivalent to a unique integer matrix $B$ in HNF.
 \end{proof}
 
-Here is an implementation of the above algorithm in magma. Note that there is some freedom in the above algorithm. In particular the choice of the indices $k,\ell$ can be done in a variety of ways. Some authors argue that certain strategies for choosing $k,\ell$ lead to more efficient algorithms in practice.
+\begin{corollary}
+  Let $A,B$ be $m\times n$ integer matrices. Then $S(A)=S(B)\implies A\sim B$.
+\end{corollary}
 
-Below is an implementation of this algorithm below in magma, which uses \emph{the Rosser strategy}. Here we pick $k,\ell$ so that $\abs{A_{\ell,j}}$ is as large as possible, and $\abs{A_{k,j}}$ is as large as possible with $k\neq\ell$. This will cause $q$ to be small, and so we would expect lower modulus entries to be produced throughout.
+\begin{proof}
+  It suffices to prove that if $A$ and $B$ are in HNF, then $S(A)=S(B)\implies A=B$. We refer the reader to \cite{sims} for the proof.
+\end{proof}
+
+The proof of this theorem is readily turned into an procedure, e.g. this one (from \cite{sims})
+
+\begin{algorithm}[H]
+  \SetKwInOut{Procedure}{Procedure}
+  \Procedure{ROW\_REDUCE(\textasciitilde$A$);}
+  \KwIn{An $m\times n$ integer matrix $A$}
+  \KwResult{Integer row operations are applied to $A$ to reach row Hermite Normal Form}
+
+  $A\coloneqq B$; $i\coloneqq1$; $j\coloneqq1$;
+
+  \While{$i\leq m$ and $j\leq n$}{
+    \eIf{$A_{k,j}=0$ for $i\leq k\leq m$}{$j\coloneqq j+1$}{
+      \While{there exist distinct $k,\ell$ with $i\leq k,\ell\leq m$ and $0<\abs{A_{k,j}}\leq\abs{A_{\ell,j}}$}{
+        $q\coloneqq A_{\ell,j} \bdiv A_{k,j}$\;
+        Subtract $q$ times row $k$ of $A$ from row $\ell$
+      }
+      Let $A_{kj}\neq0$ with $i\leq k\leq m$; (this $k$ is unique)\\
+      \If{$k\neq i$}{swap rows $i$ and $k$ of $A$}
+      \If{$A_{i,j}<0$}{multiply row $i$ of $A$ by $-1$}
+      \For{$\ell\coloneqq 1$ to $i-1$}{
+        $q\coloneqq A_{\ell,j} \bdiv A_{i,j}$\;
+        Subtract $q$ times row $i$ of $A$ from row $\ell$
+      }
+      $i\coloneqq i+1$; $j\coloneqq j+1$\;
+    }
+  }
+\end{algorithm}
+
+Note there is some freedom when implementing the above algorithm. When there are at least two nonzero entries in the $j$th column beyond the $i$th row, we have freedom over which indices $k,\ell\geq i$ are selected with $0<\abs{A_{k,j}}\leq\abs{A_{\ell,j}}$. If $k,\ell$ are selected so that $\abs{A_{\ell,j}}-\abs{A_{k,j}}$ is maximized, then that the quantity $\abs{A_{1,j}}+\cdots+\abs{A_{m,j}}$ decreases as much as possible in each iteration, which one might think would speed up computation.
+
+Below is an implementation of this algorithm in {\sc Magma}, which employs a different strategy as described in \cite{rosser}. Here $k,\ell$ are chosen so that $\abs{A_{\ell,j}}$ is as large as possible, and $\abs{A_{k,j}}$ is as large as possible with $k\neq\ell$. Many authors recommend this because it tends to keep the size of the entries small during the procedure.\newline
 
 \lstinputlisting[language=magma,tabsize=8]{../magma/RowReduce.m}
+
+\end{proof}
+
+
+
+
+\printbibliography
 
 \end{document}

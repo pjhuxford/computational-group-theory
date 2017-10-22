@@ -36,7 +36,7 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{arrows,calc,decorations.markings}
+\usetikzlibrary{arrows,calc,decorations.markings,cd}
 
 %% Linking and numbering
 \usepackage{enumitem}
@@ -112,6 +112,8 @@ sorting=ynt
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\lcm}{lcm}
 \makeatletter
 \newcommand*{\bdiv}{%
   \nonscript\mskip-\medmuskip\mkern5mu%
@@ -126,7 +128,7 @@ sorting=ynt
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{lemma}[theorem]{Lemma}
 
-\title{Integer Matrix Diagonalization}
+\title{Computation with Finitely Generated Abelian Groups}
 \author{Peter Huxford}
 
 \begin{document}
@@ -276,7 +278,7 @@ Hence $u=2a_1-a_2+a_3$, and so $u\in S(A)$. If at any stage we had found an equa
 \end{corollary}
 
 \begin{proof}
-  It suffices to prove that if $A$ and $B$ are in HNF, then $S(A)=S(B)\implies A=B$. We refer the reader to \cite{sims} for the proof.
+  It suffices to prove that if $A$ and $B$ are in HNF, then $S(A)=S(B)\implies A=B$. We refer the reader to \cite{sims} for the proof of this.
 \end{proof}
 
 The proof of this theorem is readily turned into an procedure, e.g. this one (from \cite{sims})
@@ -312,6 +314,142 @@ Note there is some freedom when implementing the above algorithm. When there are
 Below is an implementation of this algorithm in {\sc Magma}, which employs a different strategy as described in \cite{rosser}. Here $k,\ell$ are chosen so that $\abs{A_{\ell,j}}$ is as large as possible, and $\abs{A_{k,j}}$ is as large as possible with $k\neq\ell$. Many authors recommend this because it tends to keep the size of the entries small during the procedure.\newline
 
 \lstinputlisting[language=magma,tabsize=8]{../magma/RowReduce.m}
+
+\section{Smith Normal Form}
+
+In the previous section we showed that integer row operations applied to an $m\times n$ matrix $A$ do not change $S(A)$. We prove further that column operations do not affect the isomorphism type of $\Z^n/S(A)$.
+
+\begin{definition}
+  An \emph{integer column operation} applied to a matrix is one of the following:
+  \begin{enumerate}
+  \item Swap two columns.
+  \item Multiply a row by $-1$.
+  \item Add an integer multiple of one column to another column.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  Two $m\times n$ integer matrices $A$ and $B$ are \emph{equivalent} if there is a sequence of integer row and column operations transforming one into the other, and we write $A\approx B$.
+\end{definition}
+
+\begin{theorem}
+  If $A,B$ are $m\times n$ integer matrices, then $A\approx B$ if and only if there exist matrices $P\in\GL_m(\Z)$ and $Q\in\GL_n(\Z)$ such that $B=PAQ$.
+\end{theorem}
+
+\begin{proof}
+  For each integer row operation on an $m\times n$ matrix, there is a corresponding matrix $P\in\GL_m(\Z)$ such that the effect of applying the row operation is equivalent to left multiplying by $P$. Moreover these ``elementary'' matrices generate $\GL_m(\Z)$. Similarly integer column operations correspond to right multiplying by matrices in $\GL_n(\Z)$.
+\end{proof}
+
+\begin{theorem}
+  Let $A,B$ be integer $m\times n$ matrices. Then $A\approx B\implies \Z^n/S(A)\cong\Z^n/S(B)$.
+\end{theorem}
+
+\begin{proof}
+  There exist $P\in\GL_m(\Z)$, $Q\in\GL_n(\Z)$ such that $B=PAQ$. Then $B\sim AQ$, hence $S(B)=S(AQ)$. Notice that $S(A)Q\coloneqq\{uQ : u\in S(A)\}=\{xAQ : x\in\Z^m\}=S(AQ)$. It follows that the mapping illustrated in the diagram is a well defined homomorphism $\Z^n/S(A)\to\Z^n/S(AQ)=\Z^n/S(B)$. It is an isomorphism because $Q$ is invertible.
+
+  \centering
+  \begin{tikzcd}
+    \Z^n \arrow[rrr, "Q\colon x\;\mapsto\; xQ"] \arrow[dd, two heads] & & & \Z^n \arrow[dd, two heads] \\
+    & & &  \\
+    \Z^n/S(A) \arrow[rrr, "x + S(A)\; \mapsto\;  xQ + S(AQ)"'] & & & \Z^n/S(AQ)
+  \end{tikzcd}
+
+\end{proof}
+
+We will establish a similar normal form which distinguishes the isomorphism types of $\Z^n/S(A)$ for $m\times n$ matrices. This is known as the Smith Normal Form (SNF).
+
+\begin{definition}
+  An $m\times n$ integer matrix $A$ is in \emph{Smith Normal Form (SNF)} if there is some $r$ such that $d_i\coloneqq A_{i,i}>0$ for each $1\leq i\leq r$, all remaining entries of $A$ are zero, and $d_1\mid d_2\mid \cdots \mid d_r$.
+\end{definition}
+
+Here is an example integer $3\times 5$ matrix in Smith Normal Form
+\[ A \coloneqq
+  \begin{bmatrix}
+    2 & 0 & 0 & 0 & 0 \\
+    0 & 4 & 0 & 0 & 0 \\
+    0 & 0 & 12 & 0 & 0
+  \end{bmatrix}.
+\]
+Note that $S(A)=\{(2x,4y,12z,0,0) : x,y,z\in\Z\}$. This is the kernel of the epimorphism
+\begin{align*}
+  \Z^5 &\twoheadrightarrow \Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z \\
+  (a,b,c,d,e) &\mapsto (a\bmod 2, b\bmod 4, c\bmod 12, d, e).
+\end{align*}
+Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determining the isomorphism type of $\Z^n/S(A)$ for an $m\times n$ matrix $A$ is simple when $A$ is in Smith Normal Form.
+
+\begin{theorem}
+  Let $A$ be an $m\times n$ integer matrix in SNF, with nonzero diagonal entries $d_1\mid d_2\mid\cdots\mid d_r$. Then $\Z^n/S(A)\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$.
+\end{theorem}
+
+\begin{theorem}
+  \label{SNF-existence}
+  If $A$ is an $m\times n$ integer matrix, then there is an $m\times n$ integer matrix $B$ with $A\approx B$ and $B$ in Smith Normal Form.
+\end{theorem}
+
+\begin{proof}
+  Suppose $A$ is not the zero matrix. The first goal is to reduce $A$ to the block form
+  \[ \left[
+    \begin{array}{c|ccc}
+      d & 0 & \cdots & 0 \\
+      \hline
+      0 & & & \\
+      \vdots & & A' & \\
+      0 & & & \\
+    \end{array}\right] \tag{$\star$}
+  \]
+  with $d>0$. Let $A_{i,j}$ be a nonzero entry of $A$. Swap rows $i$ and 1, and columns $j$ and 1 if required, to ensure $i=j=1$, and multiply row 1 by $-1$ if necessary to ensure $A_{1,1}>0$. If $A_{1,1}$ divides all entries in row and column 1, then we can  multiples of row/column 1 to the other rows/columns, to reach the form ($\star$).
+
+  If $A_{1,1}$ does not divide all entries in row and column 1, then we can decrease this entry as follows. Suppose that $A_{1,1}\nmid A_{i,1}$ for some $i$. Write $A_{i,1}=qA_{1,1}+r$ with $0<r<A_{1,1}$. Then add $-q$ times row 1 to row $i$, and swap rows 1 and $i$. Similarly, if $A_{1,1}\nmid A_{1,j}$ for some $j$, then write $A_{1,j}=qA_{1,1}+r$ with $0<r<A_{1,1}$. Then add $-q$ times column 1 to column $j$, and swap columns 1 and $j$.
+
+  Therefore, after repeating this enough times, we can ensure $A_{1,1}$ divides all entries in row and column 1, and thus we can reach the block form ($\star$). Inductively, we can reduce $A'$ to SNF by row and column operations, so we can reduce $A$ to a matrix with block form
+  \[ \left[
+      \begin{array}{ccc|c}
+        d_1 &&& \\
+            & \ddots && 0 \\
+            && d_r & \\
+        \hline
+            & 0 && 0 \\
+      \end{array}\right]
+  \]
+  where $d_i>0$. If the divisibility condition $d_1\mid d_2\mid\cdots\mid d_r$ holds, then we are done. If not, suppose that $d_i\nmid d_j$ for some $i<j$. Set $a\coloneqq d_i$ and $b\coloneqq d_j$. The Euclidean algorithm produces integers $u,v$ with $d\coloneqq\gcd(a,b)=ua+vb$, and then $\ell\coloneqq\lcm(a,b)=ab/d$. Now
+  \[
+    \begin{bmatrix}
+      u & v \\
+      -b/d & a/d
+    \end{bmatrix}
+    \begin{bmatrix}
+      a & 0 \\
+      0 & b
+    \end{bmatrix}
+    \begin{bmatrix}
+      1 & -vb/d \\
+      1 & ua/d
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      d & 0 \\
+      0 & \ell
+    \end{bmatrix}.
+  \]
+  In this way, we can use row and column operations to replace $d_i$ and $d_j$ with $\gcd(d_i,d_j)$ and $\lcm(d_i,d_j)$ respectively. Repeating this leaves us with a matrix in Smith Normal Form.
+\end{proof}
+
+We in fact have uniqueness from the following important theorem
+
+\begin{theorem}{Fundamental Theorem of Finitely Generated Abelian Groups}
+  Let $G$ be a finitely generated abelian group. Then there exists unique integers $n,d_1,\ldots,d_r>0$ with $d_1\mid d_2\mid\cdots\mid d_r$, and
+  \[ G\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}. \]
+\end{theorem}
+
+Note that we have proven the existence of such integers, by the previous result. For the uniqueness, we refer the reader to \cite{dummit}.
+
+\begin{corollary}
+  If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\approx B$ and $B$ in Smith Normal Form.
+\end{corollary}
+
+The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. Here is such a procedure written in {\sc Magma}.\newline
+
+\lstinputlisting[language=magma,tabsize=8]{../magma/SmithNormalForm.m}
 
 \end{proof}
 

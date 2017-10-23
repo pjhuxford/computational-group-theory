@@ -15,7 +15,7 @@ procedure Diagonalise(~A, ~max)
 	max := Abs(A[r,s]);
 	min := max;
 	while r le n do
-	    if Abs(A[r,s]) lt min then
+	    if A[r,s] ne 0 and Abs(A[r,s]) lt min then
 		min := Abs(A[r,s]);
 		i := r; j := s;
 	    elif Abs(A[r,s]) gt max then

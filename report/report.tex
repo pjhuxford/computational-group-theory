@@ -452,10 +452,150 @@ The proof of \autoref{SNF-existence} is readily transformed into a procedure for
 
 \lstinputlisting[language=magma,tabsize=8]{../magma/SmithNormalForm.m}
 
+\section{Modular techniques}
+
+The methods discussed in the previous section to compute Smith Normal Form are inadequate for large matrices. It is not hard to modify the code provided to keep track of the maximum modulus entry.  I constructed a random $100\times100$ matrix whose entries were initially in $\{-1,0,1\}$. After 13 hours of running on the university's servers it has still not terminated. 
+
+The built in {\sc Magma} function \texttt{SmithForm} has no issues computing the Smith Normal Form of such a matrix. This is an indication that the approach taken earlier can be improved. We discuss some ideas described in \cite{sims}, which is heavily inspired by \cite{havas}, which aim to reduce the maximum modulus entry of matrices produced along the way.
+
+We first redevelop some of the theory from the previous sections, modulo a fixed integer. Many of the proofs of the following theorems are similar to ones already given, so we omit them. More detail can be found in \cite{sims}. Fix an integer $d>1$. We use the notation $\overline{A}$ to denote the matrix $A$ with entries reduced modulo $d$.
+
+\begin{definition}
+  A \emph{row operation modulo $d$} applied to an integer matrix is one of the following:
+  \begin{enumerate}
+  \item Swap two rows.
+  \item Multiply a row by an integer $c$ with $\gcd(c,d)=1$, reducing entries modulo $d$.
+  \item Add an integral multiple of one row to another row, reducing entries modulo $d$.
+  \end{enumerate}
+  We define \emph{column operations modulo $d$} in a similar fashion. Two $m\times n$ integer matrices $A$ and $B$ are \emph{row equivalent modulo $d$} if there is a sequence of row operations modulo $d$ transforming $\overline{A}$ to $\overline{B}$, and they are \emph{equivalent modulo $d$} if there is a sequence of row and column operations modulo $d$ transforming $\overline{A}$ to $\overline{B}$.
+\end{definition}
+
+\begin{definition}
+  An integer matrix $A$ is in \emph{row Hermite Normal Form modulo $d$ (HNF modulo $d$)} if
+  \begin{enumerate}
+  \item $A=\overline{A}$.
+  \item $A$ is in row Hermite Normal Form.
+  \item The first nonzero entry in each nonzero row divides $d$.
+  \end{enumerate}
+\end{definition}
+
+Notice that when we work modulo a prime $p$, the third condition ensures that the first nonzero entry in each nonzero row is 1, thus in this case the HNF modulo $p$ agrees with the reduced row echelon form over the field $\Z_p$. In general, the third condition ensures uniqueness in the following theorem.
+
+\begin{theorem}
+  If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\sim B$ and $B$ in row Hermite Normal Form modulo $d$.
+\end{theorem}
+
+\begin{definition}
+  An integer matrix $A$ is in \emph{Smith Normal Form modulo $d$ (SNF modulo $d$)} if
+  \begin{enumerate}
+  \item $A=\overline{A}$.
+  \item $A$ is in Smith Normal Form.
+  \item The nonzero entries of $A$ divide $d$.
+  \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+  If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\sim B$ and $B$ in Smith Normal Form modulo $d$.
+\end{theorem}
+
+The algorithms for computing Hermite and Smith Normal Form modulo an integer are much the same, except all operations are performed modulo $d$, and we multiply rows/columns by appropriate integers $c$ with $\gcd(c,d)=1$ where appropriate to ensure that the relevant entries divide $d$.
+
+\begin{definition}
+  Let $A$ be an integer matrix, and let $B$ be the unique matrix in HNF modulo $d$ which is row equivalent modulo $d$ to $A$. The \emph{$d$-rank} of $A$ is the number of nonzero rows of $B$.
+\end{definition}
+
+Note that if $A\sim B$ and $B$ is in HNF, then the number of nonzero rows of $B$ is equal to the rank of $A$. Thus the $d$-rank of an integer matrix is a lower bound for its rank.
+
+\begin{definition}
+  For an $m\times n$ integer matrix $A$, and $0\leq k\leq m,n$, let $D_k(A)$ denote the gcd of all determinants of $k\times k$ submatrices of $A$. We adopt the convention that the determinant of a $0\times0$ matrix is 1, so that $D_0(A)=1$ for any integer matrix $A$.
+\end{definition}
+
+\begin{theorem}
+   If integer row or column operations are applied to $A$, then $D_k(A)$ is unchanged for each $0\leq k\leq m,n$.
+\end{theorem}
+
+\begin{proof}
+  This is clear except when an integer multiple of a row or column is added to another row or column, respectively. See \cite{sims} for the proof.
 \end{proof}
 
+\begin{corollary}
+  \label{gcdcor}
+  Suppose that $A\sim B$, and $B$ is in SNF with invariant factors $d_1\mid d_2\mid\cdots\mid d_r$. Then $D_k(A)=d_1\cdots d_k$ for $k\leq r$, and $D_k(A)=0$ for $k>r$. In particular $d_k=D_k(A)/D_{k-1}(A)$ when $1\leq k\leq r$.
+\end{corollary}
 
+This gives an alternate way of computing SNF. Of course, there are $\binom{m}{k}\binom{n}{k}$ different $k\times k$ submatrices of an $m\times n$ matrix, so this quite impractical. However, consider the following.
 
+\begin{theorem}
+  \label{recoversnf}
+  Let $A$ be an integer matrix, and let $B$ be in SNF with $A\approx B$. Suppose $B$ has nonzero diagonal entries $d_1\mid d_2\mid \cdots\mid d_r$, and let $d>0$ wtih $d_r\mid d$. Let $C$ be the matrix equivalent to $A$ in SNF modulo $d$. If $C$ has invariant factors $c_1\mid c_2\mid\cdots\mid c_s$, then $s\leq r$, and $d_i=c_i$ for $i\leq s$, and $d_i=d$ for $s<i\leq r$.
+\end{theorem}
+
+\begin{proof}
+  This follows from noting that $C=\overline{B}$.
+\end{proof}
+
+This suggests the following outline for computing the SNF of a given matrix $A$
+
+\begin{enumerate}
+\item Find the rank $r$ of $A$
+\item Find a small number of $r\times r$ submatrices of $A$ with nonzero determinant, and take their greatest common divisor $d$. By Corollary \ref{gcdcor}, this will be a multiple of the largest nonzero entry in the SNF of $A$.
+\item Compute $C$, the SNF of $A$ modulo $d$
+\item If $C$ has $s$ nonzero entries, then by \autoref{recoversnf} we can recover the SNF of $A$ by adding in $r-s$ copies of $d$ on the diagonal after the nonzero entries of $C$.
+\end{enumerate}
+
+We do not currently have a method to efficiently compute the rank of a matrix $A$. The HNF algorithm provided earlier also produces relatively large modulus entries for small inputs. We also do not have a method to compute the determinant of an $r\times r$ submatrix of $A$, and find the $r\times r$ submatrices with nonzero determinant.
+
+We can compute the $d$-rank of $A$ by computing the the HNF of $A$ modulo $d$, and this will be a lower bound for the rank of $A$. If we calculate this for various $d$, then their maximum is a lower bound of the rank of $A$. With some work, we can actually ensure that this is equal to the rank.
+
+\begin{theorem}[Hadamard's Inequality]
+  Let $A$ be an $n\times n$ real matrix.
+  \[ \abs{\det A} \leq \prod_{i=1}^n \left( \sum_{j=1}^n A_{ij}^2 \right)^{1/2} \]
+\end{theorem}
+
+\begin{proof}
+  See \cite{hadamard}.
+\end{proof}
+
+We can use this to get an easily computable bound of the determinant of any square submatrix of an $m\times n$ matrix $A$.
+
+\begin{corollary}
+  \label{hbound}
+  If $A$ is an $m\times n$ integer matrix with $m\leq n$, then the determinant of a square submatrix has modulus at most
+  \[ \prod_i \left( \sum_{j=1}^n A_{ij}^2 \right)^{1/2} \text{ and } \left[ \max_j \left( \sum_{i=1}^m A_{ij}^2 \right)^{1/2} \right]^m, \]
+  where the product is taken of the nonzero rows.
+\end{corollary}
+
+\begin{definition}
+  Given an $m\times n$ matrix, we define $h(A)$ to be the bound given by Corollary \ref{hbound} on $A$ if $m\leq n$, and on $A^t$ if $m>n$.
+\end{definition}
+
+\begin{theorem}
+  Let $A$ be an integer matrix. If $p_1,\ldots,p_k$ are distinct primes with $p_1\cdots p_k>h(A)$, then the rank of $A$ is a the maximum $p_i$-rank of $A$ for $1\leq i\leq k$.
+\end{theorem}
+
+\begin{proof}
+  Let $r$ be the maximum $p_i$-rank. It suffices to prove that all square submatrices of $A$ with more than $r$ rows have determinant 0. Let $B$ be such a matrix. If $1\leq i\leq k$, since the $p_i$-rank of $A$ is at most $r$, it follows that $\det B\equiv0\pmod{p_i}$. Hence $\det B\equiv0\pmod{p_1\cdots p_k}$. But by Corollary \ref{hbound}, $\abs{\det B}\leq h(A)<p_1\cdots p_k$, thus $\det B=0$.
+\end{proof}
+
+Once we have found the rank $r$ of an integer matrix $A$, we can similarly exploit Hadamard's Inequality to efficiently compute the determinants of $r\times r$ submatrices.
+
+\begin{theorem}
+  Let $A$ be an integer matrix, and let $B$ be a square submatrix of $A$. Let $p_1,\ldots,p_k$ be distinct primes with $p_1\cdots p_k>2h(A)$. Then if $\det B\equiv b_i\pmod{p_i}$, $1\leq i\leq k$, then $\det B$ is the integer $b$ with smallest absolute value satisfying $b\equiv b_i\pmod{p_i}$, $1\leq i\leq k$.
+\end{theorem}
+
+\begin{proof}
+  By the Chinese Remainder Theorem, the conditions determine $\det B$ modulo $p_1\cdots p_k$. Also $-h(A)\leq\det B\leq h(A)$, and since $p_1\cdots p_k>2h(A)$, no two integers between $-h(A)$ and $h(A)$ are congruent modulo $p_1\cdots p_k$. 
+\end{proof}
+
+Thus we have yet to discuss how to compute the $p$-rank of a matrix, and its determinant modulo $p$, for some prime $p$. However when $p$ is prime, $\Z_p$ is field, so standard methods (e.g. row reduction to row echelon form over a field) can be used to compute the $p$-rank and determinant modulo $p$.
+
+Moreover, \cite{sims} suggests slightly modifying the procedure of row reduction modulo $p$, to find $r\times r$ submatrices of nonzero determinant, where $r$ is the rank. For a matrix $A$ with reduced row echelon form $R$, let $S$ denote the row indices in $A$ which are eventually swapped into a nonzero row position in $R$, and let $T$ denote the column indices which contain the first nonzero entry in some row of $R$. Then the $r\times r$ submatrix of $A$ with rows indexed by $S$ and columns indexed by $T$ will have nonzero determinant.
+
+\section{Final Implementation}
+
+Using the ideas presented in the previous section, we are able to produce an improved Smith Normal Form algorithm. Here is an implementation in {\sc Magma}.\newline
+
+\lstinputlisting[language=magma,tabsize=8]{../magma/SNFImproved.m}
 
 \printbibliography
 

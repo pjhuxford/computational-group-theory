@@ -136,7 +136,7 @@ sorting=ynt
 \maketitle
 
 \begin{abstract}
-  The aim of this report is to better understand the theory of finitely generated abelian groups, and computational methods pertaining to them. We shall see that an important idea is the \emph{Smith Normal Form} of an integer matrix.
+  The aim of this report is to better understand the theory of finitely generated abelian groups, and computational methods pertaining to them. We shall see that an important tool is the \emph{Smith Normal Form} of an integer matrix.
 
 Naive methods inspired by Gaussian elimination to compute the Smith Normal Form of a matrix can require arbitrary precision arithmetic for small inputs. We will explore some useful modular techniques, which allow us to perform calculations with respect to an appropriate modulus.
 \end{abstract}
@@ -359,7 +359,7 @@ In the previous section we showed that integer row operations applied to an $m\t
 We will establish a similar normal form which distinguishes the isomorphism types of $\Z^n/S(A)$ for $m\times n$ matrices. This is known as the Smith Normal Form (SNF).
 
 \begin{definition}
-  An $m\times n$ integer matrix $A$ is in \emph{Smith Normal Form (SNF)} if there is some $r$ such that $d_i\coloneqq A_{i,i}>0$ for each $1\leq i\leq r$, all remaining entries of $A$ are zero, and $d_1\mid d_2\mid \cdots \mid d_r$.
+  An $m\times n$ integer matrix $A$ is in \emph{Smith Normal Form (SNF)} if there is some $r$ such that $d_i\coloneqq A_{i,i}>0$ for each $1\leq i\leq r$, all remaining entries of $A$ are zero, and $d_1\mid d_2\mid \cdots \mid d_r$. The integers $d_1,\ldots,d_r$ are the \emph{invariant factors} of $A$.
 \end{definition}
 
 Here is an example integer $3\times 5$ matrix in Smith Normal Form
@@ -378,7 +378,7 @@ Note that $S(A)=\{(2x,4y,12z,0,0) : x,y,z\in\Z\}$. This is the kernel of the epi
 Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determining the isomorphism type of $\Z^n/S(A)$ for an $m\times n$ matrix $A$ is simple when $A$ is in Smith Normal Form.
 
 \begin{theorem}
-  Let $A$ be an $m\times n$ integer matrix in SNF, with nonzero diagonal entries $d_1\mid d_2\mid\cdots\mid d_r$. Then $\Z^n/S(A)\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$.
+  Let $A$ be an $m\times n$ integer matrix in SNF, with invariant factors $d_1\mid d_2\mid\cdots\mid d_r$. Then $\Z^n/S(A)\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$.
 \end{theorem}
 
 \begin{theorem}
@@ -403,12 +403,13 @@ Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determini
 
   Therefore, after repeating this enough times, we can ensure $A_{1,1}$ divides all entries in row and column 1, and thus we can reach the block form ($\star$). Inductively, we can reduce $A'$ to SNF by row and column operations, so we can reduce $A$ to a matrix with block form
   \[ \left[
-      \begin{array}{ccc|c}
-        d_1 &&& \\
-            & \ddots && 0 \\
-            && d_r & \\
+      \begin{array}{ccc|cc}
+        d_1 &&&& \\
+            & \ddots &&& 0 \\
+            && d_r && \\
         \hline
-            & 0 && 0 \\
+            &&&& \\
+        & 0 &&& 0 \\
       \end{array}\right]
   \]
   where $d_i>0$. If the divisibility condition $d_1\mid d_2\mid\cdots\mid d_r$ holds, then we are done. If not, suppose that $d_i\nmid d_j$ for some $i<j$. Set $a\coloneqq d_i$ and $b\coloneqq d_j$. The Euclidean algorithm produces integers $u,v$ with $d\coloneqq\gcd(a,b)=ua+vb$, and then $\ell\coloneqq\lcm(a,b)=ab/d$. Now

@@ -447,7 +447,58 @@ Uniqueness follows from the uniqueness of the integers in the following importan
   If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\approx B$ and $B$ in Smith Normal Form.
 \end{corollary}
 
-Thus it makes sense to define the \emph{invariant factors} of an integer matrix to be the invariant factors of the matrix equivalent to it which is in SNF. The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See \autoref{snfcode} for a {\sc Magma} implementation.
+Thus it makes sense to define the \emph{invariant factors} of an integer matrix to be the invariant factors of the matrix equivalent to it which is in SNF.
+
+\begin{corollary}
+  If $A$ and $B$ are $m\times n$ integer matrices with $\Z^n/S(A)\cong\Z^n/S(B)$, then $A\approx B$.
+\end{corollary}
+
+\begin{proof}
+  By \autoref{FToFGAG}, $A$ and $B$ have the same invariant factors. Because they have the same dimensions, they must be equivalent to the same matrix in SNF. Hence $A\approx B$.
+\end{proof}
+
+The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See \autoref{snfcode} for a {\sc Magma} implementation. However one quickly finds that it has certain defects. For example, I ran the implementation in \autoref{snfcode} on a random $100\times 100$ matrix with entries in $\{-1,0,1\}$, on the machine described in \autoref{conclusion}. After 13 hours the procedure had still not terminated. We investigate what happens with a smaller example. Consider the following matrix
+
+\[
+  A\coloneqq\begin{bsmallmatrix}
+    6 & 9 & 8 & 2 & 6 & 5 & 2 & 0 \\
+    5 &10 & 1 & 4 & 8 & 5 & 4 & 8 \\
+    3 & 1 & 9 & 6 & 3 &10 & 5 & 3 \\
+    6 &10 & 3 & 2 & 5 & 0 & 3 &10 \\
+    6 & 1 & 3 & 8 & 6 & 6 & 9 & 1 \\
+    6 & 2 & 2 & 1 & 8 & 1 &10 &10 \\
+    4 & 4 &10 & 7 &10 & 8 & 3 & 3 \\
+    7 & 0 & 1 & 9 & 8 & 5 & 5 & 1 \\
+  \end{bsmallmatrix}
+\]
+
+If we run the {\sc Magma} implementation given in \autoref{snfcode} on $A$, we find that the intermediate matrix in which the entry with largest modulus appears, is
+\[
+  \begin{bsmallmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 1 & 48829330326663043031960 & -769507651269581073 \\
+    0 & 0 & 0 & 0 & 0 & 0 & -97658660653326086254291 & 1539015302539162149 \\
+    0 & 0 & 0 & 0 & 0 & 0 & 9403552434308768827094970352 & -148191783481495923038334 \\
+  \end{bsmallmatrix}
+\]
+The SNF of $A$ is given by
+\[
+  \begin{bsmallmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 10615254 \\
+  \end{bsmallmatrix}
+\]
+The entries of $A$ initially all have modulus at most 10. However intermediate matrices appear with entries of modulus roughly $9.4\times10^{27}$, much larger than any of the entries in the resulting SNF. This ``entry explosion'' is only worsened by increasing the dimensions of the input matrix, and increasing the size of its entries. Arithmetic with entries so large is expensive, so circumventing this issue is of great importance if one wishes to compute the SNF of larger matrices in reasonable time.
 
 \section{Modular techniques}
 \label{modular-discussion}

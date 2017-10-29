@@ -174,6 +174,7 @@ procedure SmithNormalFormImproved(~A : primestart := 1000, dnumber := 3)
 	end for;
 
 	d := GCD(dets);
+	print d;
 
 	// Compute the SNF of A modulo d
 	DiagonaliseMod(~A,d);

@@ -277,7 +277,7 @@ A notion of row space can be defined for matrices over an arbitrary ring. When w
   \item Multiply a row by $-1$.
   \item Add an integer multiple of one row to another row.
   \end{enumerate}
-  Two $m\times n$ integer matrices $A$ and $B$ are \emph{row equivalent} if there is a sequence of integer row operations transforming one into the other, and we write $A\sim B$.
+  Two $m\times n$ integer matrices $A$ and $B$ are \emph{row equivalent} if there is a sequence of integer row operations transforming one into the other, and in this case we write $A\sim B$.
 \end{definition}
 
 We can reverse each integer row operation with another. The first two types are involutions. To reverse adding $q$ times row $i$ to row $j$, for $i\neq j$, we add $-q$ times row $i$ to row $j$. This makes $\sim$ an equivalence relation on integer $m\times n$ matrices.
@@ -354,14 +354,14 @@ If at any stage we found an equation that was not solvable for integer $x,y,z$, 
 \end{proof}
 
 \begin{corollary}
-  Let $A,B$ be integer matrices. Then $S(A)=S(B)\implies A\sim B$.
+  If $A$ and $B$ are $m\times n$ integer matrices with $S(A)=S(B)$, then $A\sim B$.
 \end{corollary}
 
 \begin{proof}
-  It suffices to prove that if $A$ and $B$ are in HNF, then $S(A)=S(B)\implies A=B$. We refer the reader to \cite{sims} for the proof of this.
+  It suffices to prove that if $A$ and $B$ are in HNF, then $S(A)=S(B)\implies A=B$. We refer the reader to \cite[Chapter 8, Proposition 1.1]{sims} for the proof of this.
 \end{proof}
 
-The proof of this theorem is readily turned into an procedure, e.g. this one (from \cite{sims})
+The proof of this theorem is readily turned into an procedure, e.g. this one (from \cite[Chapter 8, Section 1]{sims})
 
 \begin{algorithm}[H]
   \SetKwInOut{Procedure}{Procedure}
@@ -396,7 +396,7 @@ In practice one finds that this strategy can result in $A$ having large entries,
 \section{Smith Normal Form}
 \label{snf-discussion}
 
-In the previous section we showed that integer row operations applied to an $m\times n$ matrix $A$ do not change $S(A)$. We prove further that column operations do not affect the isomorphism type of $\Z^n/S(A)$.
+In the previous section we showed that integer row operations applied to an $m\times n$ matrix $A$ do not change $S(A)$. We prove that column operations do not affect the isomorphism type of $\Z^n/S(A)$.
 
 \begin{definition}
   An \emph{integer column operation} applied to a matrix is one of the following:
@@ -421,7 +421,7 @@ In the previous section we showed that integer row operations applied to an $m\t
 
 \begin{theorem}
   \label{commutative-diagram}
-  Let $A,B$ be integer $m\times n$ matrices. Then $A\approx B\implies \Z^n/S(A)\cong\Z^n/S(B)$.
+  If $A,B$ are equivalent integer $m\times n$ matrices, then $\Z^n/S(A)\cong\Z^n/S(B)$.
 \end{theorem}
 
 \begin{proof}
@@ -436,7 +436,7 @@ In the previous section we showed that integer row operations applied to an $m\t
 
 \end{proof}
 
-We establish a normal form which distinguishes the isomorphism types of $\Z^n/S(A)$.
+We now define a normal form which distinguishes the isomorphism types of $\Z^n/S(A)$.
 
 \begin{definition}
   An $m\times n$ integer matrix $A$ is in \emph{Smith Normal Form (SNF)} if there is some $r$ such that $d_i\coloneqq A_{i,i}>0$ for each $1\leq i\leq r$, all remaining entries of $A$ are zero, and $d_1\mid d_2\mid \cdots \mid d_r$. The integers $d_1,\ldots,d_r$ are the \emph{invariant factors} of $A$.
@@ -455,7 +455,7 @@ Note that $S(A)=\{(2x,4y,12z,0,0) : x,y,z\in\Z\}$. This is the kernel of the epi
   \Z^5 &\twoheadrightarrow \Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z \\
   (a,b,c,d,e) &\mapsto (a\bmod 2, b\bmod 4, c\bmod 12, d, e).
 \end{align*}
-Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determining the isomorphism type of $\Z^n/S(A)$ for an $m\times n$ matrix $A$ is simple when $A$ is in Smith Normal Form.
+Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determining the isomorphism type of $\Z^n/S(A)$ for an $m\times n$ matrix $A$ is easy when $A$ is in Smith Normal Form.
 
 \begin{theorem}
   \label{decomposition}
@@ -464,7 +464,7 @@ Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determini
 
 \begin{theorem}
   \label{SNF-existence}
-  If $A$ is an integer matrix, then there exists an integer matrix $B$ with $A\approx B$ and $B$ in Smith Normal Form.
+  If $A$ is an integer matrix, then there exists an integer matrix $B$ in Smith Normal Form with $A\approx B$.
 \end{theorem}
 
 \begin{proof}
@@ -480,9 +480,9 @@ Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determini
   \]
   with $d>0$. Let $A_{i,j}$ be a nonzero entry of $A$. Swap rows $i$ and 1, and columns $j$ and 1 if required, to ensure $i=j=1$, and multiply row 1 by $-1$ if necessary to ensure $A_{1,1}>0$. If $A_{1,1}$ divides all entries in row and column 1, then add multiples of row/column 1 to the other rows/columns, to reach the form ($\star$).
 
-  If $A_{1,1}$ does not divide all entries in row and column 1, then we decrease this entry as follows. Suppose that $A_{1,1}\nmid A_{i,1}$ for some $i$. Write $A_{i,1}=qA_{1,1}+r$ with $0<r<A_{1,1}$. Then add $-q$ times row 1 to row $i$, and swap rows 1 and $i$. Similarly, if $A_{1,1}\nmid A_{1,j}$ for some $j$, then write $A_{1,j}=qA_{1,1}+r$ with $0<r<A_{1,1}$. Then add $-q$ times column 1 to column $j$, and swap columns 1 and $j$.
+  If $A_{1,1}$ does not divide all entries in row and column 1, then we decrease this entry as follows. Suppose that $A_{1,1}\nmid A_{i,1}$ for some $i$. Write $A_{i,1}=qA_{1,1}+r$ with $0<r<A_{1,1}$. Add $-q$ times row 1 to row $i$, and swap rows 1 and $i$. Similarly, if $A_{1,1}\nmid A_{1,j}$ for some $j$, then write $A_{1,j}=qA_{1,1}+r$ with $0<r<A_{1,1}$. Add $-q$ times column 1 to column $j$, and swap columns 1 and $j$.
 
-  Therefore, after repeating this enough times, we ensure $A_{1,1}$ divides all entries in row and column 1, and thus we can reach the block form ($\star$). Inductively, we can reduce $A'$ to SNF by row and column operations, so we can reduce $A$ to a matrix with block form
+  If we repeat the operations in the previous paragraph, eventually $A_{1,1}$ will divide all entries in row and column 1, and thus we can reach the block form ($\star$). Inductively, we reduce $A'$ to SNF by row and column operations, so we can reduce $A$ to a matrix with block form
   \[ \left[
       \begin{array}{ccc|cc}
         d_1 &&&& \\
@@ -516,11 +516,11 @@ Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determini
   In this way, we can use row and column operations to replace $d_i$ and $d_j$ with $\gcd(d_i,d_j)$ and $\lcm(d_i,d_j)$ respectively. Repeating this will produce a matrix in Smith Normal Form.
 \end{proof}
 
-Uniqueness follows from the uniqueness of the integers in the following important theorem. Note that the previous result implies the existence of such integers. To prove the uniqueness, we refer the reader to \cite{dummit}.
+Uniqueness follows from the uniqueness of the integers in the following important theorem. Note that the previous result implies the existence of such integers. To prove the uniqueness, we refer the reader to \cite[Chapter 5, Theorem 3]{dummit}.
 
 \begin{theorem}[Fundamental Theorem of Finitely Generated Abelian Groups]
   \label{FToFGAG}
-  Let $G$ be a finitely generated abelian group. Then there exists unique integers $n,d_1,\ldots,d_r>0$ with $d_1\mid d_2\mid\cdots\mid d_r$, and
+  Let $G$ be a finitely generated abelian group. There exist unique integers $n,d_1,\ldots,d_r>0$ with $d_1\mid d_2\mid\cdots\mid d_r$, and
   \[ G\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}. \]
 \end{theorem}
 
@@ -539,7 +539,7 @@ Thus it makes sense to define the \emph{invariant factors} of an integer matrix 
   By \autoref{FToFGAG}, $A$ and $B$ have the same invariant factors. Because they have the same dimensions, they must be equivalent to the same matrix in SNF. Hence $A\approx B$.
 \end{proof}
 
-The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See \autoref{snfcode} for a {\sc Magma} implementation. However one quickly finds that it has certain defects. For example, I ran the implementation in \autoref{snfcode} on a random $100\times 100$ matrix with entries in $\{-1,0,1\}$, on the machine described in \autoref{conclusion}. After 13 hours the procedure had still not terminated. We investigate what happens with a smaller example. Consider the following matrix
+The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See \autoref{snfcode} for a {\sc Magma} implementation. However one quickly finds that it has certain defects. For example, I ran the implementation in \autoref{snfcode} on a random $100\times 100$ matrix with entries in $\{-1,0,1\}$, on the machine described in \autoref{conclusion}. After 13 hours the procedure had still not terminated. We investigate here what can happen with a smaller example. Consider the following matrix
 
 \[
   A\coloneqq\begin{bsmallmatrix}
@@ -580,16 +580,14 @@ The SNF of $A$ is given by
     0 & 0 & 0 & 0 & 0 & 0 & 0 & 10615254 \\
   \end{bsmallmatrix}
 \]
-The entries of $A$ initially all have modulus at most 10. However intermediate matrices appear with entries of modulus roughly $9.4\times10^{27}$, much larger than any of the entries in the resulting SNF. This ``entry explosion'' is only worsened by increasing the dimensions of the input matrix, and increasing the size of its entries. Arithmetic with entries so large is expensive, so circumventing this issue is of great importance if one wishes to compute the SNF of larger matrices in reasonable time.
+The entries of $A$ initially all have modulus at most 10. However intermediate matrices appear with entries of modulus roughly $9.4\times10^{27}$, much larger than the entries in the resulting SNF. This ``entry explosion'' is only worsened by increasing the dimensions of the input matrix, and increasing the size of its entries. Row and column operations with entries so large is expensive, so circumventing this issue is of great importance if one wishes to compute the SNF of larger matrices in reasonable time.
 
 \section{Modular techniques}
 \label{modular-discussion}
 
-The methods discussed in the previous section to compute Smith Normal Form are inadequate for large matrices. It is not hard to modify the code provided to keep track of the maximum modulus entry.  I constructed a random $100\times100$ matrix whose entries were initially in $\{-1,0,1\}$. After 13 hours of running on the university's servers it has still not terminated. 
+The methods discussed in the previous section to compute Smith Normal Form are inadequate for large matrices. The {\sc Magma} intrinsic \texttt{SmithForm} is much more capable of computing the SNF of a large matrix. This is an indication that the approach taken earlier can be improved. We discuss some ideas described in \cite{sims}, which aim to reduce the maximum modulus entry of matrices produced along the way.
 
-The built in {\sc Magma} function \texttt{SmithForm} has no issues computing the Smith Normal Form of such a matrix. This is an indication that the approach taken earlier can be improved. We discuss some ideas described in \cite{sims}, which is heavily inspired by \cite{havas}, which aim to reduce the maximum modulus entry of matrices produced along the way.
-
-We first redevelop some of the theory from the previous sections, modulo a fixed integer. Many of the proofs of the following theorems are similar to ones already given, so we omit them. More detail can be found in \cite{sims}. Fix an integer $d>1$. We use the notation $\overline{A}$ to denote the matrix $A$ with entries reduced modulo $d$.
+We redevelop some of the theory from the previous sections, so that computations can be carried out modulo a fixed integer. Many of the proofs of the following theorems are similar to ones already given, so we omit them. More detail can be found in \cite[Chapter 8, Section 4]{sims}. Fix an integer $d>1$. We write $\overline{A}$ to denote the matrix $A$ with entries reduced modulo $d$.
 
 \begin{definition}
   A \emph{row operation modulo $d$} applied to an integer matrix is one of the following:
@@ -610,7 +608,7 @@ We first redevelop some of the theory from the previous sections, modulo a fixed
   \end{enumerate}
 \end{definition}
 
-Notice that when we work modulo a prime $p$, the third condition ensures that the first nonzero entry in each nonzero row is 1, thus in this case the HNF modulo $p$ agrees with the reduced row echelon form over the field $\Z_p$. In general, the third condition ensures uniqueness in the following theorem.
+When we work modulo a prime $p$, the third condition ensures that the first nonzero entry in each nonzero row is 1, thus in this case the HNF modulo $p$ agrees with the reduced row echelon form over the field $\Z_p$.
 
 \begin{theorem}
   If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\sim B$ and $B$ in row Hermite Normal Form modulo $d$.
@@ -629,7 +627,7 @@ Notice that when we work modulo a prime $p$, the third condition ensures that th
   If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\sim B$ and $B$ in Smith Normal Form modulo $d$.
 \end{theorem}
 
-The algorithms for computing Hermite and Smith Normal Form modulo an integer are much the same, except all operations are performed modulo $d$, and we multiply rows/columns by appropriate integers $c$ with $\gcd(c,d)=1$ where appropriate to ensure that the relevant entries divide $d$.
+The algorithms for computing Hermite and Smith Normal Form modulo an integer similar to the corresponding procedures over $\Z$, except all operations are performed modulo $d$, and we multiply rows/columns by appropriate integers $c$ with $\gcd(c,d)=1$ where appropriate to ensure that the relevant entries divide $d$.
 
 \begin{definition}
   Let $A$ be an integer matrix, and let $B$ be the unique matrix in HNF modulo $d$ which is row equivalent modulo $d$ to $A$. The \emph{$d$-rank} of $A$ is the number of nonzero rows of $B$.
@@ -646,7 +644,7 @@ Note that if $A\sim B$ and $B$ is in HNF, then the number of nonzero rows of $B$
 \end{theorem}
 
 \begin{proof}
-  This is clear except when an integer multiple of a row or column is added to another row or column, respectively. See \cite{sims} for the proof.
+  This is clear except when an integer multiple of a row or column is added to another row or column, respectively. See \cite[Chapter 8, Proposition 4.1]{sims} for the proof.
 \end{proof}
 
 \begin{corollary}
@@ -654,18 +652,14 @@ Note that if $A\sim B$ and $B$ is in HNF, then the number of nonzero rows of $B$
   Suppose that $A\sim B$, and $B$ is in SNF with invariant factors $d_1\mid d_2\mid\cdots\mid d_r$. Then $D_k(A)=d_1\cdots d_k$ for $k\leq r$, and $D_k(A)=0$ for $k>r$. In particular $d_k=D_k(A)/D_{k-1}(A)$ when $1\leq k\leq r$.
 \end{corollary}
 
-This gives an alternate way of computing SNF. Of course, there are $\binom{m}{k}\binom{n}{k}$ different $k\times k$ submatrices of an $m\times n$ matrix, so this quite impractical. However, consider the following.
+This gives an alternate way of computing the SNF of a matrix. However, there are $\binom{m}{k}\binom{n}{k}$ different $k\times k$ submatrices of an $m\times n$ matrix, so this quite impractical on its own. However consider the following theorem, which follows from noting that the SNF modulo $d$ can be computed by calculating the SNF over $\Z$, and then reducing entries modulo $d$.
 
 \begin{theorem}
   \label{recoversnf}
-  Let $A$ be an integer matrix, and let $B$ be in SNF with $A\approx B$. Suppose $B$ has invariant factors $d_1\mid d_2\mid \cdots\mid d_r$, and let $d>0$ wtih $d_r\mid d$. Let $C$ be the matrix equivalent to $A$ in SNF modulo $d$. If $C$ has invariant factors $c_1\mid c_2\mid\cdots\mid c_s$, then $s\leq r$, and $d_i=c_i$ for $i\leq s$, and $d_i=d$ for $s<i\leq r$.
+  Let $A$ be an integer matrix, and let $B$ be in SNF with $A\approx B$. Suppose $B$ has invariant factors $d_1\mid d_2\mid \cdots\mid d_r$, and let $d>1$ with $d_r\mid d$. Let $C$ be the matrix equivalent to $A$ in SNF modulo $d$. If $C$ has invariant factors $c_1\mid c_2\mid\cdots\mid c_s$, then $s\leq r$, and $d_i=c_i$ for $i\leq s$, and $d_i=d$ for $s<i\leq r$.
 \end{theorem}
 
-\begin{proof}
-  This follows from noting that $C=\overline{B}$.
-\end{proof}
-
-This suggests the following algorithm outline for computing the SNF of a given matrix $A$
+This suggests the following algorithm for computing the SNF of a given matrix $A$
 
 \begin{enumerate}
 \item Find the rank $r$ of $A$
@@ -674,9 +668,9 @@ This suggests the following algorithm outline for computing the SNF of a given m
 \item If $C$ has $s$ nonzero entries, then by \autoref{recoversnf} we can recover the SNF of $A$ by adding in $r-s$ copies of $d$ on the diagonal after the nonzero entries of $C$.
 \end{enumerate}
 
-We do not currently have a method to efficiently compute the rank of a matrix $A$. The HNF algorithm provided earlier also produces relatively large modulus entries for small inputs. We also do not have a method to compute the determinant of an $r\times r$ submatrix of $A$, and find the $r\times r$ submatrices with nonzero determinant.
+We currently do not have a method to efficiently compute the rank of a matrix $A$. The HNF algorithm provided earlier also produces relatively large modulus entries for small inputs. We also do not have a method to compute the determinant of an $r\times r$ submatrix of $A$, and find the $r\times r$ submatrices with nonzero determinant.
 
-We can compute the $d$-rank of $A$ by computing the the HNF of $A$ modulo $d$, and this will be a lower bound for the rank of $A$. If we calculate this for various $d$, then their maximum is a lower bound of the rank of $A$. With some work, we can actually ensure that this is equal to the rank.
+We compute the $d$-rank of $A$ by computing the the HNF of $A$ modulo $d$. This will be a lower bound for the rank of $A$. If we calculate the $d$-rank for various $d$, then their maximum is a lower bound of the rank of $A$. With some work, we can ensure that this is equal to the rank.
 
 \begin{theorem}[Hadamard's Inequality]
   Let $A$ be an $n\times n$ real matrix.
@@ -684,43 +678,45 @@ We can compute the $d$-rank of $A$ by computing the the HNF of $A$ modulo $d$, a
 \end{theorem}
 
 \begin{proof}
-  See \cite{hadamard}.
+  See \cite[Theorem 14.1.1]{hadamard}.
 \end{proof}
 
-We can use this to get an easily computable bound of the determinant of square submatrix of an $m\times n$ matrix $A$.
+We use this to get an easily computable bound to the determinant of every square submatrix of an integer matrix.
 
 \begin{corollary}
   \label{hbound}
-  If $A$ is an $m\times n$ integer matrix with $m\leq n$, then the determinant of a square submatrix has modulus at most
-  \[ \prod_i \left( \sum_{j=1}^n A_{ij}^2 \right)^{1/2} \text{ and } \left[ \max_j \left( \sum_{i=1}^m A_{ij}^2 \right)^{1/2} \right]^m, \]
-  where the product is taken of the nonzero rows.
+  If $A$ is an $m\times n$ integer matrix with $m\leq n$, then the determinant of a square submatrix of $A$ has modulus at most
+  \[ \min\left\{\prod_i \left( \sum_{j=1}^n A_{ij}^2 \right)^{1/2}, \left[ \max_j \left( \sum_{i=1}^m A_{ij}^2 \right)^{1/2} \right]^m\right\}, \]
+  where the product is taken over the nonzero rows.
 \end{corollary}
 
 \begin{definition}
-  Given an $m\times n$ matrix, we define $h(A)$ to be the bound given by Corollary \ref{hbound} on $A$ if $m\leq n$, and on $A^t$ if $m>n$.
+  Given an $m\times n$ matrix, we let $h(A)$ be the bound given by Corollary \ref{hbound} on $A$ if $m\leq n$, and on $A^t$ if $m>n$.
 \end{definition}
 
 \begin{theorem}
-  Let $A$ be an integer matrix. If $p_1,\ldots,p_k$ are distinct primes with $p_1\cdots p_k>h(A)$, then the rank of $A$ is a the maximum $p_i$-rank of $A$ for $1\leq i\leq k$.
+  Let $A$ be an integer matrix. If $p_1,\ldots,p_k$ are distinct primes with $p_1\cdots p_k>h(A)$, then the rank of $A$ is the maximum $p_i$-rank of $A$ for $1\leq i\leq k$.
 \end{theorem}
 
 \begin{proof}
   Let $r$ be the maximum $p_i$-rank. It suffices to prove that all square submatrices of $A$ with more than $r$ rows have determinant 0. Let $B$ be such a matrix. If $1\leq i\leq k$, since the $p_i$-rank of $A$ is at most $r$, it follows that $\det B\equiv0\pmod{p_i}$. Hence $\det B\equiv0\pmod{p_1\cdots p_k}$. But by Corollary \ref{hbound}, $\abs{\det B}\leq h(A)<p_1\cdots p_k$, thus $\det B=0$.
 \end{proof}
 
-Once we have found the rank $r$ of an integer matrix $A$, we can similarly exploit Hadamard's Inequality to efficiently compute the determinants of $r\times r$ submatrices.
+Once we have found the rank $r$ of an integer matrix $A$, we can similarly exploit Hadamard's Inequality to compute efficiently the determinants of $r\times r$ submatrices.
 
 \begin{theorem}
-  Let $A$ be an integer matrix, and let $B$ be a square submatrix of $A$. Let $p_1,\ldots,p_k$ be distinct primes with $p_1\cdots p_k>2h(A)$. Then if $\det B\equiv b_i\pmod{p_i}$, $1\leq i\leq k$, then $\det B$ is the integer $b$ with smallest absolute value satisfying $b\equiv b_i\pmod{p_i}$, $1\leq i\leq k$.
+  Let $A$ be an integer matrix, and let $B$ be a square submatrix of $A$. Let $p_1,\ldots,p_k$ be distinct primes with $p_1\cdots p_k>2h(A)$. If $\det B\equiv b_i\pmod{p_i}$, $1\leq i\leq k$, then $\det B$ is the integer $b$ satisfying $b\equiv b_i\pmod{p_i}$, $1\leq i\leq k$ with least absolute value.
 \end{theorem}
 
 \begin{proof}
   By the Chinese Remainder Theorem, the conditions determine $\det B$ modulo $p_1\cdots p_k$. Also $-h(A)\leq\det B\leq h(A)$, and since $p_1\cdots p_k>2h(A)$, no two integers between $-h(A)$ and $h(A)$ are congruent modulo $p_1\cdots p_k$. 
 \end{proof}
 
-Thus we have yet to discuss how to compute the $p$-rank of a matrix, and its determinant modulo $p$, for some prime $p$. However when $p$ is prime, $\Z_p$ is field, so standard methods (e.g. row reduction to row echelon form over a field) can be used to compute the $p$-rank and determinant modulo $p$.
+Thus we have yet to discuss how to compute the $p$-rank of a matrix, and its determinant modulo $p$, for some prime $p$. However when $p$ is prime, $\Z_p$ is a field, so standard methods (e.g. row reduction to row echelon form over a field) can be used to compute the $p$-rank and determinant modulo $p$.
 
-Moreover, \cite{sims} suggests slightly modifying the procedure of row reduction modulo $p$, to find $r\times r$ submatrices of nonzero determinant, where $r$ is the rank. For a matrix $A$ with reduced row echelon form $R$, let $S$ denote the row indices in $A$ which are eventually swapped into a nonzero row position in $R$, and let $T$ denote the column indices which contain the first nonzero entry in some row of $R$. Then the $r\times r$ submatrix of $A$ with rows indexed by $S$ and columns indexed by $T$ will have nonzero determinant.
+Moreover, \cite{sims} suggests slightly modifying the procedure of row reduction modulo $p$, to find $r\times r$ submatrices of nonzero determinant, where $r$ is the rank. For a matrix $A$ with reduced row echelon form $R$, let $S$ denote the row indices in $A$ which are eventually swapped into a nonzero row position in $R$, and let $T$ denote the column indices which contain the first nonzero entry in some row of $R$. The $r\times r$ submatrix of $A$ with rows indexed by $S$ and columns indexed by $T$ has nonzero determinant.
+
+Using the above ideas, we produce an improved Smith Normal Form procedure. See \autoref{snfimprovedcode} for a {\sc Magma} implementation.
 
 \section{Empirical Results and Discussion}
 \label{conclusion}
@@ -773,7 +769,7 @@ When only row and column operations and no modular techniques are used to comput
 Unfortunately, when modular techniques are applied, such an isomorphism can only be recovered in this way if $r=n$. If we define $T\coloneqq\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}$ and $F\coloneqq\Z^{n-r}$, then $\Z^n/S(A)\cong T\oplus F$, and $T$ is torsion (every element has finite order), and $\Z^{n-r}$ is torsion free (all non-identity elements have infinite order). \cite{havas} describes how \emph{Lattice Basis Reduction} algorithms such as {\sc mlll} can be used together with the modular methods described here, to completely describe an isomorphism $\Z^n/S(A)\to T\oplus F$.
 
 \printbibliography
-  
+\clearpage
 \appendix
 
 \section{Hermite Normal Form}

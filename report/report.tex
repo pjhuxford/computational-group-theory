@@ -338,6 +338,7 @@ In the previous section we showed that integer row operations applied to an $m\t
 \end{proof}
 
 \begin{theorem}
+  \label{commutative-diagram}
   Let $A,B$ be integer $m\times n$ matrices. Then $A\approx B\implies \Z^n/S(A)\cong\Z^n/S(B)$.
 \end{theorem}
 
@@ -375,6 +376,7 @@ Note that $S(A)=\{(2x,4y,12z,0,0) : x,y,z\in\Z\}$. This is the kernel of the epi
 Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determining the isomorphism type of $\Z^n/S(A)$ for an $m\times n$ matrix $A$ is simple when $A$ is in Smith Normal Form.
 
 \begin{theorem}
+  \label{decomposition}
   Let $A$ be an $m\times n$ integer matrix in SNF, with invariant factors $d_1,d_2,\ldots,d_r$. Then $\Z^n/S(A)\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$.
 \end{theorem}
 
@@ -435,11 +437,13 @@ Therefore $\Z^5/S(A)\cong\Z_2\oplus\Z_4\oplus\Z_{12}\oplus\Z\oplus\Z$. Determini
 Uniqueness follows from the uniqueness of the integers in the following important theorem. Note that the previous result implies the existence of such integers. To prove the uniqueness, we refer the reader to \cite{dummit}.
 
 \begin{theorem}[Fundamental Theorem of Finitely Generated Abelian Groups]
+  \label{FToFGAG}
   Let $G$ be a finitely generated abelian group. Then there exists unique integers $n,d_1,\ldots,d_r>0$ with $d_1\mid d_2\mid\cdots\mid d_r$, and
   \[ G\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}. \]
 \end{theorem}
 
 \begin{corollary}
+  \label{unique-snf}
   If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\approx B$ and $B$ in Smith Normal Form.
 \end{corollary}
 
@@ -521,14 +525,14 @@ This gives an alternate way of computing SNF. Of course, there are $\binom{m}{k}
 
 \begin{theorem}
   \label{recoversnf}
-  Let $A$ be an integer matrix, and let $B$ be in SNF with $A\approx B$. Suppose $B$ has nonzero diagonal entries $d_1\mid d_2\mid \cdots\mid d_r$, and let $d>0$ wtih $d_r\mid d$. Let $C$ be the matrix equivalent to $A$ in SNF modulo $d$. If $C$ has invariant factors $c_1\mid c_2\mid\cdots\mid c_s$, then $s\leq r$, and $d_i=c_i$ for $i\leq s$, and $d_i=d$ for $s<i\leq r$.
+  Let $A$ be an integer matrix, and let $B$ be in SNF with $A\approx B$. Suppose $B$ has invariant factors $d_1\mid d_2\mid \cdots\mid d_r$, and let $d>0$ wtih $d_r\mid d$. Let $C$ be the matrix equivalent to $A$ in SNF modulo $d$. If $C$ has invariant factors $c_1\mid c_2\mid\cdots\mid c_s$, then $s\leq r$, and $d_i=c_i$ for $i\leq s$, and $d_i=d$ for $s<i\leq r$.
 \end{theorem}
 
 \begin{proof}
   This follows from noting that $C=\overline{B}$.
 \end{proof}
 
-This suggests the following outline for computing the SNF of a given matrix $A$
+This suggests the following algorithm outline for computing the SNF of a given matrix $A$
 
 \begin{enumerate}
 \item Find the rank $r$ of $A$
@@ -585,7 +589,8 @@ Thus we have yet to discuss how to compute the $p$-rank of a matrix, and its det
 
 Moreover, \cite{sims} suggests slightly modifying the procedure of row reduction modulo $p$, to find $r\times r$ submatrices of nonzero determinant, where $r$ is the rank. For a matrix $A$ with reduced row echelon form $R$, let $S$ denote the row indices in $A$ which are eventually swapped into a nonzero row position in $R$, and let $T$ denote the column indices which contain the first nonzero entry in some row of $R$. Then the $r\times r$ submatrix of $A$ with rows indexed by $S$ and columns indexed by $T$ will have nonzero determinant.
 
-\section{Comparisons}
+\section{Empirical Results and Discussion}
+\label{conclusion}
 
 Based on the discussions in this report, there are three natural methods available to compute the Smith Normal Form of a given integer matrix in {\sc Magma}. These are
 \begin{itemize}
@@ -597,7 +602,7 @@ We generated a random $n\times n$ matrix with entries in $\{-1,0,1\}$ for $n=10,
 
 The results of this are recorded in the following table. In each computation, the time taken to compute the SNF, and total memory used in the {\sc Magma} session were recorded. For the computations using \texttt{SmithNormalForm}, the maximum modulus of an entry appearing in some intermediate matrix was recorded (see the ``Max'' column). For the computations using \texttt{SmithNormalFormImproved}, the modulus which calculations were performed with respect to was recorded (see the ``Modulus'' column). There is no corresponding measurement available for the {\sc Magma} intrinsic \texttt{SmithForm}.
 
-  \centering
+  {\centering
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{|c||c|c|c||c|c|c||c|c|}
     \cline{2-9}
@@ -617,9 +622,24 @@ The results of this are recorded in the following table. In each computation, th
     $100\times100$ & >30m & 14.8GB & $\sim10^{2.3\cdot10^6}$ & 0.79s & 64.0MB & $1.6\cdot10^{58}$ & 0.06s & 32.0MB \\
     \hline
   \end{tabular}%
-  }
+  }}\newline
 
 
+\texttt{SmithNormalFormImproved} outperforms the original procedure \texttt{SmithNormalForm} only when the dimensions of the input are sufficiently large. This is because some extra computation, e.g. the bound given by Corollary \ref{hbound}, is performed by \texttt{SmithNormalFormImproved}. The cost of these additional calculations are only outweighed by the benefit of performing row operations with respect to an appropriate modulus, when the entries appearing in intermediate matrices are very large, which occurs when the input dimensions are large.
+
+Observe that the {\sc Magma} intrinsic \texttt{SmithForm} always performs better than the procedure \texttt{SmithNormalFormImproved}. One reason for this is \texttt{SmithForm} is a compiled C program, however \texttt{SmithNormalFormImproved} is written in {\sc Magma}, an interpreted language.
+
+Moreover, there are other techniques beyond those discussed in \autoref{modular-discussion} which can be used to more efficiently compute the SNF, many of which are discussed in \cite{havas}. Recall the beginning of the proof of \autoref{SNF-existence}, in which a nonzero entry which divided every term in its row and column was needed. If one did not exist, then by choosing a nonzero entry we could produce a smaller entry by applying some row and column operations.
+
+In \cite{havas}, this process is called \emph{pivoting}, and the nonzero entry which is selected is called a \emph{pivot}. In \texttt{SmithNormalForm}, the way a pivot is selected is to initially choose the smallest modulus entry, and thereafter select the first entry in the current pivot's row and column which is not divisible by the current pivot. \cite{havas} suggests some alternate pivoting strategies which can improve performance. In particular it is recommended to try certain pivoting strategies first, and only resort to modular methods if these are unsuccessful.
+
+There is a final deficiency in both of the procedures described in this report. Given an $m\times n$ integer matrix $A$, computing the SNF of $A$ determines the rank $r$ and positive integers $d_1\mid d_2\mid\cdots\mid d_r$ such that $\Z^n/S(A) \cong \Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$. However the SNF alone does not provide an explicit description of such isomorphism, which is often useful.
+
+When only row and column operations and no modular techniques are used to compute the SNF of $A$, we can find $P\in\GL_m(\Z)$, $Q\in\GL_n(\Z)$ such that $PAQ$ is in SNF, by applying the row operations to $I_m$ to produce $P$, and the column operations to $I_n$ to produce $Q$. As in the proof of \autoref{commutative-diagram}, $P$ and $Q$ can be used to describe such an isomorphism.
+
+Unfortunately, when modular techniques are applied, such an isomorphism can only be recovered in this way if $r=n$. If we define $T\coloneqq\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}$ and $F\coloneqq\Z^{n-r}$, then $\Z^n/S(A)\cong T\oplus F$, and $T$ is torsion (every element has finite order), and $\Z^{n-r}$ is torsion free (all non-identity elements have infinite order). \cite{havas} describes how \emph{Lattice Basis Reduction} algorithms such as {\sc mlll} can be used together with the modular methods described here, to completely describe an isomorphism $\Z^n/S(A)\to T\oplus F$.
+
+\printbibliography
   
 \appendix
 
@@ -640,7 +660,5 @@ The results of this are recorded in the following table. In each computation, th
 \label{snfimprovedcode}
 
 \lstinputlisting[language=magma,tabsize=8]{../magma/SNFImproved.m}
-
-\printbibliography
 
 \end{document}

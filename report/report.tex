@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper,answers]{exam}
 
 % Packages
 
@@ -53,6 +53,9 @@ sorting=ynt
 
 % Useful commands and definitions
 
+%% Bold question numbers
+\renewcommand{\thequestion}{\textbf{\arabic{question}}}
+
 %% Fix spacing between theorems due to parskip
 
 \makeatletter
@@ -92,8 +95,49 @@ sorting=ynt
   stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
   stringstyle=\color{mymauve},     % string literal style
   tabsize=2,	                   % sets default tabsize to 2 spaces
-  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  % title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+
+%% Make higher level counter than section
+\makeatletter
+\newcounter{outersection}
+\renewcommand\theoutersection{\@Roman\c@outersection}
+\newcommand\outersection{%
+   \if@noskipsec \leavevmode \fi
+   \par
+   \addvspace{4ex}%
+   \@afterindentfalse
+   \secdef\@outersection\@soutersection}
+
+\def\@outersection[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+  \refstepcounter{outersection}%
+  \addcontentsline{toc}{outersection}{\theoutersection\hspace{1em}#1}%
+  \else
+  \addcontentsline{toc}{outersection}{#1}%
+  \fi
+  {\parindent \z@ \raggedright
+    \interlinepenalty \@M
+    \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+    \centering\huge\bfseries \outersectionname\ \theoutersection
+    \par\nobreak
+    \fi
+    \LARGE \bfseries #2%
+    \markboth{}{}\par}%
+  \nobreak
+  \vskip 3ex
+  \@afterheading}
+\def\@soutersection#1{%
+  {\parindent \z@ \raggedright
+    \interlinepenalty \@M
+    \normalfont
+    \huge \bfseries #1\par}%
+  \nobreak
+  \vskip 3ex
+  \@afterheading}
+\newcommand\outersectionname{Part}
+\makeatother
 
 %% The standard sets of numbers
 \newcommand{\C}{\mathbb{C}}
@@ -128,15 +172,53 @@ sorting=ynt
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{lemma}[theorem]{Lemma}
 
-\title{Computation with Finitely Generated Abelian Groups}
-\author{Peter Huxford}
-
 \begin{document}
 
-\maketitle
+\input{titlepage.tex}
+
+\outersection*{Introduction}
+
+This report consists of two parts. The first part is a collection of solutions to almost all of the exercises in the first four chapters of the book Presentations of Groups, by D. L. Johnson. This book contains important mathematical foundations for many of the important algorithms in the field of Computational Group Theory. The prerequisite knowledge required to understand these solutions is the contents of the first four chapters of this book, which themselves assume some basic familiarity with group theory. We outline what they discuss below.
+
+The first chapter defines the notion of a free group by its Universal Property, and proceeds to prove some basic properties from this definition. The existence of free groups on a set $X$ is proven by constructing them explicitly, in terms of reduced words. These are strings consisting of characters $x$ and $x^{-1}$ for $x\in X$, which contain no substrings of the form $xx^{-1}$ or $x^{-1}x$. Multiplication and inverses are defined in a natural way to produce a group.
+
+It is illustrated by several examples in the remainder of the chapter, and in the following exercises, that although the Universal Property provides slick proofs of some facts, many results about free groups are most conveniently proven by referring to reduced words.
+
+The second and third chapters provide two substantially different approaches for proving the nontrivial result known as the Nielsen-Schreier Theorem, that every subgroup of a free group is free. The second chapter describes Schreier's method, which provides a fairly explicit description of a basis of such a subgroup in terms of what is known as a Schreier transversal, as well as a formula for the rank of the subgroup in the finite case.
+
+The third chapter discusses Nielsen's method. This approach involves applying a sequence of what are known as Nielsen transformations to a generating set of a subgroup of a free group, to reach a new generating set which is Nielsen-reduced, and hence a basis. Unfortunately, Nielsen's method only proves the Nielsen-Schreier theorem in the case of finitely generated subgroups of a free group. However it provides significant insight into the structure of the automorphism group of the free group.
+
+Finally, the fourth chapter is about group presentations. These are groups defined by some generating set and relations. Various important concepts are introduced, such as von Dyck's theorem and Tietze transformations. Von Dyck's theorem provides a way of proving that a given group presentation is isomorphic to some known group, and Tietze transformations are a formal way of simplifying the relations and generators in a group presentation. The chapter ends with van Kampen diagrams, which are an interesting visual way of demonstrating certain relations in a particular group presentation.
+
+The second part of the report discusses the topic of computation with finitely generated abelian groups. The prerequisite knowledge to understand the main ideas of this part is only introductory group theory, but ideally the reader would have knowledge beyond this.
+
+Restricting oneself to the abelian case does make things simpler, which is helpful because many of the problems one would wish to solve are undecidable in the non-abelian case. For example, there is no algorithm to determine if a given finite presentation has finite order (or even is trivial).
+
+However, such an algorithm is discussed in the second part of this report in the case where the group is also known to be abelian. In fact we give a procedure for which given a description of a finitely generated abelian group $G$, calculates integers $d_1,\ldots,d_r,k$ such that $G\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^k$. The description of $G$ is given by an integer matrix, which we transform into a diagonal matrix, known as its Smith Normal Form.
+
+When implementing a naive algorithm inspired by Gaussian elimination, one quickly finds that entries become very large even for relatively small inputs, making calculations in practice far too expensive to carry out. This part of the report discusses some modular techniques in detail, which limit the size of entries, and speed up computation.
+
+\clearpage
+
+\outersection{Solution To Exercises in Presentations of Groups by D. L. Johnson}
+
+%% Sections numbered with Chapter X
+\renewcommand{\thesection}{Chapter \arabic{section}}
+
+\input{../exercises/chapter1.tex}
+\input{../exercises/chapter2.tex}
+\input{../exercises/chapter3.tex}
+\input{../exercises/chapter4.tex}
+
+\outersection{Computation with Finitely Generated Abelian Groups}
+
+%% Sections numbered with X
+%% Reset section numbering
+\renewcommand{\thesection}{\arabic{section}}
+\setcounter{section}{0}
 
 \begin{abstract}
-  The aim of this report is to better understand the theory of finitely generated abelian groups, and computational methods pertaining to them. We shall see that an important tool is the \emph{Smith Normal Form} of an integer matrix.
+  The aim of this part is to better understand the theory of finitely generated abelian groups, and computational methods pertaining to them. We shall see that an important tool is the \emph{Smith Normal Form} of an integer matrix.
 
 Naive methods inspired by Gaussian elimination to compute the Smith Normal Form of a matrix can require arbitrary precision arithmetic for small inputs. We will explore some useful techniques, which allow us to perform calculations with respect to an appropriate modulus.
 \end{abstract}

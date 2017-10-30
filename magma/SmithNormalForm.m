@@ -1,3 +1,7 @@
+// Uses row and column operations to diagonalise A
+// max records maximum modulus entry
+// overtime is a flag which is set to true if Cputime() exceeds maxtime
+// computation halts shortly after overtime is set to true
 procedure Diagonalise(~A, ~max, ~overtime, maxtime)
     m := NumberOfRows(A); n := NumberOfColumns(A);
     if not IsZero(A) and m ne 0 and n ne 0 then
@@ -68,7 +72,7 @@ procedure Diagonalise(~A, ~max, ~overtime, maxtime)
 	    SwapRows(~A,i,1);
 	    SwapColumns(~A,j,1);
 
-	    // clear out entries below and to the right of A[1,1]
+	    // make entries below and to the right of A[1,1] zero
 	    for i in [2..m] do
 		q := A[i,1] div A[1,1];
 		AddRow(~A,-q,1,i);
@@ -103,7 +107,10 @@ procedure Diagonalise(~A, ~max, ~overtime, maxtime)
     end if;
 end procedure;
 
-procedure SmithNormalForm(~A,~max : maxtime := 1800)
+// Computes the SNF of A by a Gaussian elimnation inspired method
+// max stores the maximum modulus entry in computation
+// maxtime is the time in seconds before the computation halts
+procedure SmithNormalForm(~A, ~max : maxtime := 1800)
     overtime := false;
     m := NumberOfRows(A); n := NumberOfColumns(A);
     Diagonalise(~A,~max,~overtime,maxtime);

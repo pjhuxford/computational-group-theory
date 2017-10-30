@@ -1,3 +1,4 @@
+// returns the bound given by Hadamard's inequality
 function hadamard(A)
     m := NumberOfRows(A); n := NumberOfColumns(A);
     if m gt n then
@@ -27,6 +28,7 @@ function hadamard(A)
     end if;
 end function;
 
+// Uses row and column operations modulo d to diagonalise A
 procedure DiagonaliseMod(~A,d)
     Z := IntegerRing(); Zd := IntegerRing(d);
     m := NumberOfRows(A); n := NumberOfColumns(A);
@@ -85,8 +87,8 @@ procedure DiagonaliseMod(~A,d)
 end procedure;
 
 // Computes the SNF of A using Modular techniques
-// primestart determines where to begin looking for primes to do calculations
-// dnumber determines the number of nonzero rxr determinants we compute the gcd of,
+// primestart is where to begin looking for primes to do calculations
+// dnumber is the number of nonzero rxr determinants we find,
 // where r is the rank of A
 procedure SmithNormalFormImproved(~A : primestart := 1000, dnumber := 3)
     X := SmithForm(A);
@@ -108,7 +110,7 @@ procedure SmithNormalFormImproved(~A : primestart := 1000, dnumber := 3)
 	for p in primes do
 	    // row reduction modulo p
 	    // find the p-rank r of A
-	    // and an rxr submatrix with full rank (unless we have enough)
+	    // and an rxr submatrix with full rank
 	    rows := [1..m];
 	    columns := [];
 
@@ -162,7 +164,8 @@ procedure SmithNormalFormImproved(~A : primestart := 1000, dnumber := 3)
 	    for p in primes do
 		Z := IntegerRing(); Zp := IntegerRing(p);
 		Ap := ChangeRing(A, Zp);
-		Append(~detsprimes, Z ! Determinant(Submatrix(Ap, rows, columns)));
+		detp := Z ! Determinant(Submatrix(Ap, rows, columns));
+		Append(~detsprimes, detp);
 	    end for;
 	    sol := CRT(detsprimes, primes);
 	    altsol := sol - prod;

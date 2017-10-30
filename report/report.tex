@@ -40,6 +40,7 @@
 
 %% Linking and numbering
 \usepackage{enumitem}
+\usepackage[titletoc,title]{appendix}
 \usepackage[hidelinks]{hyperref}
 
 %% References
@@ -136,7 +137,7 @@ sorting=ynt
     \normalfont
     \huge \bfseries #1\par}%
   \nobreak
-  \vskip 3ex
+  \vskip 2ex
   \@afterheading}
 \newcommand\outersectionname{Part}
 \makeatother
@@ -211,6 +212,8 @@ Solutions are provided for almost all of the exercises present in the first four
 \input{../exercises/chapter2.tex}
 \input{../exercises/chapter3.tex}
 \input{../exercises/chapter4.tex}
+
+\clearpage
 
 \outersection{Computation with Finitely Generated Abelian Groups}
 
@@ -363,7 +366,7 @@ If at any stage we found an equation that was not solvable for integer $x,y,z$, 
   It suffices to prove that if $A$ and $B$ are in HNF, then $S(A)=S(B)\implies A=B$. We refer the reader to \cite[Chapter 8, Proposition 1.1]{sims} for the proof of this.
 \end{proof}
 
-The proof of this theorem is readily turned into an procedure, e.g. this one (from \cite[Chapter 8, Section 1]{sims}).
+The proof of this theorem is readily turned into an procedure, such as ROW\_REDUCE given below (from \cite[Chapter 8, Section 1]{sims}).\newline
 
 \begin{algorithm}[H]
   \SetKwInOut{Procedure}{Procedure}
@@ -638,7 +641,7 @@ The algorithms for computing Hermite and Smith Normal Form modulo an integer are
 Note that if $A\sim B$ and $B$ is in HNF, then the number of nonzero rows of $B$ is equal to the rank of $A$. Thus the $d$-rank of an integer matrix is a lower bound for its rank.
 
 \begin{definition}
-  For an $m\times n$ integer matrix $A$, and $0\leq k\leq m,n$, let $D_k(A)$ denote the gcd of all determinants of $k\times k$ submatrices of $A$. We adopt the convention that the determinant of a $0\times0$ matrix is 1, so that $D_0(A)=1$ for every integer matrix $A$.
+  For an $m\times n$ integer matrix $A$, and $0\leq k\leq m,n$, let $D_k(A)$ denote the greatest common divisor of all determinants of $k\times k$ submatrices of $A$. We adopt the convention that the determinant of a $0\times0$ matrix is 1, so that $D_0(A)=1$ for every integer matrix $A$.
 \end{definition}
 
 \begin{theorem}
@@ -756,23 +759,24 @@ Our results are recorded in the following table. In each computation, the time t
   }}\newline
 
 
-\texttt{SmithNormalFormImproved} outperforms the original procedure \texttt{SmithNormalForm} only when the dimensions of the input are sufficiently large. This is because some extra computation, e.g. the bound given by Corollary \ref{hbound}, is performed by \texttt{SmithNormalFormImproved}. The cost of these additional calculations are only outweighed by the benefit of performing row operations with respect to an appropriate modulus, when the entries appearing in intermediate matrices are very large.
+\texttt{SmithNormalFormImproved} outperforms the original procedure \texttt{SmithNormalForm} only when the dimensions of the input are sufficiently large. This is because some extra computation, e.g. the bound given by Corollary \ref{hbound}, is performed by \texttt{SmithNormalFormImproved}. The cost of these additional calculations are only outweighed by the benefit of performing row operations with respect to an appropriate modulus when the entries appearing in intermediate matrices are very large.
 
 Observe that the {\sc Magma} intrinsic \texttt{SmithForm} always performs better than the procedure \texttt{SmithNormalFormImproved}. One reason is that \texttt{SmithForm} is a compiled C program, but \texttt{SmithNormalFormImproved} is written in {\sc Magma}, an interpreted language.
 
-Moreover, there are other techniques beyond those discussed in Section \ref{modular-discussion} which can be used to more efficiently compute the SNF, many of which are discussed in \cite{havas}. Recall the beginning of the proof of \autoref{SNF-existence}. First a nonzero entry is selected. If it does not divide every entry in its row and column, we produce a smaller nonzero entry in the same position by applying appropriate row and column operations. Eventually this entry will divide all entries in its row and column.
+Moreover, there are other techniques beyond those discussed in Section \ref{modular-discussion} which can be used to more efficiently compute the SNF, many of which are discussed in \cite{havas}. Recall the beginning of the proof of \autoref{SNF-existence}. First a nonzero entry is selected. If it does not divide every entry in its row and column, then we produce a smaller nonzero entry in the same position by applying appropriate row and column operations. Eventually this entry will divide all entries in its row and column.
 
-In \cite{havas}, this process is called \emph{pivoting}, and the nonzero entry which is selected is called a \emph{pivot}. In \texttt{SmithNormalForm}, the way a pivot is selected is to initially choose the smallest modulus entry, and thereafter select the first entry in the current pivot's row and column which is not divisible by the current pivot. \cite{havas} suggests some alternate pivoting strategies which can improve performance. In particular it is recommended to try certain pivoting strategies first, and only resort to modular methods if these are unsuccessful.
+In \cite{havas}, this process is called \emph{pivoting}, and the nonzero entry which is selected is called a \emph{pivot}. In \texttt{SmithNormalForm}, the way a pivot is selected is to initially choose the smallest modulus entry, and thereafter select the first entry in the current pivot's row and column which is not divisible by the current pivot. Havas \emph{et al.} \cite{havas} suggest some alternate pivoting strategies which can improve performance. In particular it is recommended to try certain pivoting strategies first, and only resort to modular methods if these are unsuccessful.
 
 There is an additional deficiency in both of the procedures described in this report. Given an $m\times n$ integer matrix $A$, computing the SNF of $A$ determines the rank $r$ and positive integers $d_1\mid d_2\mid\cdots\mid d_r$ such that $\Z^n/S(A) \cong \Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$. However the SNF alone does not provide an explicit description of such isomorphism, which is often useful.
 
 When only row and column operations and no modular techniques are used to compute the SNF of $A$, we can find $P\in\GL_m(\Z)$, $Q\in\GL_n(\Z)$ such that $PAQ$ is in SNF, by applying the row operations to $I_m$ to produce $P$, and the column operations to $I_n$ to produce $Q$. As in the proof of \autoref{commutative-diagram}, $P$ and $Q$ can be used to describe such an isomorphism.
 
-Unfortunately, when modular techniques are applied, such an isomorphism can only be recovered in this way if $r=n$. If we define $T\coloneqq\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}$ and $F\coloneqq\Z^{n-r}$, then $\Z^n/S(A)\cong T\oplus F$, and $T$ is torsion (every element has finite order), and $\Z^{n-r}$ is torsion free (all non-identity elements have infinite order). Havas \emph{et al.} \cite{havas} describes how \emph{Lattice Basis Reduction} algorithms such as {\sc mlll} can be used together with the modular methods described here, to completely describe an isomorphism $\Z^n/S(A)\to T\oplus F$.
+Unfortunately, when modular techniques are applied, such an isomorphism can only be recovered in this way if $r=n$. If we define $T\coloneqq\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}$ and $F\coloneqq\Z^{n-r}$, then $\Z^n/S(A)\cong T\oplus F$, and $T$ is torsion (every element has finite order), and $\Z^{n-r}$ is torsion free (all non-identity elements have infinite order). Havas \emph{et al.} \cite{havas} describe how \emph{Lattice Basis Reduction} algorithms such as {\sc mlll} can be used together with the modular methods described here, to completely describe an isomorphism $\Z^n/S(A)\to T\oplus F$.
 
 \printbibliography
 \clearpage
-\appendix
+
+\begin{appendices}
 
 \section{Hermite Normal Form}
 
@@ -780,16 +784,22 @@ Unfortunately, when modular techniques are applied, such an isomorphism can only
 
 \lstinputlisting[language=magma,tabsize=8]{../magma/RowReduce.m}
 
+\clearpage
+
 \section{Smith Normal Form}
 
 \label{snfcode}
 
 \lstinputlisting[language=magma,tabsize=8]{../magma/SmithNormalForm.m}
 
+\clearpage
+
 \section{Smith Normal Form Improved}
 
 \label{snfimprovedcode}
 
 \lstinputlisting[language=magma,tabsize=8]{../magma/SNFImproved.m}
+
+\end{appendices}
 
 \end{document}

@@ -396,7 +396,7 @@ The proof of this theorem is readily turned into an procedure, such as ROW\_REDU
 
 There is some freedom when implementing the above algorithm. In the inner while loop, we must choose indices $k,\ell\geq i$ with $0<\abs{A_{k,j}}\leq\abs{A_{\ell,j}}$. If $k,\ell$ are chosen so that $\abs{A_{\ell,j}}-\abs{A_{k,j}}$ is maximized, then that the quantity $\abs{A_{1,j}}+\cdots+\abs{A_{m,j}}$ decreases as much as possible in each iteration. As described in the second paragraph of the previous proof, the condition in the while loop fails when this quantity can no longer decrease. Thus one might expect this strategy to be the most efficient.
 
-In practice one finds that this strategy can result in $A$ having large entries, significantly increasing run time. This issue is discussed in \cite{rosser}, where an alternative strategy is proposed. The \emph{Rosser strategy} is to choose $\ell$ so that $\abs{A_{\ell,j}}$ is as large as possible, and then choose $k$ so that $\abs{A_{k,j}}$ is as large as possible with $k\neq\ell$. Many authors recommend this because they expect it to control the size of the entries during the procedure. See \autoref{hnfcode} for a {\sc Magma} implementation of the row reduction algorithm employing this strategy.
+In practice one finds that this strategy can result in $A$ having large entries, significantly increasing run time. This issue is discussed in \cite{rosser}, where an alternative strategy is proposed. The \emph{Rosser strategy} is to choose $\ell$ so that $\abs{A_{\ell,j}}$ is as large as possible, and then choose $k$ so that $\abs{A_{k,j}}$ is as large as possible with $k\neq\ell$. Many authors recommend this because they expect it to control the size of the entries during the procedure. See Appendix \ref{hnfcode} for a {\sc Magma} implementation of the row reduction algorithm employing this strategy.
 
 \section{Smith Normal Form}
 \label{snf-discussion}
@@ -544,7 +544,7 @@ Thus it makes sense to define the \emph{invariant factors} of an integer matrix 
   By \autoref{FToFGAG}, $A$ and $B$ have the same invariant factors. Because they have the same dimensions, they must be equivalent to the same matrix in SNF. Hence $A\approx B$.
 \end{proof}
 
-The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See \autoref{snfcode} for a {\sc Magma} implementation. However one quickly finds that it has certain defects. For example, I ran the implementation in \autoref{snfcode} on a random $100\times 100$ matrix with entries in $\{-1,0,1\}$, on the machine described in Section \ref{conclusion}. After 13 hours the procedure had still not terminated. We investigate here what can happen with a smaller example. Consider the following matrix
+The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See Appendix \ref{snfcode} for a {\sc Magma} implementation. However one quickly finds that it has certain defects. For example, I ran the implementation in Appendix \ref{snfcode} on a random $100\times 100$ matrix with entries in $\{-1,0,1\}$, on the machine described in Section \ref{conclusion}. After 13 hours the procedure had still not terminated. We investigate here what can happen with a smaller example. Consider the following matrix
 
 \[
   A\coloneqq\begin{bsmallmatrix}
@@ -559,7 +559,7 @@ The proof of \autoref{SNF-existence} is readily transformed into a procedure for
   \end{bsmallmatrix}
 \]
 
-If we run the {\sc Magma} implementation given in \autoref{snfcode} on $A$, then the intermediate matrix in which the entry with largest modulus appears is
+If we run the {\sc Magma} implementation given in Appendix \ref{snfcode} on $A$, then the intermediate matrix in which the entry with largest modulus appears is
 \[
   \begin{bsmallmatrix}
     1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -721,14 +721,14 @@ We now discuss how to compute the $p$-rank of a matrix, and its determinant modu
 
 Moreover, \cite{sims} suggests slightly modifying the procedure of row reduction modulo $p$, to find $r\times r$ submatrices of nonzero determinant, where $r$ is the rank. For a matrix $A$ with reduced row echelon form $R$, let $S$ denote the row indices in $A$ which are eventually swapped into a nonzero row position in $R$, and let $T$ denote the column indices which contain the first nonzero entry in some row of $R$. The $r\times r$ submatrix of $A$ with rows indexed by $S$ and columns indexed by $T$ has nonzero determinant.
 
-Using the above ideas, we produce an improved Smith Normal Form procedure. See \autoref{snfimprovedcode} for a {\sc Magma} implementation.
+Using the above ideas, we produce an improved Smith Normal Form procedure. See Appendix \ref{snfimprovedcode} for a {\sc Magma} implementation.
 
 \section{Empirical Results and Discussion}
 \label{conclusion}
 
 We now compare three methods to compute the Smith Normal Form of a given integer matrix in {\sc Magma} \cite{magma}. These are
 \begin{itemize}
-\item \texttt{SmithNormalForm} given in \autoref{snfcode} (described in Section \ref{snf-discussion}), \item \texttt{SmithNormalFormImproved} given in \autoref{snfimprovedcode} (described in Section \ref{modular-discussion}),
+\item \texttt{SmithNormalForm} given in Appendix \ref{snfcode} (described in Section \ref{snf-discussion}), \item \texttt{SmithNormalFormImproved} given in Appendix \ref{snfimprovedcode} (described in Section \ref{modular-discussion}),
 \item the {\sc Magma} intrinsic \texttt{SmithForm}.
 \end{itemize}
 

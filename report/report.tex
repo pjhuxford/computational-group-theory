@@ -49,6 +49,8 @@ style=alphabetic,
 sorting=ynt
 ]{biblatex}
 
+\renewbibmacro{in:}{}
+
 \addbibresource{report.bib}
 
 % Useful commands and definitions
@@ -178,29 +180,29 @@ sorting=ynt
 
 \outersection*{Introduction}
 
-This report consists of two parts. The first part is a collection of solutions to almost all of the exercises in the first four chapters of the book Presentations of Groups, by D. L. Johnson. This book contains important mathematical foundations for many of the important algorithms in the field of Computational Group Theory. The prerequisite knowledge required to understand these solutions is the contents of the first four chapters of this book, which themselves assume some basic familiarity with group theory. We outline what they discuss below.
+This report consists of two parts. The first contains solutions to almost all of the exercises in the first four chapters of \emph{``Presentations of Groups''}, by D. L. Johnson. This book contains important mathematical foundations for many important algorithms in Computational Group Theory. The prerequisite knowledge required to understand these solutions is the contents of the first four chapters of this book, which assumes some basic familiarity with group theory. We outline the content below.
 
-The first chapter defines the notion of a free group by its Universal Property, and proceeds to prove some basic properties from this definition. The existence of free groups on a set $X$ is proven by constructing them explicitly, in terms of reduced words. These are strings consisting of characters $x$ and $x^{-1}$ for $x\in X$, which contain no substrings of the form $xx^{-1}$ or $x^{-1}x$. Multiplication and inverses are defined in a natural way to produce a group.
+The first chapter defines the notion of a free group by its Universal Property, and proves some basic properties from this definition. The existence of free groups on a set $X$ is proven by constructing them explicitly, in terms of reduced words. These are strings consisting of characters $x$ and $x^{-1}$ for $x\in X$, which contain no substrings of the form $xx^{-1}$ or $x^{-1}x$. Multiplication and inverses are defined in a natural way to produce a group.
 
-It is illustrated by several examples in the remainder of the chapter, and in the following exercises, that although the Universal Property provides slick proofs of some facts, many results about free groups are most conveniently proven by referring to reduced words.
+Both the text and exercises illustrate that the Universal Property provides slick proofs of some facts, but many results about free groups are most conveniently proven by directly referring to reduced words.
 
-The second and third chapters provide two substantially different approaches for proving the nontrivial result known as the Nielsen-Schreier Theorem, that every subgroup of a free group is free. The second chapter describes Schreier's method, which provides a fairly explicit description of a basis of such a subgroup in terms of what is known as a Schreier transversal, as well as a formula for the rank of the subgroup in the finite case.
+The second and third chapters provide two substantially different approaches to proving the Nielsen-Schreier Theorem: every subgroup of a free group is free. The second chapter describes Schreier's method, which provides a fairly explicit description of a basis of such a subgroup in terms of a Schreier transversal, and also gives a formula for the rank of the subgroup in the finite case.
 
-The third chapter discusses Nielsen's method. This approach involves applying a sequence of what are known as Nielsen transformations to a generating set of a subgroup of a free group, to reach a new generating set which is Nielsen-reduced, and hence a basis. Unfortunately, Nielsen's method only proves the Nielsen-Schreier theorem in the case of finitely generated subgroups of a free group. However it provides significant insight into the structure of the automorphism group of the free group.
+The third chapter discusses Nielsen's method. This approach involves applying a sequence of Nielsen transformations to a generating set of a subgroup of a free group to obtain a new generating set which is Nielsen-reduced, and hence a basis. Nielsen's method proves the Nielsen-Schreier theorem only for finitely generated subgroups of a free group. However it provides significant insight into the structure of the automorphism group of the free group.
 
-Finally, the fourth chapter is about group presentations. These are groups defined by some generating set and relations. Various important concepts are introduced, such as von Dyck's theorem and Tietze transformations. Von Dyck's theorem provides a way of proving that a given group presentation is isomorphic to some known group, and Tietze transformations are a formal way of simplifying the relations and generators in a group presentation. The chapter ends with van Kampen diagrams, which are an interesting visual way of demonstrating certain relations in a particular group presentation.
+The fourth chapter is about group presentations. Various important concepts are introduced, such as von Dyck's theorem and Tietze transformations. Von Dyck's theorem provides a way of proving that a given group presentation defines some known group. Tietze transformations are a formal way of simplifying the relations and generators in a group presentation. The chapter ends with van Kampen diagrams, which is a visual technique to demonstrate that relations hold in a group defined by a some presentation.
 
-The second part of the report discusses the topic of computation with finitely generated abelian groups. The prerequisite knowledge to understand the main ideas of this part is only introductory group theory, but ideally the reader would have knowledge beyond this.
+The second part of this report discusses computation with finitely generated abelian groups. Knowledge of introductory group theory is required to understand the main ideas.
 
-Restricting oneself to the abelian case does make things simpler, which is helpful because many of the problems one would wish to solve are undecidable in the non-abelian case. For example, there is no algorithm to determine if a given finite presentation has finite order (or even is trivial).
+There is no algorithm to determine if a given finite presentation defines a group of finite order (or even defines the trivial group). However, such an algorithm exists if the group is also known to be abelian. In fact we give a procedure in the second part of this report which, given a description of a finitely generated abelian group $G$, calculates integers $d_1,\ldots,d_r,k$ with $G\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^k$. The description of $G$ is given by an integer matrix, which we transform into a diagonal matrix, known as its Smith Normal Form.
 
-However, such an algorithm is discussed in the second part of this report in the case where the group is also known to be abelian. In fact we give a procedure for which given a description of a finitely generated abelian group $G$, calculates integers $d_1,\ldots,d_r,k$ such that $G\cong\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^k$. The description of $G$ is given by an integer matrix, which we transform into a diagonal matrix, known as its Smith Normal Form.
-
-When implementing a naive algorithm inspired by Gaussian elimination, one quickly finds that entries become very large even for relatively small inputs, making calculations in practice far too expensive to carry out. This part of the report discusses some modular techniques in detail, which limit the size of entries, and speed up computation.
+Naive algorithms inspired by Gaussian elimination often fail because of integer overflow. Intermediate matrices have entries which are very large even for relatively small inputs, making calculations in practice far too expensive to carry out. We discuss some modular techniques in detail, which limit the size of entries, and speed up computation.
 
 \clearpage
 
-\outersection{Solution To Exercises in Presentations of Groups by D. L. Johnson}
+\outersection{Solution To Exercises}
+
+Solutions are provided for almost all of the exercises present in the first four chapters of D. L. Johnson. ``Presentations of Groups'', Second Edition. \emph{Cambridge University Press}, 1997. We assume the knowledge from these chapters.
 
 %% Sections numbered with Chapter X
 \renewcommand{\thesection}{Chapter \arabic{section}}
@@ -218,7 +220,7 @@ When implementing a naive algorithm inspired by Gaussian elimination, one quickl
 \setcounter{section}{0}
 
 \begin{abstract}
-  The aim of this part is to better understand the theory of finitely generated abelian groups, and computational methods pertaining to them. We shall see that an important tool is the \emph{Smith Normal Form} of an integer matrix.
+  Our aim is to  understand the theory of finitely generated abelian groups, and computational methods pertaining to them. We shall see that an important tool is the \emph{Smith Normal Form} of an integer matrix.
 
 Naive methods inspired by Gaussian elimination to compute the Smith Normal Form of a matrix can require arbitrary precision arithmetic for small inputs. We will explore some useful techniques, which allow us to perform calculations with respect to an appropriate modulus.
 \end{abstract}
@@ -255,16 +257,16 @@ Let $G$ be an abelian group generated by $n$ elements. Since $\Z^n$ is free abel
 \begin{proof}
   We proceed by induction on $n$. Defining $\Z^0\coloneqq\{0\}$, the case $n=0$ becomes trivial. Let $n>0$, and let $\varphi\colon\Z^n\twoheadrightarrow\Z^n/\langle e_n \rangle$ be the natural map. Note that $\Z^n/\langle e_n \rangle\cong\Z^{n-1}$. If $H\leq\Z^n$, then $\varphi(H)$ is isomorphic to a subgroup of $\Z^{n-1}$. Inductively, we may assume $\varphi(H)=\langle h_1 + \langle e_n \rangle, \ldots, h_{n-1} + \langle e_n \rangle \rangle$, for $h_i\in H$. Note that $H\cap\langle e_n \rangle$ is cyclic, so let $H\cap\langle e_n \rangle=\langle h_n \rangle$ for some $h_n\in H$. We claim $H=\langle h_1,\ldots,h_n \rangle$.
 
-  If $h\in H$, then $\varphi(h)=h'+\langle e_n \rangle$ for some $h'\in\langle h_1,\ldots,h_{n-1} \rangle$. Now $h-h'\in H\cap\langle e_n \rangle=\langle h_n \rangle$. Thus $h\in\langle h_1,\ldots,h_n \rangle$, and hence $H=\langle h_1,\ldots,h_n \rangle$. By induction the theorem follows.
+  If $h\in H$, then $\varphi(h)=h''+\langle e_n \rangle$ for some $h'\in\langle h_1,\ldots,h_{n-1} \rangle$. Now $h-h'\in H\cap\langle e_n \rangle=\langle h_n \rangle$. Thus $h\in\langle h_1,\ldots,h_n \rangle$, and hence $H=\langle h_1,\ldots,h_n \rangle$. By induction the theorem follows.
 \end{proof}
 
 \begin{definition}
   The \emph{integer row space} of an $m\times n$ integer matrix $A$ is $S(A)\coloneqq\{xA : x\in\Z^m\}$, i.e. the set of all integral linear combinations of rows of $A$.
 \end{definition}
 
-If $H=\langle h_1,\ldots,h_m \rangle\leq\Z^n$, then $H$ consists of all integral linear combinations of the $h_i$. Hence each finitely generated abelian group is isomorphic to $\Z^n/S(A)$ for some $m\times n$ integer matrix $A$. For most descriptions of finitely generated abelian groups, we can explicitly find such an $A$. For example, consider the abelianisation $G_{ab}\coloneqq G/[G,G]$ of a finitely presented group $G$.
+If $H=\langle h_1,\ldots,h_m \rangle\leq\Z^n$, then $H$ consists of all integral linear combinations of the $h_i$. Hence each finitely generated abelian group is isomorphic to $\Z^n/S(A)$ for some $m\times n$ integer matrix $A$. For most descriptions of finitely generated abelian groups, we can explicitly find such an $A$.
 
-If $G=\langle X \mid R \rangle$ is a finite presentation, then the abelianisation $G_{ab}$ is a finitely generated abelian group, with presentation $\langle X \mid R, [X,X] \rangle$. If $X=\{x_1,\ldots,x_n\}$, then we can rewrite each of the relations in $R$ in the form $x_1^{\alpha_1}\cdots x_n^{\alpha_n}$, $\alpha_i\in\Z$. The epimorphism $\Z^n\twoheadrightarrow G_{ab}$ sending $e_i\mapsto x_i$ has kernel generated by the $(\alpha_1,\ldots,\alpha_n)$ appearing in the relations. Using these rows we can form a ``relation matrix'' $A$, and then $G_{ab}\cong\Z^n/S(A)$.
+For example, consider the abelianisation $G_{ab}\coloneqq G/[G,G]$ of a finitely presented group $G$. If $G=\langle X \mid R \rangle$, then the abelianisation $G_{ab}$ is a finitely generated abelian group, with presentation $\langle X \mid R, [X,X] \rangle$. If $X=\{x_1,\ldots,x_n\}$, then we can rewrite each of the relations in $R$ in the form $x_1^{\alpha_1}\cdots x_n^{\alpha_n}$, $\alpha_i\in\Z$. The epimorphism $\Z^n\twoheadrightarrow G_{ab}$ sending $e_i\mapsto x_i$ has kernel generated by the $(\alpha_1,\ldots,\alpha_n)$ appearing in the relations. Using these rows we can form a ``relation matrix'' $A$, and then $G_{ab}\cong\Z^n/S(A)$.
 
 \section{Integer Row Reduction}
 
@@ -289,7 +291,7 @@ In the above definition rows may only be multiplied by $-1$, in contrast to row 
 \end{theorem}
 
 \begin{proof}
-  If $B$ is obtained from $A$ by a single integer row operation, then the rows of $B$ are clearly in $S(A)$, so $S(B)\subseteq S(A)$. Moreover this row operation can be reversed, thus $S(A)\subseteq S(B)$. Therefore $A\sim B\implies S(A)=S(B)$.
+  If $B$ is obtained from $A$ by a single integer row operation, then the rows of $B$ are clearly in $S(A)$, so $S(B)\subseteq S(A)$. Moreover this row operation can be reversed, thus $S(A)\subseteq S(B)$.
 \end{proof}
 
 The corresponding notion of reduced row echelon form for integer matrices is row Hermite Normal Form (HNF).
@@ -361,7 +363,7 @@ If at any stage we found an equation that was not solvable for integer $x,y,z$, 
   It suffices to prove that if $A$ and $B$ are in HNF, then $S(A)=S(B)\implies A=B$. We refer the reader to \cite[Chapter 8, Proposition 1.1]{sims} for the proof of this.
 \end{proof}
 
-The proof of this theorem is readily turned into an procedure, e.g. this one (from \cite[Chapter 8, Section 1]{sims})
+The proof of this theorem is readily turned into an procedure, e.g. this one (from \cite[Chapter 8, Section 1]{sims}).
 
 \begin{algorithm}[H]
   \SetKwInOut{Procedure}{Procedure}
@@ -389,9 +391,9 @@ The proof of this theorem is readily turned into an procedure, e.g. this one (fr
   }
 \end{algorithm}
 
-There is some freedom when implementing the above algorithm. In the inner while loop, we must select which indices $k,\ell\geq i$ are selected with $0<\abs{A_{k,j}}\leq\abs{A_{\ell,j}}$. If $k,\ell$ are chosen so that $\abs{A_{\ell,j}}-\abs{A_{k,j}}$ is maximized, then that the quantity $\abs{A_{1,j}}+\cdots+\abs{A_{m,j}}$ decreases as much as possible in each iteration. As described in the second paragraph of the previous proof, the condition in this while loop no longer holds when this quantity can no longer decrease. Thus one might expect this strategy to be the most efficient.
+There is some freedom when implementing the above algorithm. In the inner while loop, we must choose indices $k,\ell\geq i$ with $0<\abs{A_{k,j}}\leq\abs{A_{\ell,j}}$. If $k,\ell$ are chosen so that $\abs{A_{\ell,j}}-\abs{A_{k,j}}$ is maximized, then that the quantity $\abs{A_{1,j}}+\cdots+\abs{A_{m,j}}$ decreases as much as possible in each iteration. As described in the second paragraph of the previous proof, the condition in the while loop fails when this quantity can no longer decrease. Thus one might expect this strategy to be the most efficient.
 
-In practice one finds that this strategy can result in $A$ having large entries, significantly increasing run time. This issue is discussed in \cite{rosser}, where an alternate strategy is proposed. The \emph{Rosser strategy} is to choose $k,\ell$ so that $\abs{A_{\ell,j}}$ is as large as possible, and $\abs{A_{k,j}}$ is as large as possible with $k\neq\ell$. Many authors recommend this because it tends to keep the size of the entries small during the procedure. See \autoref{hnfcode} for a {\sc Magma} implementation of the row reduction algorithm employing this strategy.
+In practice one finds that this strategy can result in $A$ having large entries, significantly increasing run time. This issue is discussed in \cite{rosser}, where an alternative strategy is proposed. The \emph{Rosser strategy} is to choose $\ell$ so that $\abs{A_{\ell,j}}$ is as large as possible, and then choose $k$ so that $\abs{A_{k,j}}$ is as large as possible with $k\neq\ell$. Many authors recommend this because they expect it to control the size of the entries during the procedure. See \autoref{hnfcode} for a {\sc Magma} implementation of the row reduction algorithm employing this strategy.
 
 \section{Smith Normal Form}
 \label{snf-discussion}
@@ -539,7 +541,7 @@ Thus it makes sense to define the \emph{invariant factors} of an integer matrix 
   By \autoref{FToFGAG}, $A$ and $B$ have the same invariant factors. Because they have the same dimensions, they must be equivalent to the same matrix in SNF. Hence $A\approx B$.
 \end{proof}
 
-The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See \autoref{snfcode} for a {\sc Magma} implementation. However one quickly finds that it has certain defects. For example, I ran the implementation in \autoref{snfcode} on a random $100\times 100$ matrix with entries in $\{-1,0,1\}$, on the machine described in \autoref{conclusion}. After 13 hours the procedure had still not terminated. We investigate here what can happen with a smaller example. Consider the following matrix
+The proof of \autoref{SNF-existence} is readily transformed into a procedure for computing the Smith Normal Form of a given matrix. See \autoref{snfcode} for a {\sc Magma} implementation. However one quickly finds that it has certain defects. For example, I ran the implementation in \autoref{snfcode} on a random $100\times 100$ matrix with entries in $\{-1,0,1\}$, on the machine described in Section \ref{conclusion}. After 13 hours the procedure had still not terminated. We investigate here what can happen with a smaller example. Consider the following matrix
 
 \[
   A\coloneqq\begin{bsmallmatrix}
@@ -554,7 +556,7 @@ The proof of \autoref{SNF-existence} is readily transformed into a procedure for
   \end{bsmallmatrix}
 \]
 
-If we run the {\sc Magma} implementation given in \autoref{snfcode} on $A$, we find that the intermediate matrix in which the entry with largest modulus appears, is
+If we run the {\sc Magma} implementation given in \autoref{snfcode} on $A$, then the intermediate matrix in which the entry with largest modulus appears is
 \[
   \begin{bsmallmatrix}
     1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -580,12 +582,12 @@ The SNF of $A$ is given by
     0 & 0 & 0 & 0 & 0 & 0 & 0 & 10615254 \\
   \end{bsmallmatrix}
 \]
-The entries of $A$ initially all have modulus at most 10. However intermediate matrices appear with entries of modulus roughly $9.4\times10^{27}$, much larger than the entries in the resulting SNF. This ``entry explosion'' is only worsened by increasing the dimensions of the input matrix, and increasing the size of its entries. Row and column operations with entries so large is expensive, so circumventing this issue is of great importance if one wishes to compute the SNF of larger matrices in reasonable time.
+The entries of $A$ have modulus at most 10. However intermediate matrices appear with entries of modulus roughly $9.4\times10^{27}$, much larger than the entries in the resulting SNF. This ``entry explosion'' is only worsened by increasing the dimensions of the input matrix, and increasing the size of its entries. Row and column operations with entries so large is expensive, so circumventing this issue is of great importance if one wishes to compute the SNF of larger matrices in reasonable time.
 
 \section{Modular techniques}
 \label{modular-discussion}
 
-The methods discussed in the previous section to compute Smith Normal Form are inadequate for large matrices. The {\sc Magma} intrinsic \texttt{SmithForm} is much more capable of computing the SNF of a large matrix. This is an indication that the approach taken earlier can be improved. We discuss some ideas described in \cite{sims}, which aim to reduce the maximum modulus entry of matrices produced along the way.
+The methods discussed in the previous section to compute Smith Normal Form are inadequate for large matrices. The {\sc Magma} intrinsic \texttt{SmithForm} is much more capable of computing the SNF of a large matrix. This is an indication that the approach taken earlier can be improved. We discuss some ideas described in \cite[Chapter 8, Section 4]{sims}, which aim to reduce the maximum modulus entry of matrices produced along the way.
 
 We redevelop some of the theory from the previous sections, so that computations can be carried out modulo a fixed integer. Many of the proofs of the following theorems are similar to ones already given, so we omit them. More detail can be found in \cite[Chapter 8, Section 4]{sims}. Fix an integer $d>1$. We write $\overline{A}$ to denote the matrix $A$ with entries reduced modulo $d$.
 
@@ -627,7 +629,7 @@ When we work modulo a prime $p$, the third condition ensures that the first nonz
   If $A$ is an $m\times n$ integer matrix, then there is a unique $m\times n$ integer matrix $B$ with $A\sim B$ and $B$ in Smith Normal Form modulo $d$.
 \end{theorem}
 
-The algorithms for computing Hermite and Smith Normal Form modulo an integer similar to the corresponding procedures over $\Z$, except all operations are performed modulo $d$, and we multiply rows/columns by appropriate integers $c$ with $\gcd(c,d)=1$ where appropriate to ensure that the relevant entries divide $d$.
+The algorithms for computing Hermite and Smith Normal Form modulo an integer are similar to the corresponding procedures over $\Z$, except all operations are performed modulo $d$, and we multiply rows/columns by appropriate integers $c$ with $\gcd(c,d)=1$ where appropriate to ensure that the relevant entries divide $d$.
 
 \begin{definition}
   Let $A$ be an integer matrix, and let $B$ be the unique matrix in HNF modulo $d$ which is row equivalent modulo $d$ to $A$. The \emph{$d$-rank} of $A$ is the number of nonzero rows of $B$.
@@ -652,25 +654,25 @@ Note that if $A\sim B$ and $B$ is in HNF, then the number of nonzero rows of $B$
   Suppose that $A\sim B$, and $B$ is in SNF with invariant factors $d_1\mid d_2\mid\cdots\mid d_r$. Then $D_k(A)=d_1\cdots d_k$ for $k\leq r$, and $D_k(A)=0$ for $k>r$. In particular $d_k=D_k(A)/D_{k-1}(A)$ when $1\leq k\leq r$.
 \end{corollary}
 
-This gives an alternate way of computing the SNF of a matrix. However, there are $\binom{m}{k}\binom{n}{k}$ different $k\times k$ submatrices of an $m\times n$ matrix, so this quite impractical on its own. However consider the following theorem, which follows from noting that the SNF modulo $d$ can be computed by calculating the SNF over $\Z$, and then reducing entries modulo $d$.
+While this gives an alternative way of computing the SNF of a matrix, there are $\binom{m}{k}\binom{n}{k}$ different $k\times k$ submatrices of an $m\times n$ matrix. However consider the following theorem, which follows from noting that the SNF modulo $d$ can be computed by calculating the SNF over $\Z$, and then reducing entries modulo $d$.
 
 \begin{theorem}
   \label{recoversnf}
   Let $A$ be an integer matrix, and let $B$ be in SNF with $A\approx B$. Suppose $B$ has invariant factors $d_1\mid d_2\mid \cdots\mid d_r$, and let $d>1$ with $d_r\mid d$. Let $C$ be the matrix equivalent to $A$ in SNF modulo $d$. If $C$ has invariant factors $c_1\mid c_2\mid\cdots\mid c_s$, then $s\leq r$, and $d_i=c_i$ for $i\leq s$, and $d_i=d$ for $s<i\leq r$.
 \end{theorem}
 
-This suggests the following algorithm for computing the SNF of a given matrix $A$
+This suggests the following algorithm for computing the SNF of a given matrix $A$.
 
 \begin{enumerate}
-\item Find the rank $r$ of $A$
+\item Find the rank $r$ of $A$.
 \item Find a small number of $r\times r$ submatrices of $A$ with nonzero determinant, and take their greatest common divisor $d$. By Corollary \ref{gcdcor}, this will be a multiple of the largest nonzero entry in the SNF of $A$.
-\item Compute $C$, the SNF of $A$ modulo $d$
+\item Compute $C$, the SNF of $A$ modulo $d$.
 \item If $C$ has $s$ nonzero entries, then by \autoref{recoversnf} we can recover the SNF of $A$ by adding in $r-s$ copies of $d$ on the diagonal after the nonzero entries of $C$.
 \end{enumerate}
 
 We currently do not have a method to efficiently compute the rank of a matrix $A$. The HNF algorithm provided earlier also produces relatively large modulus entries for small inputs. We also do not have a method to compute the determinant of an $r\times r$ submatrix of $A$, and find the $r\times r$ submatrices with nonzero determinant.
 
-We compute the $d$-rank of $A$ by computing the the HNF of $A$ modulo $d$. This will be a lower bound for the rank of $A$. If we calculate the $d$-rank for various $d$, then their maximum is a lower bound of the rank of $A$. With some work, we can ensure that this is equal to the rank.
+We compute the $d$-rank of $A$ by computing the the HNF of $A$ modulo $d$. This is a lower bound for the rank of $A$. If we calculate the $d$-rank for various $d$, then their maximum is a lower bound of the rank of $A$. With some work, we can ensure that this is equal to the rank.
 
 \begin{theorem}[Hadamard's Inequality]
   Let $A$ be an $n\times n$ real matrix.
@@ -699,20 +701,20 @@ We use this to get an easily computable bound to the determinant of every square
 \end{theorem}
 
 \begin{proof}
-  Let $r$ be the maximum $p_i$-rank. It suffices to prove that all square submatrices of $A$ with more than $r$ rows have determinant 0. Let $B$ be such a matrix. If $1\leq i\leq k$, since the $p_i$-rank of $A$ is at most $r$, it follows that $\det B\equiv0\pmod{p_i}$. Hence $\det B\equiv0\pmod{p_1\cdots p_k}$. But by Corollary \ref{hbound}, $\abs{\det B}\leq h(A)<p_1\cdots p_k$, thus $\det B=0$.
+  Let $r$ be the maximum $p_i$-rank. It suffices to prove that all square submatrices of $A$ with more than $r$ rows have determinant 0. Let $B$ be such a matrix. The $p_i$-rank of $A$ is at most $r$, so $\det B\equiv0\pmod{p_i}$, for $1\leq i\leq k$. Hence $\det B\equiv0\pmod{p_1\cdots p_k}$. But by Corollary \ref{hbound}, $\abs{\det B}\leq h(A)<p_1\cdots p_k$, thus $\det B=0$.
 \end{proof}
 
-Once we have found the rank $r$ of an integer matrix $A$, we can similarly exploit Hadamard's Inequality to compute efficiently the determinants of $r\times r$ submatrices.
+Once we compute the rank $r$ of an integer matrix $A$, we can exploit Hadamard's Inequality to compute efficiently the determinants of $r\times r$ submatrices.
 
 \begin{theorem}
-  Let $A$ be an integer matrix, and let $B$ be a square submatrix of $A$. Let $p_1,\ldots,p_k$ be distinct primes with $p_1\cdots p_k>2h(A)$. If $\det B\equiv b_i\pmod{p_i}$, $1\leq i\leq k$, then $\det B$ is the integer $b$ satisfying $b\equiv b_i\pmod{p_i}$, $1\leq i\leq k$ with least absolute value.
+  Let $A$ be an integer matrix, and let $B$ be a square submatrix of $A$. Let $p_1,\ldots,p_k$ be distinct primes with $p_1\cdots p_k>2h(A)$. If $\det B\equiv b_i\pmod{p_i}$, for $1\leq i\leq k$, then $\det B$ is the integer $b$ satisfying $b\equiv b_i\pmod{p_i}$, with least absolute value.
 \end{theorem}
 
 \begin{proof}
   By the Chinese Remainder Theorem, the conditions determine $\det B$ modulo $p_1\cdots p_k$. Also $-h(A)\leq\det B\leq h(A)$, and since $p_1\cdots p_k>2h(A)$, no two integers between $-h(A)$ and $h(A)$ are congruent modulo $p_1\cdots p_k$. 
 \end{proof}
 
-Thus we have yet to discuss how to compute the $p$-rank of a matrix, and its determinant modulo $p$, for some prime $p$. However when $p$ is prime, $\Z_p$ is a field, so standard methods (e.g. row reduction to row echelon form over a field) can be used to compute the $p$-rank and determinant modulo $p$.
+We now discuss how to compute the $p$-rank of a matrix, and its determinant modulo $p$, for some prime $p$. When $p$ is prime, $\Z_p$ is a field, so standard methods (e.g. row reduction to row echelon form over a field) can be used to compute the $p$-rank and determinant modulo $p$.
 
 Moreover, \cite{sims} suggests slightly modifying the procedure of row reduction modulo $p$, to find $r\times r$ submatrices of nonzero determinant, where $r$ is the rank. For a matrix $A$ with reduced row echelon form $R$, let $S$ denote the row indices in $A$ which are eventually swapped into a nonzero row position in $R$, and let $T$ denote the column indices which contain the first nonzero entry in some row of $R$. The $r\times r$ submatrix of $A$ with rows indexed by $S$ and columns indexed by $T$ has nonzero determinant.
 
@@ -721,15 +723,15 @@ Using the above ideas, we produce an improved Smith Normal Form procedure. See \
 \section{Empirical Results and Discussion}
 \label{conclusion}
 
-Based on the discussions in this report, there are three natural methods available to compute the Smith Normal Form of a given integer matrix in {\sc Magma}. These are
+We now compare three methods to compute the Smith Normal Form of a given integer matrix in {\sc Magma} \cite{magma}. These are
 \begin{itemize}
 \item \texttt{SmithNormalForm} given in \autoref{snfcode} (described in Section \ref{snf-discussion}), \item \texttt{SmithNormalFormImproved} given in \autoref{snfimprovedcode} (described in Section \ref{modular-discussion}),
 \item the {\sc Magma} intrinsic \texttt{SmithForm}.
 \end{itemize}
 
-We generated a random $n\times n$ matrix with entries in $\{-1,0,1\}$ for $n=10,20,\ldots,100$, and computed the Smith Normal Form of each of the matrices with each method. The machine used had a clock speed of 2.6GHz, a total of 690GB of RAM, and was running {\sc Magma} version V2.23-3. If a given computation took longer than 30 minutes to halt, it was terminated.
+We generated a random $n\times n$ matrix with entries in $\{-1,0,1\}$ for $n=10,20,\ldots,100$, and computed the Smith Normal Form of each of the matrices with each method. The machine used had a clock speed of 2.6GHz, 690GB of RAM, and was running {\sc Magma} version V2.23-3. If a given computation took longer than 30 minutes to halt, it was terminated.
 
-The results of this are recorded in the following table. In each computation, the time taken to compute the SNF, and total memory used in the {\sc Magma} session were recorded. For the computations using \texttt{SmithNormalForm}, the maximum modulus of an entry appearing in some intermediate matrix was recorded (see the ``Max'' column). For the computations using \texttt{SmithNormalFormImproved}, the modulus which calculations were performed with respect to was recorded (see the ``Modulus'' column). There is no corresponding measurement available for the {\sc Magma} intrinsic \texttt{SmithForm}.
+Our results are recorded in the following table. In each computation, the time taken to compute the SNF, and total memory used in the {\sc Magma} session were recorded. For the computations using \texttt{SmithNormalForm}, the maximum modulus of an entry appearing in some intermediate matrix was recorded (see the ``Max'' column). For the computations using \texttt{SmithNormalFormImproved}, the modulus with respect to which calculations were performed is recorded (see the ``Modulus'' column). There is no corresponding measurement available for the {\sc Magma} intrinsic \texttt{SmithForm}.
 
   {\centering
   \resizebox{\columnwidth}{!}{%
@@ -754,19 +756,19 @@ The results of this are recorded in the following table. In each computation, th
   }}\newline
 
 
-\texttt{SmithNormalFormImproved} outperforms the original procedure \texttt{SmithNormalForm} only when the dimensions of the input are sufficiently large. This is because some extra computation, e.g. the bound given by Corollary \ref{hbound}, is performed by \texttt{SmithNormalFormImproved}. The cost of these additional calculations are only outweighed by the benefit of performing row operations with respect to an appropriate modulus, when the entries appearing in intermediate matrices are very large, which occurs when the input dimensions are large.
+\texttt{SmithNormalFormImproved} outperforms the original procedure \texttt{SmithNormalForm} only when the dimensions of the input are sufficiently large. This is because some extra computation, e.g. the bound given by Corollary \ref{hbound}, is performed by \texttt{SmithNormalFormImproved}. The cost of these additional calculations are only outweighed by the benefit of performing row operations with respect to an appropriate modulus, when the entries appearing in intermediate matrices are very large.
 
-Observe that the {\sc Magma} intrinsic \texttt{SmithForm} always performs better than the procedure \texttt{SmithNormalFormImproved}. One reason for this is \texttt{SmithForm} is a compiled C program, however \texttt{SmithNormalFormImproved} is written in {\sc Magma}, an interpreted language.
+Observe that the {\sc Magma} intrinsic \texttt{SmithForm} always performs better than the procedure \texttt{SmithNormalFormImproved}. One reason is that \texttt{SmithForm} is a compiled C program, but \texttt{SmithNormalFormImproved} is written in {\sc Magma}, an interpreted language.
 
-Moreover, there are other techniques beyond those discussed in \autoref{modular-discussion} which can be used to more efficiently compute the SNF, many of which are discussed in \cite{havas}. Recall the beginning of the proof of \autoref{SNF-existence}, in which a nonzero entry which divided every term in its row and column was needed. If one did not exist, then by choosing a nonzero entry we could produce a smaller entry by applying some row and column operations.
+Moreover, there are other techniques beyond those discussed in Section \ref{modular-discussion} which can be used to more efficiently compute the SNF, many of which are discussed in \cite{havas}. Recall the beginning of the proof of \autoref{SNF-existence}. First a nonzero entry is selected. If it does not divide every entry in its row and column, we produce a smaller nonzero entry in the same position by applying appropriate row and column operations. Eventually this entry will divide all entries in its row and column.
 
 In \cite{havas}, this process is called \emph{pivoting}, and the nonzero entry which is selected is called a \emph{pivot}. In \texttt{SmithNormalForm}, the way a pivot is selected is to initially choose the smallest modulus entry, and thereafter select the first entry in the current pivot's row and column which is not divisible by the current pivot. \cite{havas} suggests some alternate pivoting strategies which can improve performance. In particular it is recommended to try certain pivoting strategies first, and only resort to modular methods if these are unsuccessful.
 
-There is a final deficiency in both of the procedures described in this report. Given an $m\times n$ integer matrix $A$, computing the SNF of $A$ determines the rank $r$ and positive integers $d_1\mid d_2\mid\cdots\mid d_r$ such that $\Z^n/S(A) \cong \Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$. However the SNF alone does not provide an explicit description of such isomorphism, which is often useful.
+There is an additional deficiency in both of the procedures described in this report. Given an $m\times n$ integer matrix $A$, computing the SNF of $A$ determines the rank $r$ and positive integers $d_1\mid d_2\mid\cdots\mid d_r$ such that $\Z^n/S(A) \cong \Z_{d_1}\oplus\cdots\oplus\Z_{d_r}\oplus\Z^{n-r}$. However the SNF alone does not provide an explicit description of such isomorphism, which is often useful.
 
 When only row and column operations and no modular techniques are used to compute the SNF of $A$, we can find $P\in\GL_m(\Z)$, $Q\in\GL_n(\Z)$ such that $PAQ$ is in SNF, by applying the row operations to $I_m$ to produce $P$, and the column operations to $I_n$ to produce $Q$. As in the proof of \autoref{commutative-diagram}, $P$ and $Q$ can be used to describe such an isomorphism.
 
-Unfortunately, when modular techniques are applied, such an isomorphism can only be recovered in this way if $r=n$. If we define $T\coloneqq\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}$ and $F\coloneqq\Z^{n-r}$, then $\Z^n/S(A)\cong T\oplus F$, and $T$ is torsion (every element has finite order), and $\Z^{n-r}$ is torsion free (all non-identity elements have infinite order). \cite{havas} describes how \emph{Lattice Basis Reduction} algorithms such as {\sc mlll} can be used together with the modular methods described here, to completely describe an isomorphism $\Z^n/S(A)\to T\oplus F$.
+Unfortunately, when modular techniques are applied, such an isomorphism can only be recovered in this way if $r=n$. If we define $T\coloneqq\Z_{d_1}\oplus\cdots\oplus\Z_{d_r}$ and $F\coloneqq\Z^{n-r}$, then $\Z^n/S(A)\cong T\oplus F$, and $T$ is torsion (every element has finite order), and $\Z^{n-r}$ is torsion free (all non-identity elements have infinite order). Havas \emph{et al.} \cite{havas} describes how \emph{Lattice Basis Reduction} algorithms such as {\sc mlll} can be used together with the modular methods described here, to completely describe an isomorphism $\Z^n/S(A)\to T\oplus F$.
 
 \printbibliography
 \clearpage
